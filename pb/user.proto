@@ -1,0 +1,25 @@
+syntax = "proto3";
+package happyChat.msg;
+
+
+//用户信息
+message UserInfo {
+    int32  credits  = 1;    //积分
+    string nickname = 2;    //用户名
+    string headUrl  = 3;    //用户头像url（以"http://"或"https://"开头是远程头像，否则为本地内置头像）
+    int32  exp      = 4;    //经验值
+    int32  rank     = 5;    //排名
+    string token    = 4;    //用帐号account换回一个token
+}
+
+//登录请求
+message LoginReq {
+    string account  = 1;     //帐号，首次登录时可以由服务器随机生成不重复
+    string nickname = 2;     //昵称，首次登录时可以由服务器随机生成
+}
+
+//登录响应
+message LoginRsp {
+    int32  error        = 1; //0表示无错    
+    UserInfo userInfo   = 2; //用户信息
+}

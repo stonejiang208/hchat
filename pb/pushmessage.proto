@@ -1,0 +1,16 @@
+syntax = "proto3";
+package happyChat.msg;
+
+//推送码定义
+enum PuchCode {
+    RECV_CHAT_MESSAGE   = 1;    //收到添加消息;ChatMessage
+    USER_INFO_CHANGE    = 2;    //用户信息改变;UserInfo
+    USER_ENTER_ROOM     = 3;    //用户进入房间;UserInfo
+    USER_EXIT_ROOM      = 4;    //用户离开房间;UserInfo
+}
+
+//推送消息
+message PushMessage {
+    PuchCode    pushCode    = 1;  //推送消息类型   
+    bytes       data        = 2;  //消息数据        
+}
