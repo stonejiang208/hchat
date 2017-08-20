@@ -21,17 +21,6 @@ cc.Class({
         let label = node.getComponent(cc.Label);
         this._scrollView.$ScrollView.content.addChild(node);
         label.string = string;
-        //this._scrollView.$ScrollView.scrollToBottom(0);
-        //cc.Label.HorizontalAlign
-        // let label = cc.createNodeComponent(cc.Label);
-        // this._scrollView.$ScrollView.content.addChild(label.node);
-        // label.string = typeof data === 'string' ? data : JSON.stringify(data, null, 4);
-        // label.fontSize = 16;
-        // label.useOriginalSize = false;
-        // label.overFlow = cc.Label.Overflow.CLAMP;
-        // label.horizontalAlign = cc.Label.HorizontalAlign.LEFT;
-        // label.enableWrapText = true;
-        //label.node.width = 100;
     },
 
     addErrorLog(error, detail) {
@@ -61,6 +50,10 @@ cc.Class({
             this.addLog('连接服务器成功');
         });
 
+        this.socket.on(Socket.Event.ON_PUSH_MESSAGE, (push) => {
+            this.addLog(push);
+        });
+
         this.socket.on(Socket.Event.ON_SOCKET_CLOSED, () => {
             this.socket = null;
         });
@@ -71,8 +64,29 @@ cc.Class({
         req.account = '1000';
         req.nickname = 'zxh';
         this.socket.request(req, (rsp) => {
-            this.addLog.log(rsp);
+            this.addLog(rsp);
         }, this.addErrorLog.bind(this));
     },
+
+    _onEnterHallTouchEnd() {
+        let req = PBKiller.newReq(pbmap.ActionCode.ENTER_HALL);
+        this.socket.request(req, (rsp) => {
+            this.addLog(rsp);    
+        }, this.addErrorLog.bind(this));
+    },
+
+    _onEnterRoomTouchEnd() {
+        let req = PBKiller.newReq(pbmap.ActionCode.ENTER_ROOM);
+        req.roomID = 1;
+        this.socket.request(req, (rsp) => {
+            this.addLog(rsp);    
+        }, this.addErrorLog.bind(this));    
+    },
+
+    _onSendMessageTouchEnd() {
+        let msg = PBKiller.newReq(pbmap.ActionCode.SEND_CHAT_MESSAGE);
+        msg.text = '测试测试测试测试';
+        this.socket.send(msg);   
+    }
 
 });

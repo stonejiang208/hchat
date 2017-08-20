@@ -9,7 +9,7 @@ enum ActionCode {
     LOGIN               = 1;    //登录;LoginReq;LoginRsp
     ENTER_HALL          = 2;    //进入大厅;EnterHallReq;EnterHallRsp
     ENTER_ROOM          = 3;    //进入房间;EnterRoomReq;EnterRoomRsp
-    SEND_CHAT_MESSAGE   = 4;    //发送聊天消息;SendChatMessageReq
+    SEND_CHAT_MESSAGE   = 4;    //发送聊天消息,只发送不响应,通过推送返回数据;SendChatMessageReq;null
 }
 //--------ActionCode end-----------------
 
@@ -28,6 +28,6 @@ message PBMessage {
     int32  server    = 3;   //服务器（网关服务器路由使用，可选）
     string token     = 4;   //用户身份令牌
 	bytes  data      = 5;   //提交或响应的数据，下层消息，由actionCode解释
-    repeated PushMessage push = 6;  //推送消息(无推送数据时为空)
-    int32   errorCode         = 7;  //错误码
+    repeated PushMessage push = 6;   //推送消息(无推送数据时为空)
+    int32   error             = 7;   //错误码
 }

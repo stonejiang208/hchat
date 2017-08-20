@@ -191,6 +191,16 @@ Socket.prototype.requestImpl = function(sequence, data, cb, error, target) {
 };
 
 /**
+ * 发送，无响应
+ */
+Socket.prototype.send = function(protoBuff) {
+    let message = pbkiller.newHead();
+    message.setCode(protoBuff.$code);
+    message.setData(protoBuff.toArrayBuffer());
+    this.ws.send(message.toArrayBuffer());   
+};
+
+/**
  * 请求函数
  * @param code          操作码
  * @param protoBuff     ptotobuff对象
@@ -205,17 +215,17 @@ Socket.prototype.request = function(protoBuff, cb, error, target) {
 
     let message = pbkiller.newHead();
     message.setSequence(this.sequence);
-    if(this.playerId){
-        message.setPlayerId(this.playerId);
+    if(this.token){
+        message.setToken(this.token);
     }
 
     cc.log('request action code: %s', protoBuff.$code);
     message.setCode(protoBuff.$code);
-    delete protoBuff.$code;
     message.setData(protoBuff.toArrayBuffer());
 
     this.requestImpl(this.sequence, message.toArrayBuffer(), cb, error, target);
 };
+
 
 /**
  * 推送处理

@@ -34,8 +34,8 @@ module.exports = {
             '4': {
                 'name': 'SEND_CHAT_MESSAGE',
                 'code': 4,
-                'req': '发送聊天消息',
-                'rsp': 'SendChatMessageReq'
+                'req': 'SendChatMessageReq',
+                'rsp': 'null'
             }
         }
     },

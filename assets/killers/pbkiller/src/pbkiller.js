@@ -63,7 +63,10 @@ module.exports = {
     newReq(actionCode) {
         let name = pbmap.ActionCode.table[actionCode].req;
         let ReqObj = this.proto[name];
-        let req = new ReqObj();    
+        let req = {}
+        if (ReqObj) {
+            req = new ReqObj();    
+        }
         req.$code = actionCode;
         return req;
     },
