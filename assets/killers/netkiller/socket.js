@@ -70,6 +70,21 @@ Socket.prototype.onopen = function(event) {
     this.emit(Socket.Event.ON_SOCKET_OPEN);
 };
 
+//处理错误
+Socket.prototype.handleError = function(msg, task, e) {
+    if (msg.error > 0 || e) {
+        this.emit(Socket.Event.ON_MESSAGE_ERROR, msg.error);
+        if (task && task.error) {
+            try{
+                task.error.call(task.target, msg.error, e);        
+            } catch(e) {
+                cc.log(e.message);
+            }
+        }
+        return;
+    }
+};
+
 /**
  * websocket有消息到达事件
  * @param event
@@ -93,14 +108,8 @@ Socket.prototype.onmessage = function(event) {
         return;
     }
 
-    //处理错误码
-    if (msg.errorCode > 0) {
-        let errMsg = PB.core.ErrorMsg.decode(msg.data);
-        cc.error("错误码:%d, 错误信息:%s", errMsg.code, errMsg.msg);
-        this.emit(Socket.Event.ON_MESSAGE_ERROR, errMsg);
-        if (task && task.error) {
-            task.error.call(task.target, errMsg);
-        }
+    //如果有错，退出
+    if (this.handleError(msg, task)) {
         return;
     }
 
@@ -108,13 +117,12 @@ Socket.prototype.onmessage = function(event) {
     this.handlePush(msg.pushMsg);
     //这里处理回应
     try {
-
         if(task && task.cb){
             let rsp = pbkiller.newRsp(msg.code, msg.data);
             task.cb.call(task.target, rsp);
         }
     } catch (e) {
-        cc.log(e.stack);
+        this.handleError(msg, task, e);    
     }
 
     if (task) {
@@ -195,7 +203,7 @@ Socket.prototype.request = function(protoBuff, cb, error, target) {
     ++this.sequence;
     this.emit(Socket.Event.ON_PRE_REQUEST, protoBuff.$code);
 
-    let message = new PB.core.PBMessage();
+    let message = pbkiller.newHead();
     message.setSequence(this.sequence);
     if(this.playerId){
         message.setPlayerId(this.playerId);

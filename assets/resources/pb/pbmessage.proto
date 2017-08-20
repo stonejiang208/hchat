@@ -28,5 +28,6 @@ message PBMessage {
     int32  server    = 3;   //服务器（网关服务器路由使用，可选）
     string token     = 4;   //用户身份令牌
 	bytes  data      = 5;   //提交或响应的数据，下层消息，由actionCode解释
-    repeated PushMessage push = 6;   //推送消息(无推送数据时为空)
+    repeated PushMessage push = 6;  //推送消息(无推送数据时为空)
+    int32   errorCode         = 7;  //错误码
 }

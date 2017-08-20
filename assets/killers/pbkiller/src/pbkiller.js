@@ -57,7 +57,7 @@ module.exports = {
     },
 
     newHead(data) {
-        return this.proto.PBMessage.decode(data);
+        return data ? this.proto.PBMessage.decode(data) : new this.proto.PBMessage();
     },
 
     newReq(actionCode) {
