@@ -1,0 +1,31 @@
+{
+    "package": "grace.proto.msg",
+    "syntax": "proto2",
+    "messages": [
+        {
+            "name": "Player",
+            "syntax": "proto3",
+            "fields": [
+                {
+                    "rule": "optional",
+                    "type": "uint32",
+                    "name": "id",
+                    "id": 1
+                },
+                {
+                    "rule": "optional",
+                    "type": "string",
+                    "name": "name",
+                    "id": 2
+                },
+                {
+                    "rule": "optional",
+                    "type": "uint64",
+                    "name": "enterTime",
+                    "id": 3
+                }
+            ]
+        }
+    ],
+    "isNamespace": true
+}

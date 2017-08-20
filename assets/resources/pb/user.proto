@@ -9,7 +9,7 @@ message UserInfo {
     string headUrl  = 3;    //用户头像url（以"http://"或"https://"开头是远程头像，否则为本地内置头像）
     int32  exp      = 4;    //经验值
     int32  rank     = 5;    //排名
-    string token    = 4;    //用帐号account换回一个token
+    string token    = 6;    //用帐号account换回一个token
 }
 
 //登录请求

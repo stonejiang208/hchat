@@ -3,12 +3,23 @@ package happyChat.msg;
 import "pushmessage.proto";
 
 //请求操作码定义
+//--------ActionCode begin-----------------
 enum ActionCode {
+    AC                  = 0;
     LOGIN               = 1;    //登录;LoginReq;LoginRsp
     ENTER_HALL          = 2;    //进入大厅;EnterHallReq;EnterHallRsp
     ENTER_ROOM          = 3;    //进入房间;EnterRoomReq;EnterRoomRsp
     SEND_CHAT_MESSAGE   = 4;    //发送聊天消息;SendChatMessageReq
 }
+//--------ActionCode end-----------------
+
+//错误码定义
+//--------ErrorCode begin-----------------
+enum ErrorCode {
+    SUCCESS     = 0;    //成功
+    ERROR_TOKEN = 1;    //token错误（错误由服务端定义补充）    
+}
+//--------ErrorCode end-----------------
 
 //消息头
 message PBMessage {

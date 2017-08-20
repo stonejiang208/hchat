@@ -3,6 +3,8 @@
  */
 
 let Emitter = require('../../libs/emitter.js');
+let pbkiller = require('../pbkiller/src/pbkiller');
+pbkiller.init();
 
 /**
  * Socket通信类,封装websocket与Proto
@@ -74,10 +76,10 @@ Socket.prototype.onopen = function(event) {
  */
 Socket.prototype.onmessage = function(event) {
 
-    let msg = PB.core.PBMessage.decode(event.data);
+    let msg = pbkiller.newHead(event.data);
+
     //保存服务器时间
     this.emit(Socket.Event.ON_SOCKET_MESSAGE, msg);
-
     //清理缓存
     let task;
     if (msg.sequence) {
@@ -108,7 +110,7 @@ Socket.prototype.onmessage = function(event) {
     try {
 
         if(task && task.cb){
-            let rsp = pbHelper.decodeRsp(msg.code, msg.data);
+            let rsp = pbkiller.newRsp(msg.code, msg.data);
             task.cb.call(task.target, rsp);
         }
     } catch (e) {
@@ -118,8 +120,6 @@ Socket.prototype.onmessage = function(event) {
     if (task) {
         this.emit(Socket.Event.ON_END_REQUEST, msg.code);
     }
-
-
 
 };
 
@@ -207,7 +207,6 @@ Socket.prototype.request = function(protoBuff, cb, error, target) {
     message.setData(protoBuff.toArrayBuffer());
 
     this.requestImpl(this.sequence, message.toArrayBuffer(), cb, error, target);
-
 };
 
 /**
@@ -220,14 +219,14 @@ Socket.prototype.handlePush = function(messages) {
     }
 
     messages.forEach(function(message) {
-        cc.log('handlePush pushType: %s',message.pushType);
+        cc.log('handlePush pushCode: %s',message.pushCode);
 
-        let rsp = pbHelper.decodePushMsg(message.pushType, message.data);
-        this.emit(Socket.Event.ON_PUSH_MESSAGE,message.pushType,rsp);
-        this.emit(Socket.Event.ON_PUSH_MESSAGE_END,message.pushType,rsp);
+        let rsp = pbkiller.newPush(message.pushCode, message.data);
+        this.emit(Socket.Event.ON_PUSH_MESSAGE,message.pushCode,rsp);
+        this.emit(Socket.Event.ON_PUSH_MESSAGE_END,message.pushCode,rsp);
     }, this);
 };
 
-Socket.PUSH_MSG = 'PUSH_MES_';
+Socket.PUSH_MSG = 'PUSH_MSG_';
 
 module.exports = Socket;

@@ -30,5 +30,5 @@ message EnterRoomRsp {
 
 //发送聊天请求
 message SendChatMessageReq {
-    ChatMessage message;
+    ChatMessage message = 1;
 }

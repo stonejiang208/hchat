@@ -1,10 +1,8 @@
 let ProtoBuf = require('protobufjs');
-let pbmap = require('./pbmap');
 ProtoBuf.Util.IS_NODE = cc.sys.isNative;
 
 module.exports = {
     root: 'pb',
-    proto: null,
     /**
      * 加载文件proto文件，支持json、proto格式
      * @param {String|Array} files 
@@ -50,41 +48,6 @@ module.exports = {
             return `${str}.${extname}`;
         });
         return this.loadFromFile(files, packageName);
-    },
-
-    init(packageName) {
-        this.proto = this.loadAll('proto', packageName);
-    },
-
-    newHead(data) {
-        return this.proto.PBMessage.decode(data);
-    },
-
-    newReq(actionCode) {
-        let name = pbmap.ActionCode.table[actionCode].req;
-        let ReqObj = this.proto[name];
-        let req = new ReqObj();    
-        req.$code = actionCode;
-        return req;
-    },
-
-    newRsp(actionCode, data) {
-        let name = pbmap.ActionCode.table[actionCode].rsp;
-        let RspObj = this.proto[name];
-        if (!RspObj) {
-            cc.warn(`response ${name} is not exits`);
-            return null;
-        }
-        return RspObj.decode(data);
-    },
-
-    newPush(pushCode, data) {
-        let name = pbmap.PushCode.table[pushCode].push;
-        let PushObj = this.proto[name];
-        if (!PushObj) {
-            cc.warn(`push ${name} is not exits`);
-            return null;
-        }
-        return PushObj.decode(data);    
     }
-};
+
+}

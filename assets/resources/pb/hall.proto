@@ -14,5 +14,5 @@ message EnterHallReq {
 //进入大厅响应
 message EnterHallRsp {
     int32 error = 1;    //0表示无错    
-    Hall  hall  = 1;    //大厅信息
+    Hall  hall  = 2;    //大厅信息
 }
