@@ -60,6 +60,17 @@ module.exports = {
         return data ? this.proto.PBMessage.decode(data) : new this.proto.PBMessage();
     },
 
+    _newMessage(message) {
+        let children = message.$type.children;
+        children.forEach((field) => {
+            if (field.resolvedType) {
+                let subMessage = new field.resolvedType.clazz();
+                message[field.name] = subMessage;
+                this._newMessage(subMessage);    
+            }
+        })
+    },
+
     newReq(actionCode) {
         let name = pbmap.ActionCode.table[actionCode].req;
         let ReqObj = this.proto[name];
@@ -67,6 +78,7 @@ module.exports = {
         if (ReqObj) {
             req = new ReqObj();    
         }
+        this._newMessage(req);
         req.$code = actionCode;
         return req;
     },

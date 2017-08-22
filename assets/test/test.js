@@ -85,7 +85,6 @@ cc.Class({
 
     _onSendMessageTouchEnd() {
         let chatMsg = PBKiller.newReq(pbmap.ActionCode.SEND_CHAT_MESSAGE);
-        chatMsg.message = new PBKiller.proto.ChatMessage();
         chatMsg.message.text = '测试测试测试测试';
         this.socket.send(chatMsg);   
     }

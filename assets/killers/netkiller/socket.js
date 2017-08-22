@@ -11,7 +11,16 @@ pbkiller.init();
  * @param host
  * @constructor
  */
-let Socket = function(host) {
+let Socket = function() {
+    this.taskQueue = {};
+    this.waitQueue = [];
+    this.playerId = null;
+    this.sequence = 0;
+    this.serverTime = 0;
+};
+
+Socket.prototype.connect = function(host) {
+    this.host = host;
     let ws = new WebSocket(host);
     ws.binaryType = "arraybuffer";
 
@@ -23,11 +32,6 @@ let Socket = function(host) {
 
     this.ws = ws;
     this.status = 'connecting';
-    this.taskQueue = {};
-    this.waitQueue = [];
-    this.playerId = null;
-    this.sequence = 0;
-    this.serverTime = 0;
 };
 
 /**
