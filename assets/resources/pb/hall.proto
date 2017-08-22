@@ -1,7 +1,7 @@
 syntax = "proto3";
 package happyChat.msg;
 import "room.proto";
-
+import "user.proto";
 //大厅信息
 message Hall {
     repeated Room roomList = 1; //房间列表     
@@ -9,10 +9,11 @@ message Hall {
 
 //进入大厅请求
 message EnterHallReq {
+    UserInfo user = 1;
 }
 
 //进入大厅响应
 message EnterHallRsp {
-    int32 error = 1;    //0表示无错    
+    uint32 error = 1;    //0表示无错    
     Hall  hall  = 2;    //大厅信息
 }

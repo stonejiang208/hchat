@@ -23,11 +23,11 @@ enum ErrorCode {
 
 //消息头
 message PBMessage {
-	int32  code      = 1;   //操作码id
-    int32  sequence  = 2;   //请求序列
-    int32  server    = 3;   //服务器（网关服务器路由使用，可选）
+	uint32  code      = 1;   //操作码id
+    uint32  sequence  = 2;   //请求序列
+    uint32  server    = 3;   //服务器（网关服务器路由使用，可选）
     string token     = 4;   //用户身份令牌
 	bytes  data      = 5;   //提交或响应的数据，下层消息，由actionCode解释
     repeated PushMessage push = 6;   //推送消息(无推送数据时为空)
-    int32   error             = 7;   //错误码
+    uint32   error             = 7;   //错误码
 }

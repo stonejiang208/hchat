@@ -4,9 +4,9 @@ import "user.proto";
 
 //房间信息
 message Room {
-    int32   id          = 1;    //房间id
+    uint32   id          = 1;    //房间id
     string  name        = 2;    //房间名字
-    int32   userCount   = 3;    //房间人数
+    uint32   userCount   = 3;    //房间人数
 }
 
 //聊天消息
@@ -20,12 +20,12 @@ message ChatMessage {
 
 //进入房间请求
 message EnterRoomReq {
-    int32 roomID = 1;   //房间ID
+    uint32 roomID = 1;   //房间ID
 }
 
 //进入房间响应
 message EnterRoomRsp {
-    int32  error    = 1; //0表示无错
+    uint32  error    = 1; //0表示无错
 }
 
 //发送聊天请求

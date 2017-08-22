@@ -103,7 +103,7 @@ Socket.prototype.onmessage = function(event) {
     }
 
     //数据为空, 且不为心跳包退出
-    if (!msg.data && msg.code !== ClientAction.ACTION_HEARTBEAT && !msg.pushMsg) {
+    if (!msg.data && msg.code !== ClientAction.ACTION_HEARTBEAT && !msg.push) {
         cc.log("response data is null..............");
         return;
     }
@@ -114,7 +114,7 @@ Socket.prototype.onmessage = function(event) {
     }
 
     //处理推送消息
-    this.handlePush(msg.pushMsg);
+    this.handlePush(msg.push);
     //这里处理回应
     try {
         if(task && task.cb){

@@ -45,7 +45,7 @@ cc.Class({
             return;
         }
 
-        this.socket = new Socket('ws://localhost:3000');
+        this.socket = new Socket(address);
         this.socket.on(Socket.Event.ON_SOCKET_OPEN, () => {
             this.addLog('连接服务器成功');
         });
@@ -84,9 +84,10 @@ cc.Class({
     },
 
     _onSendMessageTouchEnd() {
-        let msg = PBKiller.newReq(pbmap.ActionCode.SEND_CHAT_MESSAGE);
-        msg.text = '测试测试测试测试';
-        this.socket.send(msg);   
+        let chatMsg = PBKiller.newReq(pbmap.ActionCode.SEND_CHAT_MESSAGE);
+        chatMsg.message = new PBKiller.proto.ChatMessage();
+        chatMsg.message.text = '测试测试测试测试';
+        this.socket.send(chatMsg);   
     }
 
 });
