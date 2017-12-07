@@ -1,3 +1,5 @@
+// file: main.js
+
 cc.Class({
     extends: require('NetComponent'),
 
@@ -27,7 +29,7 @@ cc.Class({
 
     },
     //加入房间
-    login() {
+    login:function() {
         if (this.editBox.string == '') {
             alert('请输入昵称');
             return;
@@ -37,7 +39,7 @@ cc.Class({
     },
 
     //发送消息
-    send() {
+    send:function() {
         if (this.chatBox.string == '') {
             alert('消息不能为空');
             return;
@@ -46,20 +48,20 @@ cc.Class({
     },
 
     //退出房间
-    close() {
+    close:function() {
         Network.close();
         this.mainLayer.active = true;
         this.chatLayer.active = false;
     },
 
     //连接成功
-    netStart(event) {
+    netStart:function(event) {
         this._super(event);
         //发送登录
         Network.send({ f: 'login', msg: this.mName });
     },
 
-    getNetData(event) {
+    getNetData:function(event) {
         let data = event.detail;
         if (data.f) {
             let msg = data.msg || {};
@@ -84,7 +86,7 @@ cc.Class({
     },
 
     //登录成功，进入房间
-    onLogin(msg) {
+    onLogin:function(msg) {
         this.userName = msg[0];
         this.clientId = msg[1];
 
@@ -95,7 +97,7 @@ cc.Class({
     },
 
     //有人加入房间
-    onJoin(msg) {
+    onJoin:function(msg) {
         let name = msg.userName;
         let userNum = msg.userNum;
 
@@ -106,7 +108,7 @@ cc.Class({
     },
 
     //发送成功
-    onSendSuccess(msg) {
+    onSendSuccess:function(msg) {
         this.successLb.node.opacity = 255;
         this.successLb.string = msg;
 
@@ -115,13 +117,13 @@ cc.Class({
     },
 
     //接收消息
-    onSend(msg) {
+    onSend:function(msg) {
         let name = msg.userName, time = msg.time, info = msg.info;
         this.showChatWord(name, time, info);
     },
 
     //有人退出房间
-    onQuit(msg) {
+    onQuit:function(msg) {
         let name = msg.userName;
         let userNum = msg.userNum;
         //刷新人数
@@ -131,7 +133,7 @@ cc.Class({
     },
 
     //显示广播
-    showBroadcast(str) {
+    showBroadcast:function(str) {
         let b = this.createByPool(this.lbPool, this.lbPrefab);
         b.x = 0;
         b.opacity = 255;
@@ -143,7 +145,7 @@ cc.Class({
     },
 
     //刷新聊天
-    showChatWord(name, time, info) {
+    showChatWord:function(name, time, info) {
         let w = this.createByPool(this.wordPool, this.wordPrefab);
         w.x = 0;
         let namelb = w.getChildByName('name').getComponent(cc.Label);
@@ -176,7 +178,7 @@ cc.Class({
     },
 
 
-    createPool(prefab) {
+    createPool:function(prefab) {
         let pool = new cc.NodePool();
         for (let i = 0; i < 10; i++) {
             let p = cc.instantiate(prefab);
@@ -185,7 +187,7 @@ cc.Class({
         return pool;
     },
 
-    createByPool(pool, prefab) {
+    createByPool:function(pool, prefab) {
         let p;
         if (pool.size() > 0) {
             p = pool.get();
