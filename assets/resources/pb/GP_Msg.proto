@@ -1,0 +1,71 @@
+// GP_Msg.proto
+syntax = "proto3";
+package GP;
+
+import "GP_Common.proto";
+
+message Msg
+{
+  string type = 1;
+  bytes payload = 2;
+}
+
+message Msg_Req
+{
+  bytes payload  = 1;
+}
+
+message Msg_Rsp
+{
+  uint32 result = 1;
+  bytes payload  = 2;
+}
+
+message Msg_Trs {
+  bytes payload  = 1;
+  string account = 2;
+}
+
+message Msg_Ntf
+{
+  bytes payload  = 1;
+}
+
+message Login
+{
+  message Req
+  {
+    string account = 1;
+    string password = 2;
+  }
+  message Rsp
+  {
+    string result =1 ;
+    GP.User_Info user = 2;
+  }
+}
+
+
+// -- 
+message Echo
+{
+  message Req
+  {
+    bytes data = 1;
+  }
+  message Rsp
+  {
+    bytes data = 1;
+  }
+}
+
+message Logout
+{
+  message Req
+  {
+  }
+  message Rsp
+  {
+  }
+}
+

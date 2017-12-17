@@ -1,0 +1,67 @@
+// GP_Lobby.proto
+syntax = "proto3";
+package GP.Lobby;
+message Create_Room{
+  message Req {
+    uint32  abc = 1;
+  }
+  message Rsp {
+    uint32 room_id = 1;  // 6 num
+  }
+}
+
+
+message Attack {
+  message Req
+  {
+    string target_user = 1;  // uuid
+    enum Attack_Type
+    {
+      AT_START = 0;
+      AT_PHY = 1;
+      //...
+    }
+    Attack_Type attack_type = 2;
+    string      attack_data_js = 3;  //{"":dd}
+  }
+  message Rsp  // 应答
+  {
+     enum Error
+     {
+       OK = 0;
+     }
+    // ...
+  }
+
+  message Ntf // 通知
+  {
+  }
+
+  message Trs // 转发到
+  {
+  }
+  message Ack  //  确认/
+  {
+    
+  }
+
+}
+
+message Appy_Token
+{
+  message Req {};
+  message Rsp {
+    string token = 1;  // cache token, owner
+  };
+}
+message Buy
+{
+  message Req {
+    string token = 1;
+  };
+
+  message Rsp {
+  }
+}
+
+
