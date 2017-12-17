@@ -1,5 +1,8 @@
 // file: main.js
 
+var pb = require ("protobufjs");
+cc.pb = {};
+
 cc.Class({
     extends: require('NetComponent'),
 
@@ -26,6 +29,24 @@ cc.Class({
         //创建对象池
         this.lbPool = this.createPool(this.lbPrefab);
         this.wordPool = this.createPool(this.wordPrefab);
+
+        l = cc.log;
+        l ("to load proto files begin");
+        var fullPath = cc.url.raw("resources/pb/GP_All.proto");
+        cc.log ("full path is", fullPath);
+        pb.load (fullPath,function(err,root){
+            if (err)
+            {
+                cc.log (err);
+                throw err;
+            }
+            else
+            {
+                cc.log ("protobuf files load completed.");
+                cc.pb.pbRoot = root;
+            }
+        });
+        l ("load proto files end");
 
     },
     //加入房间
