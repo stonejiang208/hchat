@@ -19,7 +19,7 @@ let Network = cc.Class({
             return;
         }
         cc.log('Network initSocket...');
-        let host = "ws://localhost:3000";
+        let host = "ws://mbp.tao-studio.net:6001";
        // let host = "ws://47.104.15.140:3000"
         this.socket = new WebSocket(host);
         this.socket.onopen = (evt) => {
