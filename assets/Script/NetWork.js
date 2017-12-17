@@ -46,6 +46,13 @@ let Network = cc.Class({
         }
     },
 
+    // send pf
+    sendRaw(msg) {
+        if (!this.isInit) alert('Network is not inited...');
+        else if (this.socket.readyState == WebSocket.OPEN) {
+            this.socket.send(msg);
+        } else cc.log('Network WebSocket readState:' + this.socket.readyState);
+    },
     //发送消息给服务器
     send(data) {
         if (!this.isInit) alert('Network is not inited...');

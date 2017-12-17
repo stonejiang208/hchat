@@ -1,7 +1,6 @@
 // file: main.js
 
 var pb = require ("protobufjs");
-cc.pb = {};
 
 cc.Class({
     extends: require('NetComponent'),
@@ -29,7 +28,7 @@ cc.Class({
         //创建对象池
         this.lbPool = this.createPool(this.lbPrefab);
         this.wordPool = this.createPool(this.wordPrefab);
-
+        var self = this;
         l = cc.log;
         l ("to load proto files begin");
         var fullPath = cc.url.raw("resources/pb/GP_All.proto");
@@ -43,7 +42,7 @@ cc.Class({
             else
             {
                 cc.log ("protobuf files load completed.");
-                cc.pb.pbRoot = root;
+                Network.pbRoot = root;
             }
         });
         l ("load proto files end");
@@ -79,10 +78,37 @@ cc.Class({
     netStart:function(event) {
         this._super(event);
         //发送登录
-        Network.send({ f: 'login', msg: this.mName });
+        l = cc.log;
+        try
+        {
+            var root = Network.pbRoot;
+            var req = root.lookupType ("GP.Login.Req");
+            var p = {};
+            p.account = this.mName;
+            p.password = "gp";
+            var message = req.create (p);
+            l (message);
+            var buffer = req.encode(message).finish();
+            l (buffer);
+
+            var packet = root.lookupType("GP.Msg");
+            var pdata = {};
+            pdata.type = "GP.Login.Req";
+            pdata.payload = buffer;
+
+            var pMsg = packet.create (pdata);
+            var pBuf = packet.encode (pMsg).finish();
+            l (pBuf);
+            Network.sendRaw (pBuf);
+        }
+        catch (e) {
+            l (e);
+        }
+       // Network.send({ f: 'login', msg: this.mName });
     },
 
     getNetData:function(event) {
+        cc.log ("on get net data");
         let data = event.detail;
         if (data.f) {
             let msg = data.msg || {};
