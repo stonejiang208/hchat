@@ -1,6 +1,14 @@
 // GP_Lobby.proto
 syntax = "proto3";
 package GP.Lobby;
+
+enum Msg_Code
+{
+  START = 0;
+  CREATE_ROOM = 1;
+
+}
+
 message Create_Room{
   message Req {
     uint32  abc = 1;

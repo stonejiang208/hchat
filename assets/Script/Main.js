@@ -82,10 +82,16 @@ cc.Class({
         try
         {
             var root = Network.pbRoot;
-            var req = root.lookupType ("GP.Login.Req");
+            var gpType = root.GP.Msg_Type;
+            l (gpType);
+            var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
+            code = code | (1 << 24);
+            l ("code = ",code);
+            
+            var req = root.lookupType ("GP.Account.Create_Account.Req");
             var p = {};
-            p.account = this.mName;
-            p.password = "gp";
+            p.name = this.mName;
+            p.headUrl = "http://header1.xxx.xxx";
             var message = req.create (p);
             l (message);
             var buffer = req.encode(message).finish();
@@ -93,7 +99,7 @@ cc.Class({
 
             var packet = root.lookupType("GP.Msg");
             var pdata = {};
-            pdata.type = "GP.Login.Req";
+            pdata.type = code;
             pdata.payload = buffer;
 
             var pMsg = packet.create (pdata);

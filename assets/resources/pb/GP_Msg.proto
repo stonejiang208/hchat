@@ -4,9 +4,34 @@ package GP;
 
 import "GP_Common.proto";
 
+enum Msg_Type
+{
+  START = 0;
+  MT_ACCOUNT = 1;
+  MT_LOBBY = 2;
+  MT_ROOM = 3;
+  MT_USER = 16;
+}
+
+message Packet
+{
+  enum Packet_Type
+  {
+    PT_REQ = 0;
+    PT_RSP = 1;
+    PT_TRS = 2;
+    PT_NTF = 3;
+    PT_ACK = 4;
+    PT_ECH = 5;
+  }
+  Packet_Type type = 1;
+  bytes payload = 2;
+}
+
+
 message Msg
 {
-  string type = 1;
+  uint32 type = 1;
   bytes payload = 2;
 }
 
@@ -44,6 +69,7 @@ message Login
     GP.User_Info user = 2;
   }
 }
+
 
 
 // -- 

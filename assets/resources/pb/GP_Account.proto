@@ -1,0 +1,36 @@
+syntax = "proto3";
+package GP.Account;
+
+enum Msg_Code
+{
+  START = 0;
+  CREATE_ACCOUNT = 1;
+  GUEST_SIGN_IN = 2;
+}
+message Create_Account
+{
+  message Req
+  {
+    string name = 1;
+    string head_url = 2;
+  }
+  message Rsp
+  {
+    string uid = 1;
+  }
+}
+
+message Guest_Sign_In
+{
+  message Req
+  {
+  }
+  message Rsp
+  {
+    string uid = 1;
+    string name = 2;
+    string head_url = 3;
+  }
+}
+
+
