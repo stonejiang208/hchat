@@ -17,12 +17,30 @@ let Network = cc.Class({
     },
     loadProtoFiles(){
       cc.log ("load ProtoFiles");
+      var self = this;
+      self.pbRoot = {};
+      var fullPath = cc.url.raw("resources/pb/GP_All.proto");
+      cc.log ("full path is", fullPath);
+      pb.load (fullPath,function(err,root){
+          if (err)
+          {
+              cc.log (err);
+              throw err;
+          }
+          else
+          {
+              cc.log ("protobuf files load completed.");
+              self.pbRoot = root;
+              cc.log (root);
+          }
+      });
     },
     initNetwork() {
         if (this.isInit) {
             cc.log('Network is already inited...');
             return;
         }
+       
         cc.log('Network initSocket...');
         let host = "ws://mbp.tao-studio.net:6001";
        // let host = "ws://47.104.15.140:3000"
@@ -50,7 +68,42 @@ let Network = cc.Class({
             this.isInit = false;
         }
     },
+    
+    // 发送请求到服务端
+    sendReq:function(appCode,cmdCode,msgType,payload){
+        var self = this;
+        var root = self.pbRoot;
+        var mask = root.GP.Msg.Msg_Type.PT_REQ;
+        var code = (mask << 24) | (appCode << 18) | cmdCode;
+        cc.log ("cmd = " , code ,appCode, cmdCode,msgType);
 
+        try
+        {
+            // 第1层 的消息  GP.xxx.Req
+            var t1 = root.lookupType (msgType);
+            var d1 = t1.create (payload);
+            var b1 = t1.encode(d1).finish();
+
+            // 第2层
+            var t2= root.lookupType ("GP.Msg_Req");
+            var p2 = {};
+            p2.payload = b1;
+            var d2 = t2.create (p2);
+            var b2 = t2.encode(d2).finish();
+
+            // 第3层
+            var t3= root.lookupType ("GP.Msg");
+            var p3 = {};
+            p3.code = code;
+            p3.payload = b2;
+            var d3 = t3.create (p3);
+            var b3 = t3.encode(d3).finish();
+            self.sendRaw (b3);
+        }
+        catch (e) {
+                cc.log(e);
+            }
+        },
     // send pf
     sendRaw(msg) {
         if (!this.isInit) alert('Network is not inited...');

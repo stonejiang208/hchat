@@ -1,7 +1,4 @@
 // file: main.js
-
-var pb = require ("protobufjs");
-
 cc.Class({
     extends: require('NetComponent'),
 
@@ -28,25 +25,7 @@ cc.Class({
         //创建对象池
         this.lbPool = this.createPool(this.lbPrefab);
         this.wordPool = this.createPool(this.wordPrefab);
-        var self = this;
-        l = cc.log;
-        l ("to load proto files begin");
-        var fullPath = cc.url.raw("resources/pb/GP_All.proto");
-        cc.log ("full path is", fullPath);
-        pb.load (fullPath,function(err,root){
-            if (err)
-            {
-                cc.log (err);
-                throw err;
-            }
-            else
-            {
-                cc.log ("protobuf files load completed.");
-                Network.pbRoot = root;
-            }
-        });
-        l ("load proto files end");
-
+        Network.loadProtoFiles();
     },
     //加入房间
     login:function() {
@@ -78,38 +57,16 @@ cc.Class({
     netStart:function(event) {
         this._super(event);
         //发送登录
-        l = cc.log;
-        try
-        {
-            var root = Network.pbRoot;
-            var gpType = root.GP.Msg_Type;
-            l (gpType);
-            var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
-            code = code | (1 << 24);
-            l ("code = ",code);
-            
-            var req = root.lookupType ("GP.Account.Create_Account.Req");
-            var p = {};
-            p.name = this.mName;
-            p.headUrl = "http://header1.xxx.xxx";
-            var message = req.create (p);
-            l (message);
-            var buffer = req.encode(message).finish();
-            l (buffer);
+        var root = Network.pbRoot;
+        var p = {};
+        p.name = this.mName;
+        p.headUrl = "http://header1.xxx.xxx";
+        var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
+        var type = "GP.Account.Create_Account.Req";
+        var appCode = root.GP.Msg_Type.MT_ACCOUNT;
 
-            var packet = root.lookupType("GP.Msg");
-            var pdata = {};
-            pdata.type = code;
-            pdata.payload = buffer;
+        Network.sendReq(appCode,code,type,p);
 
-            var pMsg = packet.create (pdata);
-            var pBuf = packet.encode (pMsg).finish();
-            l (pBuf);
-            Network.sendRaw (pBuf);
-        }
-        catch (e) {
-            l (e);
-        }
        // Network.send({ f: 'login', msg: this.mName });
     },
 
