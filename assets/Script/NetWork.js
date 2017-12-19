@@ -1,3 +1,6 @@
+
+var pb = require ("protobufjs");
+
 let WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
 window.NetTarget = null;
 
@@ -12,7 +15,9 @@ let Network = cc.Class({
     ctor() {
         NetTarget = new cc.EventTarget();;
     },
-
+    loadProtoFiles(){
+      cc.log ("load ProtoFiles");
+    },
     initNetwork() {
         if (this.isInit) {
             cc.log('Network is already inited...');
