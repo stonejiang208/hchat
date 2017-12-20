@@ -42,7 +42,7 @@ let Network = cc.Class({
         }
        
         cc.log('Network initSocket...');
-        let host = "ws://mbp.tao-studio.net:6001";
+        let host = "ws://192.168.1.11:6001";
        // let host = "ws://47.104.15.140:3000"
         this.socket = new WebSocket(host);
         this.socket.onopen = (evt) => {
@@ -74,7 +74,7 @@ let Network = cc.Class({
         var self = this;
         var root = self.pbRoot;
         var mask = root.GP.Msg.Msg_Type.PT_REQ;
-        var code = (mask << 24) | (appCode << 18) | cmdCode;
+        var code = (mask << 28) | (appCode << 16) | cmdCode;
         cc.log ("cmd = " , code ,appCode, cmdCode,msgType);
 
         try

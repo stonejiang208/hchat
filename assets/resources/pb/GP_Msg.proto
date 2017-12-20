@@ -7,10 +7,10 @@ import "GP_Common.proto";
 enum Msg_Type
 {
   START = 0;
-  MT_ACCOUNT = 1;
-  MT_LOBBY = 2;
-  MT_ROOM = 3;
   MT_USER = 16;
+  MT_ACCOUNT = 0xFF0;
+  MT_LOBBY = 0xFF1;
+  MT_ROOM = 0xFF2;
 }
 
 message Msg
