@@ -52,10 +52,20 @@ let Network = cc.Class({
         }
 
         this.socket.onmessage = (evt) => {
-            let msg = evt.data;
-            cc.log('Network onmessage:' + evt.data);
-            let dataObj = JSON.parse(msg);
-            this.appandeMsg(dataObj);
+            var self = this;      
+            var reader = new FileReader();
+            reader.readAsArrayBuffer(evt.data);
+
+            reader.onload = function (e) {
+                var buf = new Uint8Array(reader.result);
+                var root = self.pbRoot;
+                var t1 = root.lookupType("GP.Msg");
+                var m1 = t1.decode (buf);
+    
+                cc.log('Network onmessage:' + m1);
+                self.unpacketLayer1(m1);
+            }
+           
         }
 
         this.socket.onerror = (evt) => {
@@ -137,6 +147,46 @@ let Network = cc.Class({
      */
     testServerData(data) {
         this.appandeMsg(data);
+    },
+
+    formatBuffer(buffer) {
+        var bufferArray = Object.keys(buffer).map(function(k) {
+            return buffer[k];
+        })
+        return bufferArray;
+    },
+    // unpacket layer 1
+    unpacketLayer1(data){
+        var self = this;
+        var code = data.code;
+        var p0 = data.payload;
+        var mask = code >> 28;
+        var appCode =  (0xFFF << 16 & code) >> 16;
+        var cmd = code & 0x0000FFFF;
+        cc.log (code,mask,appCode,cmd);
+   
+        if (mask == 1)
+        {        
+            var root = self.pbRoot;
+            var t1 = root.lookupType("GP.Msg_Rsp");
+            var m1 = t1.decode (p0);
+            cc.log('unpacketLayer1 onmessage:' + m1);
+            cc.log ("rsp result:", m1.result);
+            if (m1.result == 0)
+            {
+                var t2 = root.lookupType("GP.Account.Create_Account.Rsp");
+         
+                var m2 = t2.decode (m1.payload);
+                cc.log('unpacketLayer1 onmessage:' ,m2.uid);
+            }
+            else
+            {
+                cc.log ("error");
+            }
+         
+
+        }
+           
     },
 
 });

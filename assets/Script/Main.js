@@ -72,7 +72,13 @@ cc.Class({
 
     getNetData:function(event) {
         cc.log ("on get net data");
-        let data = event.detail;
+        var data = event.detail;
+        var code = data.code;
+        var mask = code >> 28;
+        var appCode =  (0xFFF << 16 & code) >> 16;
+        var cmd = code & 0x0000FFFF;
+        cc.log (code,mask,appCode,cmd);
+        
         if (data.f) {
             let msg = data.msg || {};
             switch (data.f) {
