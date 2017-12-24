@@ -17,7 +17,7 @@
         "__id__": 2
       },
       {
-        "__id__": 22
+        "__id__": 23
       }
     ],
     "_tag": -1,
@@ -76,6 +76,9 @@
       },
       {
         "__id__": 21
+      },
+      {
+        "__id__": 22
       }
     ],
     "_prefab": null,
@@ -96,8 +99,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 960,
-      "height": 640
+      "width": 720,
+      "height": 1280
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -105,8 +108,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": 480,
-      "y": 320
+      "x": 360,
+      "y": 640
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -151,8 +154,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 960,
-      "height": 640
+      "width": 720,
+      "height": 1280
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -748,8 +751,8 @@
     "_enabled": true,
     "_designResolution": {
       "__type__": "cc.Size",
-      "width": 960,
-      "height": 640
+      "width": 720,
+      "height": 1280
     },
     "_fitWidth": false,
     "_fitHeight": true
@@ -768,6 +771,32 @@
     "serverItem": {
       "__uuid__": "d9c284b0-039e-4690-8663-408f49575dc0"
     }
+  },
+  {
+    "__type__": "cc.Widget",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "isAlignOnce": true,
+    "_target": null,
+    "_alignFlags": 5,
+    "_left": 0,
+    "_right": 0,
+    "_top": 0,
+    "_bottom": 0,
+    "_verticalCenter": 0,
+    "_horizontalCenter": 0,
+    "_isAbsLeft": true,
+    "_isAbsRight": true,
+    "_isAbsTop": true,
+    "_isAbsBottom": true,
+    "_isAbsHorizontalCenter": true,
+    "_isAbsVerticalCenter": true,
+    "_originalWidth": 0,
+    "_originalHeight": 1280
   },
   {
     "__type__": "cc.Node",
