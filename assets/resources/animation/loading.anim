@@ -1,0 +1,41 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "loading",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.5,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": 2,
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "31bc895a-c003-4566-a9f3-2e54ae1c17dc"
+            }
+          }
+        ]
+      }
+    },
+    "props": {
+      "rotation": [
+        {
+          "frame": 0.16666666666666666,
+          "value": 30
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 240
+        },
+        {
+          "frame": 0.5,
+          "value": 360
+        }
+      ]
+    }
+  },
+  "events": []
+}

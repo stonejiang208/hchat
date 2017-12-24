@@ -42,7 +42,7 @@ let Network = cc.Class({
         }
        
         cc.log('Network initSocket...');
-        let host = "ws://192.168.1.11:6001";
+        let host = "ws://mbp.tao-studio.net:6001";
        // let host = "ws://47.104.15.140:3000"
         this.socket = new WebSocket(host);
         this.socket.onopen = (evt) => {
@@ -115,7 +115,7 @@ let Network = cc.Class({
             }
         },
     // send pf
-    sendRaw(msg) {
+    sendRaw:function(msg) {
         if (!this.isInit) alert('Network is not inited...');
         else if (this.socket.readyState == WebSocket.OPEN) {
             this.socket.send(msg);
@@ -148,15 +148,8 @@ let Network = cc.Class({
     testServerData(data) {
         this.appandeMsg(data);
     },
-
-    formatBuffer(buffer) {
-        var bufferArray = Object.keys(buffer).map(function(k) {
-            return buffer[k];
-        })
-        return bufferArray;
-    },
     // unpacket layer 1
-    unpacketLayer1(data){
+    unpacketLayer1:function(data){
         var self = this;
         var code = data.code;
         var p0 = data.payload;
@@ -174,8 +167,7 @@ let Network = cc.Class({
             cc.log ("rsp result:", m1.result);
             if (m1.result == 0)
             {
-                var t2 = root.lookupType("GP.Account.Create_Account.Rsp");
-         
+                var t2 = root.lookupType("GP.Account.Create_Account.Rsp");       
                 var m2 = t2.decode (m1.payload);
                 cc.log('unpacketLayer1 onmessage:' ,m2.uid);
             }
