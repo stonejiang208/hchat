@@ -13,10 +13,12 @@ message Create_Account
   {
     string name = 1;
     string head_url = 2;
+    string password = 3;
+    int32  sex_type = 4;
   }
   message Rsp
   {
-    string uid = 1;
+    uint64 uid = 1;
   }
 }
 

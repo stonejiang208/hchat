@@ -1,7 +1,7 @@
 
 var pb = require ("protobufjs");
 
-let WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
+var WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
 window.NetTarget = null;
 
 let instance = null;
