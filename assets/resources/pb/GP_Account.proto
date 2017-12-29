@@ -19,6 +19,7 @@ message Create_Account
   message Rsp
   {
     uint64 uid = 1;
+    string name = 2;
   }
 }
 

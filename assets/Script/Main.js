@@ -132,7 +132,7 @@ cc.Class({
 
     //登录成功，进入房间
     onLogin:function(payload) {
-        this.userName = "guest";
+        this.userName = payload.name;
         this.clientId = payload.uid;
 
         this.mainLayer.active = false;
