@@ -1,0 +1,22 @@
+// GP_Chat.proto
+syntax = "proto3";
+package GP.Chat;
+
+enum Msg_Code
+{
+  START = 0;
+  TEXT_MSG = 1;
+}
+
+message Text_Msg{
+  message Req {
+    string msg = 1;
+  }
+  message Rsp {
+  }
+  message Trs {
+    string msg = 1;
+  } 
+}
+
+

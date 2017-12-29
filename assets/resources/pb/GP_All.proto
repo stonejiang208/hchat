@@ -6,4 +6,5 @@ import "GP_Common.proto";
 import "GP_Msg.proto";
 import "GP_Account.proto";
 import "GP_Lobby.proto";
+import "GP_Chat.proto";
 

@@ -43,7 +43,17 @@ cc.Class({
             alert('消息不能为空');
             return;
         }
-        Network.send({ f: 'send', msg: this.chatBox.string });
+
+        var root = Network.pbRoot;
+        var p = {};
+        p.msg = this.chatBox.string;
+        var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
+        var type = "GP.Chat.Text_Msg.Req";
+        var appCode = 123;
+
+        Network.sendReq(appCode,code,type,p);
+
+       // Network.send({ f: 'send', msg: this.chatBox.string });
     },
 
     //退出房间
