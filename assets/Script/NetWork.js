@@ -168,6 +168,7 @@ let Network = cc.Class({
             var rsp = {};
             rsp.cmd = cmd;
             rsp.result = m1.result;
+            rsp.appCode = appCode;
             if (m1.result == 0)
             {
                 var t2 = root.lookupType("GP.Account.Create_Account.Rsp");       
@@ -179,7 +180,11 @@ let Network = cc.Class({
             {
                 cc.log ("error");
             }
-            NetTarget.emit("net", rsp);
+            NetTarget.emit("rsp", rsp);
+        }
+        else if (mask == 2)
+        {
+            
         }
            
     },

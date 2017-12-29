@@ -12,12 +12,14 @@ let NetworkComponent = cc.Class({
         NetTarget.on('net', this.getNetData.bind(this));
         NetTarget.on('netstart', this.netStart.bind(this));
         NetTarget.on('netclose', this.netClose.bind(this));
+        NetTarget.on('rsp', this.getRspData.bind(this));
     },
 
     onDisable() {
         NetTarget.off('net', this.getNetData.bind(this));
         NetTarget.off('netstart', this.netStart.bind(this));
         NetTarget.off('netclose', this.netClose.bind(this));
+        NetTarget.off('rsp', this.getRspData.bind(this));
     },
     /**
      * 获取服务端数据
@@ -25,6 +27,14 @@ let NetworkComponent = cc.Class({
     getNetData: function (event) {
         cc.log("append");
     },
+
+        /**
+     * 获取服务端响应
+     */
+    getRspData: function (event) {
+        cc.log("append");
+    },
+
     /**
      * 网络连接开始
      */

@@ -73,7 +73,9 @@ cc.Class({
     },
 
     getNetData:function(event) {
-        cc.log ("on get net data");
+    },
+    getRspData:function(event) {
+        cc.log ("on getRspData");
         var rsp = event.detail;
         cc.log (JSON.stringify(rsp));
         /*
@@ -85,13 +87,20 @@ cc.Class({
             // some thing wrong
             return;
         }
-
-        switch (rsp.cmd)
+        switch (rsp.appCode)
         {
-          case 1:
-          this.onLogin(rsp.payload);
-          break;
-        }// swith
+            case 4080: // Account
+            {
+                switch (rsp.cmd)
+                {
+                  case 1:
+                  this.onLogin(rsp.payload);
+                  break;
+                }
+            }
+            break;
+        }
+// swith
         /*
         var code = data.code;
         var mask = code >> 28;
