@@ -165,18 +165,21 @@ let Network = cc.Class({
             var m1 = t1.decode (p0);
             cc.log('unpacketLayer1 onmessage:' + m1);
             cc.log ("rsp result:", m1.result);
+            var rsp = {};
+            rsp.cmd = cmd;
+            rsp.result = m1.result;
             if (m1.result == 0)
             {
                 var t2 = root.lookupType("GP.Account.Create_Account.Rsp");       
                 var m2 = t2.decode (m1.payload);
                 cc.log('unpacketLayer1 onmessage:' ,m2.uid);
+                rsp.payload = m2;
             }
             else
             {
                 cc.log ("error");
             }
-         
-
+            NetTarget.emit("net", rsp);
         }
            
     },

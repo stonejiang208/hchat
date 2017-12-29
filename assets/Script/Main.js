@@ -61,6 +61,8 @@ cc.Class({
         var p = {};
         p.name = this.mName;
         p.headUrl = "http://header1.xxx.xxx";
+        p.password = "mypassword";
+        p.sexType = 1;
         var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
         var type = "GP.Account.Create_Account.Req";
         var appCode = root.GP.Msg_Type.MT_ACCOUNT;
@@ -72,7 +74,25 @@ cc.Class({
 
     getNetData:function(event) {
         cc.log ("on get net data");
-        var data = event.detail;
+        var rsp = event.detail;
+        cc.log (JSON.stringify(rsp));
+        /*
+        {"cmd":1,"result":0,"payload":{"uid":"9"}}
+        */
+        
+        if (rsp.result != 0)
+        {
+            // some thing wrong
+            return;
+        }
+
+        switch (rsp.cmd)
+        {
+          case 1:
+          this.onLogin(rsp.payload);
+          break;
+        }// swith
+        /*
         var code = data.code;
         var mask = code >> 28;
         var appCode =  (0xFFF << 16 & code) >> 16;
@@ -98,13 +118,13 @@ cc.Class({
                     this.onQuit(msg);
                     break;
             }
-        }
+        }*/
     },
 
     //登录成功，进入房间
-    onLogin:function(msg) {
-        this.userName = msg[0];
-        this.clientId = msg[1];
+    onLogin:function(payload) {
+        this.userName = "guest";
+        this.clientId = payload.uid;
 
         this.mainLayer.active = false;
         this.chatLayer.active = true;
