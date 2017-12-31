@@ -43,7 +43,8 @@ cc.Class({
       cc.log ("create room");
       var root = Network.pbRoot;
       var p = {};
-      p.appCode = 0x123;
+      p.appCode = 321;
+      p.token = 123;
       var code = root.GP.Lobby.Msg_Code.CREATE_ROOM;
       var type = "GP.Lobby.Create_Room.Req";
       var appCode = root.GP.Msg_Type.MT_LOBBY;
