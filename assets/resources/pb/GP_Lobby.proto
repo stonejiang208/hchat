@@ -15,14 +15,14 @@ enum Msg_Code
 message Apply_Token {
   message Req {}
   message Rsp {
-  uint32 token = 1;
+    uint64 token = 1;
   }
 }
 
 message Create_Room{
   message Req {
     uint32  app_code = 1;
-    uint32  token = 2;
+    uint64  token = 2;
   }
   message Rsp
   {

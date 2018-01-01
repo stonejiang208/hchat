@@ -37,7 +37,20 @@ cc.Class({
         Network.initNetwork();//连接服务器
     },
     
-        //获取房间列表
+    // 申请操作的令牌
+    applyToken:function()
+    {
+     cc.log ("applyToken");
+     var root = Network.pbRoot;
+     var p = {};
+     var code = root.GP.Lobby.Msg_Code.APPLY_TOKEN;
+     var type = "GP.Lobby.Apply_Token.Req";
+     var appCode = root.GP.Msg_Type.MT_LOBBY;
+
+     Network.sendReq(appCode,code,type,p);
+    },
+
+    //获取房间列表
     createRoom:function()
     {
       cc.log ("create room");
@@ -105,12 +118,12 @@ cc.Class({
     },
     getRspData:function(event) {
         cc.log ("on getRspData");
+        var root = Network.pbRoot;
         var rsp = event.detail;
         cc.log (JSON.stringify(rsp));
         /*
         {"cmd":1,"result":0,"payload":{"uid":"9"}}
         */
-        
         if (rsp.result != 0)
         {
             // some thing wrong
@@ -118,12 +131,23 @@ cc.Class({
         }
         switch (rsp.appCode)
         {
-            case 4080: // Account
+            case root.GP.Msg_Type.MT_ACCOUNT: // Account
             {
                 switch (rsp.cmd)
                 {
-                  case 1:
+                  case root.GP.Account.Msg_Code.CREATE_ACCOUNT:
                   this.onLogin(rsp.payload);
+                  break;
+                }
+            }
+            break;
+
+            case root.GP.Msg_Type.MT_LOBBY: // Account
+            {
+                switch (rsp.cmd)
+                {
+                  case root.GP.Lobby.Msg_Code.APPLY_TOKEN:
+                  this.onRspReplyToken(rsp.payload);
                   break;
                 }
             }
@@ -169,6 +193,11 @@ cc.Class({
 
         this.successLb.node.opacity = 0;
     },
+
+    onRspReplyToken:function(payload) {
+        cc.log (JSON.stringify(payload));
+    },
+
 
     //有人加入房间
     onJoin:function(msg) {

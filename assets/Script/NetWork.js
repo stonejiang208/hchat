@@ -40,7 +40,6 @@ let Network = cc.Class({
             cc.log('Network is already inited...');
             return;
         }
-       
         cc.log('Network initSocket...');
         let host = "ws://mbp.tao-studio.net:6001";
        // let host = "ws://47.104.15.140:3000"
@@ -52,7 +51,7 @@ let Network = cc.Class({
         }
 
         this.socket.onmessage = (evt) => {
-            var self = this;      
+            var self = this;
             var reader = new FileReader();
             reader.readAsArrayBuffer(evt.data);
 
@@ -61,11 +60,9 @@ let Network = cc.Class({
                 var root = self.pbRoot;
                 var t1 = root.lookupType("GP.Msg");
                 var m1 = t1.decode (buf);
-    
                 cc.log('Network onmessage:' + m1);
                 self.unpacketLayer1(m1);
             }
-           
         }
 
         this.socket.onerror = (evt) => {
@@ -78,7 +75,6 @@ let Network = cc.Class({
             this.isInit = false;
         }
     },
-    
     // 发送请求到服务端
     sendReq:function(appCode,cmdCode,msgType,payload){
         var self = this;
@@ -157,9 +153,8 @@ let Network = cc.Class({
         var appCode =  (0xFFF << 16 & code) >> 16;
         var cmd = code & 0x0000FFFF;
         cc.log (code,mask,appCode,cmd);
-   
         if (mask == 1)
-        {        
+        {
             var root = self.pbRoot;
             var t1 = root.lookupType("GP.Msg_Rsp");
             var m1 = t1.decode (p0);
@@ -169,11 +164,26 @@ let Network = cc.Class({
             rsp.cmd = cmd;
             rsp.result = m1.result;
             rsp.appCode = appCode;
+            var m2 = {};
             if (m1.result == 0)
             {
-                var t2 = root.lookupType("GP.Account.Create_Account.Rsp");       
-                var m2 = t2.decode (m1.payload);
-                cc.log('unpacketLayer1 onmessage:' ,m2.uid);
+                if (appCode == root.GP.Msg_Type.MT_ACCOUNT){
+                    if (cmd == root.GP.Account.Msg_Code.CREATE_ACCOUNT)
+                    {
+                        var t2 = root.lookupType("GP.Account.Create_Account.Rsp");
+                         m2 = t2.decode (m1.payload);
+                        cc.log('unpacketLayer1 onmessage:' ,m2.uid);  
+                    }
+                }
+                else if (appCode == root.GP.Msg_Type.MT_LOBBY)
+                {
+                    if (cmd == root.GP.Lobby.Msg_Code.APPLY_TOKEN)
+                    {
+                        var t2 = root.lookupType("GP.Lobby.Apply_Token.Rsp");
+                        m2 = t2.decode (m1.payload);
+                        cc.log (JSON.stringify(m2));
+                    }
+                }
                 rsp.payload = m2;
             }
             else
@@ -184,9 +194,7 @@ let Network = cc.Class({
         }
         else if (mask == 2)
         {
-            
         }
-           
     },
 
 });
