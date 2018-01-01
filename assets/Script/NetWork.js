@@ -14,7 +14,6 @@ let Network = cc.Class({
 
     ctor() {
         NetTarget = new cc.EventTarget();
-      
     },
     loadProtoFiles(){
       cc.log ("load ProtoFiles");
@@ -33,6 +32,7 @@ let Network = cc.Class({
               cc.log ("protobuf files load completed.");
               self.pbRoot = root;
               cc.log (root);
+              var map2 = new Map();
               var map = new Map();
               map.set("abc",123);
               //------
@@ -40,15 +40,19 @@ let Network = cc.Class({
                       root.GP.Account.Msg_Code.CREATE_ACCOUNT);
               map.set("GP.Account.Guest_Sign_In",
                       root.GP.Account.Msg_Code.GUEST_SIGN_IN);
+              map2.set(root.GP.Msg_Type.MT_ACCOUNT,map);
+
               //------
+              map = new Map();
+
               map.set("GP.Lobby.Create_Room",root.GP.Lobby.Msg_Code.CREATE_ROOM);
               map.set("GP.Lobby.Enten_Room",root.GP.Lobby.Msg_Code.ENTER_ROOM);
               map.set("GP.Lobby.Get_Room_List",root.GP.Lobby.Msg_Code.GET_ROOM_LIST);
               map.set("GP.Lobby.Leave_Room",root.GP.Lobby.Msg_Code.LEAVE_ROOM);
               map.set("GP.Lobby.Apply_Token",root.GP.Lobby.Msg_Code.APPLY_TOKEN);
+              map2.set(root.GP.Msg_Type.MT_LOBBY,map);
               //------
-              map.set("GP.CHAT.Text_Msg",root.GP.Chat.Msg_Code.TEXT_MSG);
-              self.msgMap = map;
+              self.msgMap = map2;
           }
       });
     },
@@ -96,11 +100,10 @@ let Network = cc.Class({
     sendReq:function(appCode,msgType,payload){
         var self = this;
         var root = self.pbRoot;
-        var cmdCode = self.getMsgCmd(msgType);
+        var cmdCode = self.getMsgCmd(appCode,msgType);
         var mask = root.GP.Msg.Msg_Type.PT_REQ;
         var code = (mask << 28) | (appCode << 16) | cmdCode;
         cc.log ("cmd = " , code ,appCode, cmdCode,msgType);
-
         try
         {
             // 第1层 的消息  GP.xxx.Req
@@ -163,18 +166,37 @@ let Network = cc.Class({
     testServerData(data) {
         this.appandeMsg(data);
     },
+    handleReq:function(appCode,cmd,p0){
+        cc.log ("handleReq");
+
+    },
+    handleRsp:function(appCode,cmd,p0){
+        cc.log ("handleRsp");
+    },
     // unpacket layer 1
     unpacketLayer1:function(data){
         var self = this;
+        var root = self.pbRoot;
         var code = data.code;
         var p0 = data.payload;
         var mask = code >> 28;
         var appCode =  (0xFFF << 16 & code) >> 16;
         var cmd = code & 0x0000FFFF;
         cc.log (code,mask,appCode,cmd);
+        switch (mask)
+        {
+            case  root.GP.Msg.Msg_Type.PT_REQ:
+            self.handleReq(appCode,cmd,p0);
+            break;
+            case  root.GP.Msg.Msg_Type.PT_RSP:
+            self.handleRsp(appCode,cmd,p0);
+            break;
+            default:
+            break;
+        }
+
         if (mask == 1)
         {
-            var root = self.pbRoot;
             var t1 = root.lookupType("GP.Msg_Rsp");
             var m1 = t1.decode (p0);
             cc.log('unpacketLayer1 onmessage:' + m1);
@@ -216,13 +238,15 @@ let Network = cc.Class({
         }
     },
 
-    getMsgCmd:function (tag){
+    getMsgCmd:function (codeApp,tag){
         var map = this.msgMap;
-        map.forEach(function(value, key, map) {
+        var map2 = this.msgMap.get(codeApp);
+
+        map2.forEach(function(value, key, map) {
             console.log("Key: %s, Value: %s", key, value);
         });
 
-        var cmd = this.msgMap.get(tag);
+        var cmd = map2.get(tag);
         cc.log (tag + "-->", cmd);
         return cmd;
     }
