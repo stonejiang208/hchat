@@ -36,7 +36,7 @@ cc.Class({
         this.mName = this.editBox.string;
         Network.initNetwork();//连接服务器
     },
-    
+
     // 申请操作的令牌
     applyToken:function()
     {
@@ -44,10 +44,10 @@ cc.Class({
      var root = Network.pbRoot;
      var p = {};
      var code = root.GP.Lobby.Msg_Code.APPLY_TOKEN;
-     var type = "GP.Lobby.Apply_Token.Req";
+     var type = "GP.Lobby.Apply_Token";
      var appCode = root.GP.Msg_Type.MT_LOBBY;
 
-     Network.sendReq(appCode,code,type,p);
+     Network.sendReq(appCode,type,p);
     },
 
     //获取房间列表
@@ -59,15 +59,17 @@ cc.Class({
       p.appCode = 321;
       p.token = 123;
       var code = root.GP.Lobby.Msg_Code.CREATE_ROOM;
-      var type = "GP.Lobby.Create_Room.Req";
+      var type = "GP.Lobby.Create_Room";
       var appCode = root.GP.Msg_Type.MT_LOBBY;
 
-      Network.sendReq(appCode,code,type,p);
+      Network.sendReq(appCode,type,p);
     },
     //获取房间列表
     getRoomList:function()
     {
-     cc.log ("getRoomList");
+        var k = "GP.Lobby.Apply_Token";
+        var cmd = Network.getMsgCmd(k);
+        cc.log (k,"=====>", cmd);
     },
     //发送消息
     send:function() {
@@ -80,10 +82,10 @@ cc.Class({
         var p = {};
         p.msg = this.chatBox.string;
         var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
-        var type = "GP.Chat.Text_Msg.Req";
+        var type = "GP.Chat.Text_Msg";
         var appCode = 0x123;
 
-        Network.sendReq(appCode,code,type,p);
+        Network.sendReq(appCode,type,p);
 
        // Network.send({ f: 'send', msg: this.chatBox.string });
     },
@@ -106,10 +108,10 @@ cc.Class({
         p.password = "mypassword";
         p.sexType = 1;
         var code = root.GP.Account.Msg_Code.CREATE_ACCOUNT;
-        var type = "GP.Account.Create_Account.Req";
+        var type = "GP.Account.Create_Account";
         var appCode = root.GP.Msg_Type.MT_ACCOUNT;
 
-        Network.sendReq(appCode,code,type,p);
+        Network.sendReq(appCode,type,p);
 
        // Network.send({ f: 'login', msg: this.mName });
     },

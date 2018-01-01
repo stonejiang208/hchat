@@ -13,7 +13,8 @@ let Network = cc.Class({
     },
 
     ctor() {
-        NetTarget = new cc.EventTarget();;
+        NetTarget = new cc.EventTarget();
+      
     },
     loadProtoFiles(){
       cc.log ("load ProtoFiles");
@@ -32,6 +33,22 @@ let Network = cc.Class({
               cc.log ("protobuf files load completed.");
               self.pbRoot = root;
               cc.log (root);
+              var map = new Map();
+              map.set("abc",123);
+              //------
+              map.set("GP.Account.Create_Account",
+                      root.GP.Account.Msg_Code.CREATE_ACCOUNT);
+              map.set("GP.Account.Guest_Sign_In",
+                      root.GP.Account.Msg_Code.GUEST_SIGN_IN);
+              //------
+              map.set("GP.Lobby.Create_Room",root.GP.Lobby.Msg_Code.CREATE_ROOM);
+              map.set("GP.Lobby.Enten_Room",root.GP.Lobby.Msg_Code.ENTER_ROOM);
+              map.set("GP.Lobby.Get_Room_List",root.GP.Lobby.Msg_Code.GET_ROOM_LIST);
+              map.set("GP.Lobby.Leave_Room",root.GP.Lobby.Msg_Code.LEAVE_ROOM);
+              map.set("GP.Lobby.Apply_Token",root.GP.Lobby.Msg_Code.APPLY_TOKEN);
+              //------
+              map.set("GP.CHAT.Text_Msg",root.GP.Chat.Msg_Code.TEXT_MSG);
+              self.msgMap = map;
           }
       });
     },
@@ -76,9 +93,10 @@ let Network = cc.Class({
         }
     },
     // 发送请求到服务端
-    sendReq:function(appCode,cmdCode,msgType,payload){
+    sendReq:function(appCode,msgType,payload){
         var self = this;
         var root = self.pbRoot;
+        var cmdCode = self.getMsgCmd(msgType);
         var mask = root.GP.Msg.Msg_Type.PT_REQ;
         var code = (mask << 28) | (appCode << 16) | cmdCode;
         cc.log ("cmd = " , code ,appCode, cmdCode,msgType);
@@ -86,7 +104,8 @@ let Network = cc.Class({
         try
         {
             // 第1层 的消息  GP.xxx.Req
-            var t1 = root.lookupType (msgType);
+            var tag = msgType + ".Req";
+            var t1 = root.lookupType (tag);
             var d1 = t1.create (payload);
             var b1 = t1.encode(d1).finish();
 
@@ -196,6 +215,17 @@ let Network = cc.Class({
         {
         }
     },
+
+    getMsgCmd:function (tag){
+        var map = this.msgMap;
+        map.forEach(function(value, key, map) {
+            console.log("Key: %s, Value: %s", key, value);
+        });
+
+        var cmd = this.msgMap.get(tag);
+        cc.log (tag + "-->", cmd);
+        return cmd;
+    }
 
 });
 
