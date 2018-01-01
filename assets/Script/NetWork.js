@@ -249,6 +249,10 @@ let Network = cc.Class({
         var cmd = map2.get(tag);
         cc.log (tag + "-->", cmd);
         return cmd;
+    },
+    getMsgTag:function(codeApp,cmd){
+        var map = this.msgMap;
+        var map2 = this.msgMap.get(codeApp);
     }
 
 });
