@@ -30,7 +30,7 @@ message Guest_Sign_In
   }
   message Rsp
   {
-    string uid = 1;
+    uint64 uid = 1;
     string name = 2;
     string head_url = 3;
   }

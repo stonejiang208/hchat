@@ -62,8 +62,7 @@ let Network = cc.Class({
             return;
         }
         cc.log('Network initSocket...');
-        let host = "ws://mbp.tao-studio.net:6001";
-       // let host = "ws://47.104.15.140:3000"
+        var host = "ws://qa.tao-studio.net:6001";
         this.socket = new WebSocket(host);
         this.socket.onopen = (evt) => {
             cc.log('Network onopen...');
@@ -221,6 +220,12 @@ let Network = cc.Class({
                     if (cmd == root.GP.Lobby.Msg_Code.APPLY_TOKEN)
                     {
                         var t2 = root.lookupType("GP.Lobby.Apply_Token.Rsp");
+                        m2 = t2.decode (m1.payload);
+                        cc.log (JSON.stringify(m2));
+                    }
+                    else if (cmd == root.GP.Lobby.Msg_Code.GET_ROOM_LIST)
+                    {
+                        var t2 = root.lookupType("GP.Lobby.Get_Room_List.Rsp");
                         m2 = t2.decode (m1.payload);
                         cc.log (JSON.stringify(m2));
                     }

@@ -57,19 +57,23 @@ cc.Class({
       var root = Network.pbRoot;
       var p = {};
       p.appCode = 321;
-      p.token = 123;
-      var code = root.GP.Lobby.Msg_Code.CREATE_ROOM;
+      p.token = 1234567;
       var type = "GP.Lobby.Create_Room";
       var appCode = root.GP.Msg_Type.MT_LOBBY;
-
       Network.sendReq(appCode,type,p);
     },
     //获取房间列表
     getRoomList:function()
     {
-        var k = "GP.Lobby.Apply_Token";
-        var cmd = Network.getMsgCmd(k);
-        cc.log (k,"=====>", cmd);
+        var root = Network.pbRoot;
+
+        var p = {};
+        p.appCode = 321;
+         var type = "GP.Lobby.Get_Room_List";
+         var appCode = root.GP.Msg_Type.MT_LOBBY;
+
+      Network.sendReq(appCode,type,p);
+ 
     },
     //发送消息
     send:function() {
