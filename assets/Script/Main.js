@@ -155,6 +155,9 @@ cc.Class({
                   case root.GP.Lobby.Msg_Code.APPLY_TOKEN:
                   this.onRspReplyToken(rsp.payload);
                   break;
+                  case root.GP.Lobby.Msg_Code.CREATE_ROOM:
+                  this.onRspCreateRoom(rsp.payload);
+                  break;       
                 }
             }
             break;
@@ -304,8 +307,11 @@ cc.Class({
             p = cc.instantiate(prefab);
         }
         return p;
+    },
+    onRspCreateRoom:function(rsp)
+    {
+       cc.log ("onRspCreateRoom:-->" + JSON.stringify(rsp));
     }
-
     // called every frame, uncomment this function to activate update callback
     // update: function (dt) {
 

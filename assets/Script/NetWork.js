@@ -194,7 +194,7 @@ let Network = cc.Class({
             break;
         }
 
-        if (mask == 1)
+        if (mask == root.GP.Msg.Msg_Type.PT_RSP)
         {
             var t1 = root.lookupType("GP.Msg_Rsp");
             var m1 = t1.decode (p0);
@@ -217,18 +217,30 @@ let Network = cc.Class({
                 }
                 else if (appCode == root.GP.Msg_Type.MT_LOBBY)
                 {
-                    if (cmd == root.GP.Lobby.Msg_Code.APPLY_TOKEN)
+                    var msg_type = "";
+                    switch (cmd)
                     {
-                        var t2 = root.lookupType("GP.Lobby.Apply_Token.Rsp");
-                        m2 = t2.decode (m1.payload);
-                        cc.log (JSON.stringify(m2));
+                        case root.GP.Lobby.Msg_Code.CREATE_ROOM:
+                        msg_type = "GP.Lobby.Create_Room.Rsp";
+                        break;
+                        case root.GP.Lobby.Msg_Code.APPLY_TOKEN:
+                        msg_type = "GP.Lobby.Apply_Token.Rsp";
+                        break;
+                        case root.GP.Lobby.Msg_Code.GET_ROOM_LIST:
+                        msg_type = "GP.Lobby.Get_Room_List.Rsp";
+                        break;
+                        case root.GP.Lobby.Msg_Code.ENTER_ROOM:
+                        msg_type = "GP.Lobby.Enter_Room.Rsp";
+                        break;
+                        case root.GP.Lobby.Msg_Code.LEAVE_ROOM:
+                        msg_type = "GP.Lobby.Leave_Room.Rsp";
+                        break;
                     }
-                    else if (cmd == root.GP.Lobby.Msg_Code.GET_ROOM_LIST)
+                    if (msg_type != "")
                     {
-                        var t2 = root.lookupType("GP.Lobby.Get_Room_List.Rsp");
-                        m2 = t2.decode (m1.payload);
-                        cc.log (JSON.stringify(m2));
-                    }
+                        var t2 = root.lookupType (msg_type);
+                        m2 = t2.decode(m1.payload);
+                    }  
                 }
                 rsp.payload = m2;
             }

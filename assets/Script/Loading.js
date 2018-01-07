@@ -16,8 +16,11 @@ cc.Class({
 
     start:function () {
         cc.log ("Loading: start()");
-        cc.director.loadScene("ServerList");
+        //cc.director.loadScene("ServerList");
     },
+    login:function () {
+        cc.director.loadScene("gameHall");
+    }
 
     // update (dt) {},
 });
