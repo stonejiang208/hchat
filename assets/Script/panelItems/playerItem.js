@@ -13,15 +13,20 @@ cc.Class({
 
     properties: {
         userId:0,
-        userName:'',
-        userLevel:1,
-        userVip:0
+        userName:cc.Label,
+        userLevel:cc.Label,
+        userVip:cc.Label,
+        headIcon:cc.Sprite,
+        headBg:cc.Sprite
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        
+        var userInfo = {userId:123,userName:"最多6个字",userLevel:1};
+        this.userId = userInfo.userId;
+        this.userName.string = userInfo.userName;
+        this.userLevel.string = userInfo.userLevel;
     },
 
     start () {

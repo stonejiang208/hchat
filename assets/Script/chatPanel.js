@@ -12,25 +12,20 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        playerItem :cc.Prefab,
-        chatMsgContent :cc.RichText
+        editBox:cc.EditBox
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        var playerNode = cc.find('head',this.node);
-        playerNode.addChild(cc.instantiate(this.playerItem));
-
-    },
-
-    setChatMsg:function (msg) {
-        this.chatMsgContent.strig =  msg;
-    },
+    // onLoad () {},
 
     start () {
 
     },
 
+    chatSendClick:function () {
+        var msgStr = this.editBox.string ;
+
+    }
     // update (dt) {},
 });

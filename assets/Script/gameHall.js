@@ -13,6 +13,7 @@ cc.Class({
 
     properties: {
         pageContent:cc.Node,
+        chatItem :cc.Prefab
     },
 
     // LIFE-CYCLE CALLBACKS:
@@ -34,7 +35,7 @@ cc.Class({
     },
 
     regislister:function () {
-
+        cc.game.on('onChatMsg',this.refreshChatList);
     },
 
     initMsgList:function () {
@@ -47,7 +48,8 @@ cc.Class({
     },
 
     initChatList:function () {
-        var friendNode = cc.find('chatNode',this.pageContent);
+        var chatNode = cc.find('chatNode',this.pageContent);
+        var chatScollViewContent = cc.find('content',chatNode);
     },
 
     /**
@@ -69,6 +71,10 @@ cc.Class({
                 this.pageContent.children[i].active = false;
             }
         }
+
+    },
+
+    refreshChatList:function () {
 
     }
 
