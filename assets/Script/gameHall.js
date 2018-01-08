@@ -12,51 +12,81 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
+        layers:{
+            default: [],
+            type:cc.Node
+        },
         pageContent:cc.Node,
-        chatItem :cc.Prefab
+
+        msgContent:cc.Node,  //msg about
+        friendContent:cc.Node,  //firend about
+        chatContent:cc.Node,  //chat about
+        chatRoomItem :cc.Prefab //chatRoomItem
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
+    onLoad :function() {
         this.initUI();
-        this.regislister();
+        this.registerlister();
         this.refreshUI();
     },
 
-    start () {
+    start :function() {
 
     },
 
+    onDestry:function () {
+
+    },
     initUI:function () {
         this.initMsgList();
         this.initFriendList();
         this.initChatList();
     },
 
-    regislister:function () {
+    registerlister:function () {
         cc.game.on('onChatMsg',this.refreshChatList);
     },
 
     initMsgList:function () {
-        var msgNode = cc.find('msgNode',this.pageContent);
-
     },
 
     initFriendList:function () {
-        var friendNode = cc.find('friendNode',this.pageContent);
     },
 
     initChatList:function () {
-        var chatNode = cc.find('chatNode',this.pageContent);
-        var chatScollViewContent = cc.find('content',chatNode);
+
+        var chatRoomData = [
+            {roomid:1},
+            {roomid:2},
+            {roomid:3}
+        ]
+        //init chat 1 同城
+        var chatScollViewContent1 = cc.find('chat1/chatScollView1/view/content',this.chatContent);
+            for (var i = 0; i<chatRoomData.length; i++) {
+                var chatRoomNode = cc.instantiate(this.chatRoomItem);
+                chatRoomNode.getComponent('chatRoomItem').setRoomid(chatRoomData[i].roomid);
+                chatRoomNode.name = 'chatRoom' + i;
+                chatRoomNode.on(cc.Node.EventType.TOUCH_END,this.enterChatRoom,this);
+                var width = chatRoomNode.getContentSize().width;
+                var height = chatRoomNode.getContentSize().height;
+                chatRoomNode.x = -360 + (i%2 == 0 ? 0 : width);
+                chatRoomNode.y = -95 - (Math.floor(i/2)== 0 ? 0 : height*i/2);
+                chatScollViewContent1.addChild(chatRoomNode);
+            }
+        //init chat 2 家族
+        var chatScollViewContent2 = cc.find('chat2/chatScollView2/view/content',this.chatContent);
+
+        //init chat 3 娱乐
+        var chatScollViewContent3 = cc.find('chat3/chatScollView3/view/content',this.chatContent);
     },
 
     /**
      * 刷新ui
      */
-    refreshUI:function (data) {
-
+    refreshUI:function () {
+        this.selecteHallPage();
     },
 
     /**
@@ -64,18 +94,23 @@ cc.Class({
      */
     selecteHallPage:function (eve,data) {
         cc.log('pageViewIndex:'+data);
-        for (var i = 0;i<this.pageContent.childrenCount;i++) {
+        data = data||0;
+        for (var i = 0;i<this.layers.length;i++) {
             if (data == i) {
-                this.pageContent.children[i].active = true;
+                this.layers[i].active = true;
             }else {
-                this.pageContent.children[i].active = false;
+                this.layers[i].active = false;
             }
         }
-
     },
 
     refreshChatList:function () {
 
+    },
+    //进入指定聊天房间
+    enterChatRoom: function (eve,data) {
+        cc.log('roomid :'+eve.target.name);
+        cc.director.loadScene('chatRoom');
     }
 
 

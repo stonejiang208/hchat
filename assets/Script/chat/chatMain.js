@@ -11,7 +11,12 @@ cc.Class({
     },
 
     onLoad:function() {
+
     },
+
+    backHallClick:function () {
+        cc.director.loadScene('gameHall');
+    }
 
 
 
