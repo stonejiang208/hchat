@@ -19,13 +19,20 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        var playerNode = cc.find('head',this.node);
-        playerNode.addChild(cc.instantiate(this.playerItem));
-
+        //this.playerNode = cc.find('head',this.node);
+        //this.playerNode.addChild(cc.instantiate(this.playerItem));
     },
 
     setChatMsg:function (msg) {
         this.chatMsgContent.strig =  msg;
+    },
+
+    setPlayerInfo:function (playerData) {
+        this.playerNode = cc.find('head',this.node);
+        var playerItem = cc.instantiate(this.playerItem);
+        playerItem.getComponent('playerItem').setPlayerInfo(playerData);
+        this.playerNode.addChild(playerItem);
+
     },
 
     start () {

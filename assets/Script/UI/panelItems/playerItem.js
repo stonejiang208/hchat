@@ -23,15 +23,14 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        var userInfo = {userId:123,userName:"最多6个字",userLevel:1};
+
+    },
+
+    setPlayerInfo : function (userInfo) {
         this.userId = userInfo.userId;
         this.userName.string = userInfo.userName;
-        this.userLevel.string = userInfo.userLevel;
-    },
-
-    start () {
-
-    },
+        this.userLevel.string = 'Lv.'+userInfo.userLevel;
+    }
 
     // update (dt) {},
 });

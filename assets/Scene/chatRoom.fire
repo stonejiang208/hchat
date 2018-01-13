@@ -65,17 +65,17 @@
         "__id__": 27
       },
       {
-        "__id__": 31
+        "__id__": 32
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 34
       },
       {
-        "__id__": 34
+        "__id__": 35
       }
     ],
     "_prefab": null,
@@ -461,7 +461,7 @@
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 1
+      "y": 0.5
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -475,7 +475,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 545
+      "y": 2
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -953,7 +953,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": -261,
-      "y": 33
+      "y": 20
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1019,7 +1019,11 @@
     "hoverSprite": {
       "__uuid__": "e7f4fb2f-c3cc-4a86-8cf1-0fa67304d571"
     },
-    "clickEvents": [],
+    "clickEvents": [
+      {
+        "__id__": 31
+      }
+    ],
     "_N$interactable": true,
     "_N$enableAutoGrayEffect": false,
     "_N$normalColor": {
@@ -1047,6 +1051,15 @@
     }
   },
   {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 2
+    },
+    "component": "chatMain",
+    "handler": "sendChatClick",
+    "customEventData": ""
+  },
+  {
     "__type__": "cc.Node",
     "_name": "chatEditBox",
     "_objFlags": 0,
@@ -1058,7 +1071,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_prefab": null,
@@ -1088,8 +1101,8 @@
     "_scaleY": 1,
     "_position": {
       "__type__": "cc.Vec2",
-      "x": -67,
-      "y": -584
+      "x": -8.5,
+      "y": -593.3
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1103,7 +1116,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 31
+      "__id__": 32
     },
     "_enabled": true,
     "_useOriginalSize": false,
@@ -1153,7 +1166,7 @@
       "width": 720,
       "height": 1280
     },
-    "_fitWidth": false,
+    "_fitWidth": true,
     "_fitHeight": true
   },
   {
@@ -1164,7 +1177,14 @@
       "__id__": 2
     },
     "_enabled": true,
-    "scrollViewConent": null,
-    "serverItem": null
+    "scrollViewConent": {
+      "__id__": 11
+    },
+    "chatEditBox": {
+      "__id__": 33
+    },
+    "chatItemPre": {
+      "__uuid__": "13681ba0-0b87-4482-8469-7b98923f7af6"
+    }
   }
 ]

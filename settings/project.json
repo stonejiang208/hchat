@@ -8,7 +8,7 @@
   "design-resolution-width": 720,
   "excluded-modules": [],
   "fit-height": true,
-  "fit-width": false,
+  "fit-width": true,
   "group-list": [
     "default"
   ],

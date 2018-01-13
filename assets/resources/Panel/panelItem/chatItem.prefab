@@ -43,13 +43,13 @@
     "_cascadeOpacityEnabled": true,
     "_anchorPoint": {
       "__type__": "cc.Vec2",
-      "x": 0.5,
+      "x": 0,
       "y": 0.5
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 0,
-      "height": 0
+      "width": 360,
+      "height": 150
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -196,8 +196,7 @@
     "_N$font": null,
     "_N$maxWidth": 0,
     "_N$lineHeight": 40,
-    "_N$imageAtlas": null,
-    "_N$handleTouchEvent": true
+    "_N$imageAtlas": null
   },
   {
     "__type__": "cc.PrefabInfo",
