@@ -52,7 +52,15 @@ let Network = cc.Class({
             }
             else if (appCode == 0xFF1) // Lobby
             {
-
+                if (mask == 1)
+                {
+                    //create account
+                    var rsp = {};
+                    rsp.code = code;
+                    rsp.result = msg.header.result;
+                    rsp.body = msg.body;
+                    NetTarget.emit("lobby.rsp",rsp);
+                }
             }
             else if (appCode < 0xFF0)
             {
