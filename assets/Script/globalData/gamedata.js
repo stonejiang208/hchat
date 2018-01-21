@@ -3,15 +3,14 @@ GameData.init = function () {
     GameData.client = {
         appCode:0,
 
-    }
-    GameData.game = {
-
-    }
-    GameData.room = {
-        
-    }
+    };
+    GameData.playerInfo = {};
+    GameData.game = {};
+    GameData.room = {};
 };
-//txxy
+
+//注册事件
 GameData.registerAll ={
 
 }
+

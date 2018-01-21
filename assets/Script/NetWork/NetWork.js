@@ -1,9 +1,9 @@
 
-var pb = require ("protobufjs");
+var pb = {}
 
 var WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
 window.NetTarget = null;
-
+var login = require('login');
 let instance = null;
 
 let Network = cc.Class({
@@ -15,54 +15,13 @@ let Network = cc.Class({
     ctor() {
         NetTarget = new cc.EventTarget();
     },
-    loadProtoFiles(){
-      cc.log ("load ProtoFiles");
-      var self = this;
-      self.pbRoot = {};
-      var fullPath = cc.url.raw("resources/pb/GP_All.proto");
-      cc.log ("full path is", fullPath);
-      pb.load (fullPath,function(err,root){
-          if (err)
-          {
-              cc.log (err);
-              throw err;
-          }
-          else
-          {
-              cc.log ("protobuf files load completed.");
-              self.pbRoot = root;
-              cc.log (root);
-              var map2 = new Map();
-              var map = new Map();
-              map.set("abc",123);
-              //------
-              map.set("GP.Account.Create_Account",
-                      root.GP.Account.Msg_Code.CREATE_ACCOUNT);
-              map.set("GP.Account.Guest_Sign_In",
-                      root.GP.Account.Msg_Code.GUEST_SIGN_IN);
-              map2.set(root.GP.Msg_Type.MT_ACCOUNT,map);
-
-              //------
-              map = new Map();
-
-              map.set("GP.Lobby.Create_Room",root.GP.Lobby.Msg_Code.CREATE_ROOM);
-              map.set("GP.Lobby.Enten_Room",root.GP.Lobby.Msg_Code.ENTER_ROOM);
-              map.set("GP.Lobby.Get_Room_List",root.GP.Lobby.Msg_Code.GET_ROOM_LIST);
-              map.set("GP.Lobby.Leave_Room",root.GP.Lobby.Msg_Code.LEAVE_ROOM);
-              map.set("GP.Lobby.Apply_Token",root.GP.Lobby.Msg_Code.APPLY_TOKEN);
-              map2.set(root.GP.Msg_Type.MT_LOBBY,map);
-              //------
-              self.msgMap = map2;
-          }
-      });
-    },
     initNetwork() {
         if (this.isInit) {
             cc.log('Network is already inited...');
             return;
         }
         cc.log('Network initSocket...');
-        var host = "ws://qa.tao-studio.net:6001";
+        var host = config.severIp;
         this.socket = new WebSocket(host);
         this.socket.onopen = (evt) => {
             cc.log('Network onopen...');
@@ -72,17 +31,29 @@ let Network = cc.Class({
 
         this.socket.onmessage = (evt) => {
             var self = this;
-            var reader = new FileReader();
-            reader.readAsArrayBuffer(evt.data);
-
-            reader.onload = function (e) {
-                var buf = new Uint8Array(reader.result);
-                var root = self.pbRoot;
-                var t1 = root.lookupType("GP.Msg");
-                var m1 = t1.decode (buf);
-                cc.log('Network onmessage:' + m1);
-                self.unpacketLayer1(m1);
+            cc.log (evt);
+            var msg = JSON.parse (evt.data);
+            var code = msg.header.code;
+            var mask = code >> 28;
+            var appCode = (0x0FFFFFFF&code)>>16;
+            var cmd = code & 0x0000FFFF;
+            cc.log (mask,appCode,cmd);
+            if (appCode == 0xFF0)  // Account
+            {
+                if (cmd == 1 && mask == 1)
+                {
+                    //create account
+                }
             }
+            else if (appCode == 0xFF1) // Lobby
+            {
+
+            }
+            else if (appCode < 0xFF0)
+            {
+
+            }
+
         }
 
         this.socket.onerror = (evt) => {
@@ -96,40 +67,16 @@ let Network = cc.Class({
         }
     },
     // 发送请求到服务端
-    sendReq:function(appCode,msgType,payload){
+    sendReq:function(appCode,cmd,body){
         var self = this;
-        var root = self.pbRoot;
-        var cmdCode = self.getMsgCmd(appCode,msgType);
-        var mask = root.GP.Msg.Msg_Type.PT_REQ;
-        var code = (mask << 28) | (appCode << 16) | cmdCode;
-        cc.log ("cmd = " , code ,appCode, cmdCode,msgType);
-        try
-        {
-            // 第1层 的消息  GP.xxx.Req
-            var tag = msgType + ".Req";
-            var t1 = root.lookupType (tag);
-            var d1 = t1.create (payload);
-            var b1 = t1.encode(d1).finish();
-
-            // 第2层
-            var t2= root.lookupType ("GP.Msg_Req");
-            var p2 = {};
-            p2.payload = b1;
-            var d2 = t2.create (p2);
-            var b2 = t2.encode(d2).finish();
-
-            // 第3层
-            var t3= root.lookupType ("GP.Msg");
-            var p3 = {};
-            p3.code = code;
-            p3.payload = b2;
-            var d3 = t3.create (p3);
-            var b3 = t3.encode(d3).finish();
-            self.sendRaw (b3);
-        }
-        catch (e) {
-                cc.log(e);
-            }
+        var msg = {}
+        var header ={}
+        header["code"] = appCode<<16|cmd;
+        msg["body"] = body;
+        msg["header"] = header;
+        var str = JSON.stringify(msg);
+        cc.log ("send msg :", str);
+        self.sendRaw(str);
         },
     // send pf
     sendRaw:function(msg) {

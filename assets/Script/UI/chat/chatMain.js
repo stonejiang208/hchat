@@ -8,7 +8,8 @@ cc.Class({
     properties: {
         scrollViewConent:cc.Node,
         chatEditBox:cc.EditBox,
-        chatItemPre:cc.Prefab
+        chatItemPre:cc.Prefab,
+        chatScrollView:cc.ScrollView
     },
 
     onLoad:function() {
@@ -31,16 +32,20 @@ cc.Class({
         this._chatMsgIndex ++ ;
         if (this._chatPool.size() <= 0) {
             chatItem = cc.instantiate(this.chatItemPre);
-            var userInfo = {userId:123,userName:"最多6个字",userLevel:1};
+            var userInfo = {userId:123,userName:"最多6个字",userLevel:this._chatMsgIndex};
             var height = chatItem.getContentSize().height;
             chatItem.getComponent('chatItem').setPlayerInfo(userInfo);
             chatItem.getComponent('chatItem').setChatMsg(str);
             chatItem.x = -300;
-            chatItem.y = -459 + this._chatMsgIndex * height;
+            chatItem.y =  height/2 - this._chatMsgIndex * height;
         }
         this.scrollViewConent.addChild(chatItem);
         var height = chatItem.getContentSize().height;
         this.scrollViewConent.height = this.scrollViewConent.children.length * height;
+        if (this.scrollViewConent.height > this.scrollViewConent.parent.height) {
+            this.chatScrollView.scrollToBottom(0.1);
+        }
+
         //检测信息是否超过定义条数量
         let max = 15;
         let length = this.scrollViewConent.children.length;

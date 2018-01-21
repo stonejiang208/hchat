@@ -45,7 +45,7 @@
     "_globalZOrder": 0,
     "_opacityModifyRGB": false,
     "groupIndex": 0,
-    "autoReleaseAssets": false
+    "autoReleaseAssets": null
   },
   {
     "__type__": "cc.Node",
@@ -461,7 +461,7 @@
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 1
     },
     "_contentSize": {
       "__type__": "cc.Size",
@@ -475,7 +475,7 @@
     "_position": {
       "__type__": "cc.Vec2",
       "x": 0,
-      "y": 2
+      "y": 552
     },
     "_skewX": 0,
     "_skewY": 0,
@@ -1185,6 +1185,9 @@
     },
     "chatItemPre": {
       "__uuid__": "13681ba0-0b87-4482-8469-7b98923f7af6"
+    },
+    "chatScrollView": {
+      "__id__": 10
     }
   }
 ]

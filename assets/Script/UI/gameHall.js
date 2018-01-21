@@ -75,6 +75,7 @@ cc.Class({
                 chatRoomNode.y = -95 - (Math.floor(i/2)== 0 ? 0 : height*i/2);
                 chatScollViewContent1.addChild(chatRoomNode);
             }
+        chatScollViewContent1.height = Math.ceil(chatScollViewContent1.childrenCount/2) * chatScollViewContent1.children[0].height;
         //init chat 2 家族
         var chatScollViewContent2 = cc.find('chat2/chatScollView2/view/content',this.chatContent);
 

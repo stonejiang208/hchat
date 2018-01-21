@@ -1,26 +1,26 @@
-
 cc.Class({
     extends: cc.Component,
 
     properties: {
+        // foo: {
+        //    default: null,      // The default value will be used only when the component attaching
+        //                           to a node for the first time
+        //    url: cc.Texture2D,  // optional, default is typeof default
+        //    serializable: true, // optional, default is true
+        //    visible: true,      // optional, default is true
+        //    displayName: 'Foo', // optional
+        //    readonly: false,    // optional, default is false
+        // },
+        // ...
     },
 
-    // LIFE-CYCLE CALLBACKS:
+    // use this for initialization
+    onLoad: function () {
 
-    onLoad:function() {
-        cc.log ("Loading: onLoad()");
-        cc.director.preloadScene("ServerList", function () {
-            cc.log("Next scene preloaded");
-        });
     },
 
-    start:function () {
-        cc.log ("Loading: start()");
-        //cc.director.loadScene("ServerList");
+    // called every frame, uncomment this function to activate update callback
+    update: function (dt) {
+        this.node.rotation += 2;
     },
-    login:function () {
-        cc.director.loadScene("gameHall");
-    }
-
-    // update (dt) {},
 });
