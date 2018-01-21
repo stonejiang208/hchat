@@ -73,9 +73,6 @@
       },
       {
         "__id__": 11
-      },
-      {
-        "__id__": 12
       }
     ],
     "_prefab": null,
@@ -386,15 +383,6 @@
     "_isAbsVerticalCenter": true,
     "_originalWidth": 960,
     "_originalHeight": 640
-  },
-  {
-    "__type__": "2615cBLwP5BBZx1lZ1n22cg",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true
   },
   {
     "__type__": "2615cBLwP5BBZx1lZ1n22cg",
