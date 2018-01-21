@@ -40,7 +40,7 @@ cc.Class({
         p.password = "mypassword";
         p.sex_type= 1;
         var cmd = 1;
-        var appCode = 0xFF0;
+        var appCode = 0xFF0; // account  is 0xff0
 
         Network.sendReq(appCode,cmd,p);
 
@@ -68,6 +68,7 @@ cc.Class({
             var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
 
             cc.log (JSON.stringify(userInfo));
+            cc.director.loadScene("Lobby");
         }
 
     },
