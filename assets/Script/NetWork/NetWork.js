@@ -40,9 +40,14 @@ let Network = cc.Class({
             cc.log (mask,appCode,cmd);
             if (appCode == 0xFF0)  // Account
             {
-                if (cmd == 1 && mask == 1)
+                if (mask == 1)
                 {
                     //create account
+                    var rsp = {};
+                    rsp.code = code;
+                    rsp.result = msg.header.result;
+                    rsp.body = msg.body;
+                    NetTarget.emit("account.rsp",rsp);
                 }
             }
             else if (appCode == 0xFF1) // Lobby

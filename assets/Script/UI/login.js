@@ -45,6 +45,32 @@ cc.Class({
         Network.sendReq(appCode,cmd,p);
 
     },
+
+    getAccountRspData:function(event) {
+        this._super(event);   
+        var msg = event.detail;
+        cc.log ("account rsp:", JSON.stringify(msg));
+        var code = msg.code;
+        var result = msg.result;
+        if (result != 0)
+        {
+            // error
+            return;
+        }
+        var cmd = code & 0x0000FFFF;
+        if (cmd == 1)
+        {
+            var userInfoJS = JSON.stringify(msg.body);
+
+            cc.sys.localStorage.setItem('userInfo',userInfoJS);
+            cc.log ("create account ok");
+
+            var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
+
+            cc.log (JSON.stringify(userInfo));
+        }
+
+    },
     /**
      * 获取服务端响应
      */

@@ -13,6 +13,7 @@ let NetworkComponent = cc.Class({
         NetTarget.on('netstart', this.netStart.bind(this));
         NetTarget.on('netclose', this.netClose.bind(this));
         NetTarget.on('rsp', this.getRspData.bind(this));
+        NetTarget.on('account.rsp', this.getAccountRspData.bind(this));
     },
 
     onDisable() {
@@ -28,12 +29,20 @@ let NetworkComponent = cc.Class({
         cc.log("append");
     },
 
-        /**
+    /**
      * 获取服务端响应
      */
     getRspData: function (event) {
         cc.log("append");
     },
+
+    /**
+     * 获取服务端帐号系统的响应
+     */
+    getAccountRspData: function (event) {
+        cc.log("getAccountRspData");
+    },
+
 
     /**
      * 网络连接开始
