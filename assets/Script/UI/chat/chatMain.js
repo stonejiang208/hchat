@@ -12,7 +12,14 @@ cc.Class({
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
     },
-
+    onEnable() {
+        this._super();   
+        NetTarget.on('chat', this.on_msg.bind(this));
+    },
+    onDisable() {
+        this._super();   
+        NetTarget.off('chat', this.on_msg.bind(this));
+    },
     onLoad:function() {
         this._chatPool = new cc.NodePool();
         this._chatMsgIndex = 0;
@@ -28,14 +35,21 @@ cc.Class({
         var str = this.chatEditBox.string;
         cc.log('聊天内容:'+str);
 
-        this.createChatMsg(str);
+        var b = {};
+        b.msg = str;
+        var cmd = 1;  // get room list
+        var appCode = 321; // account  is 0xff0
+        Network.sendReq(appCode,cmd,b);
+       
+
+       // this.createChatMsg(str);
     },
-    createChatMsg:function (str) {
+    createChatMsg:function (uid,str) {
         var chatItem = this._chatPool.get();
         this._chatMsgIndex ++ ;
         if (this._chatPool.size() <= 0) {
             chatItem = cc.instantiate(this.chatItemPre);
-            var userInfo = {userId:123,userName:"最多6个字",userLevel:this._chatMsgIndex};
+            var userInfo= {userId:uid,userName:"最多6个字",userLevel:this._chatMsgIndex};
             var height = chatItem.getContentSize().height;
             chatItem.getComponent('chatItem').setPlayerInfo(userInfo);
             chatItem.getComponent('chatItem').setChatMsg(str);
@@ -58,5 +72,26 @@ cc.Class({
                 this._chatPool.put(this.scrollViewConent.children[i]);
             }
         }
-    }
+    },
+    on_msg:function(event){
+        var msg = event.detail;
+        cc.log (JSON.stringify(msg));
+        var code = msg.header.code;
+        var mask = code >> 28;
+        var appCode = (0x0FFFFFFF&code)>>16;
+        var cmd = code & 0x0000FFFF;
+        cc.log (mask,appCode,cmd);
+        if ( mask == 4)
+        {
+            cc.log ("msg has been  to target");
+        }
+        else if (mask == 2)
+        {
+            var uid = msg.header.uid;
+            var txt = msg.body.msg;
+            cc.log (uid  + " say:" +txt);    
+          this.createChatMsg (uid,txt);
+        }
+
+    }   
 });

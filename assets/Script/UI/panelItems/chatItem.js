@@ -24,7 +24,7 @@ cc.Class({
     },
 
     setChatMsg:function (msg) {
-        this.chatMsgContent.strig =  msg;
+        this.chatMsgContent.string =  msg;
     },
 
     setPlayerInfo:function (playerData) {

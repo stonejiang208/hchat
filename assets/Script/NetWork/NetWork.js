@@ -37,7 +37,7 @@ let Network = cc.Class({
             var mask = code >> 28;
             var appCode = (0x0FFFFFFF&code)>>16;
             var cmd = code & 0x0000FFFF;
-            cc.log (mask,appCode,cmd);
+           
             if (appCode == 0xFF0)  // Account
             {
                 if (mask == 1)
@@ -64,7 +64,7 @@ let Network = cc.Class({
             }
             else if (appCode < 0xFF0)
             {
-
+                NetTarget.emit("chat",msg);
             }
 
         }

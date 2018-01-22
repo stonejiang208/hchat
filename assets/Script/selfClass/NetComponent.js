@@ -64,4 +64,7 @@ let NetworkComponent = cc.Class({
     netClose: function (event) {
         cc.log("net close");
     },
+    on_msg:function(msg){
+        cc.log("on_msg");
+    }
 });
