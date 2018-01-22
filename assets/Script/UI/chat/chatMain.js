@@ -3,18 +3,21 @@
  */
 
 cc.Class({
-    extends: cc.Component,
+    extends: require('NetComponent'),
 
     properties: {
         scrollViewConent:cc.Node,
         chatEditBox:cc.EditBox,
         chatItemPre:cc.Prefab,
-        chatScrollView:cc.ScrollView
+        chatScrollView:cc.ScrollView,
+        roomIdLB: cc.Label,   //房间号
     },
 
     onLoad:function() {
         this._chatPool = new cc.NodePool();
         this._chatMsgIndex = 0;
+        var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
+        this.roomIdLB.string = "房间编号: "+ room_id;
     },
 
     backHallClick:function () {
