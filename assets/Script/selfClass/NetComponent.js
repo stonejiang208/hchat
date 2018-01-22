@@ -14,7 +14,7 @@ let NetworkComponent = cc.Class({
         NetTarget.on('netclose', this.netClose.bind(this));
         NetTarget.on('rsp', this.getRspData.bind(this));
         NetTarget.on('account.rsp', this.getAccountRspData.bind(this));
-        NetTarget.on('lobby.rsp', this.getAccountRspData.bind(this));
+        NetTarget.on('lobby.rsp', this.getLobbyRspData.bind(this));
     },
 
     onDisable() {

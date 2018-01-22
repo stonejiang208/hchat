@@ -53,6 +53,9 @@ cc.Class({
     onBtnChangeUserInfo:function(){
         cc.log("onBtnChangeUserInfo");
     },
+    onBtnDisbandRoom:function(){
+        cc.log("onBtnDisbandRoom");
+    },
      /**
      * 获取服务端大厅系统的响应
      */
@@ -72,9 +75,15 @@ cc.Class({
         switch (cmd)
         {
             case 1:
+            this.on_create_room (msg.body);
             break;
         }
     },
-
+    on_create_room :function(body)
+    {
+        cc.log ("on create_room",JSON.stringify(body));
+        cc.sys.localStorage.setItem('room_id',body.room_id);
+        cc.director.loadScene("chatRoom");
+    }
     // update (dt) {},
 });
