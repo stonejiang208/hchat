@@ -12,7 +12,7 @@ cc.Class({
         cc.director.preloadScene("ServerList", function () {
             cc.log("Next scene preloaded");
         });
-        openView('Loading');
+       // openView('Loading');
     },
 
     start:function () {
@@ -31,7 +31,7 @@ cc.Class({
     },
     netStart:function(event) {
         this._super(event);
-        closeView('Loading');
+       // closeView('Loading');
         GameData.init();
         cc.log ("Loading: net start()");
         var p = {};
