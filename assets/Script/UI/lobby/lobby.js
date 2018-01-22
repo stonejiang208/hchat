@@ -53,7 +53,7 @@ cc.Class({
     onBtnChangeUserInfo:function(){
         cc.log("onBtnChangeUserInfo");
     },
-        /**
+     /**
      * 获取服务端大厅系统的响应
      */
     getLobbyRspData: function (event) {
