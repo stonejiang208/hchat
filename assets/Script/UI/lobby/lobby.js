@@ -24,13 +24,19 @@ cc.Class({
         var cmd = 3;  // get room list
         var appCode = 0xFF1; // account  is 0xff0
         Network.sendReq(appCode,cmd,b);
-
-    },
-    onBtnRoomInfo:function(){
-        cc.log("onBtnRoomInfo");
     },
     onBtnCreateRoom:function(){
         cc.log("onBtnCreateRoom");
+        var b = {};
+        b.app_code = 321;
+        b.token = 12345678;
+        var cmd = 1;  // create room
+        var appCode = 0xFF1; // account  is 0xff0
+        Network.sendReq(appCode,cmd,b);
+    },
+    onBtnRoomInfo:function(){
+        cc.log("onBtnRoomInfo");
+
     },
     onBtnEnterRoom:function(){
         cc.log("onBtnEnterRoom");
