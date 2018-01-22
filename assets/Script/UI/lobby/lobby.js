@@ -23,7 +23,7 @@ cc.Class({
         b.app_code = 321;
         var cmd = 3;  // get room list
         var appCode = 0xFF1; // account  is 0xff0
-        Network.sendReq(appCode,cmd,p);
+        Network.sendReq(appCode,cmd,b);
 
     },
     onBtnRoomInfo:function(){
