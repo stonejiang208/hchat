@@ -17,7 +17,7 @@ cc.Class({
 
     start:function () {
         cc.log ("Loading: start()");
-
+        GameData.init();
         Network.initNetwork();//连接服务器
     },
     login:function () {
@@ -31,18 +31,26 @@ cc.Class({
     },
     netStart:function(event) {
         this._super(event);
-       // closeView('Loading');
-        GameData.init();
-        cc.log ("Loading: net start()");
-        var p = {};
-        p.name = '122';
-        p.head_url = "http://header1.xxx.xxx";
-        p.password = "mypassword";
-        p.sex_type= 1;
-        var cmd = 1;
-        var appCode = 0xFF0; // account  is 0xff0
+        // closeView('Loading');
+        var userInfo = cc.sys.localStorage.getItem('userInfo');
 
-        Network.sendReq(appCode,cmd,p);
+        if (userInfo) {
+            cc.log (JSON.stringify(userInfo));
+
+            var p = {};
+            p.name = userInfo.name;
+            p.uid = userInfo.uid;
+            p.head_url = "default";
+            p.password = "nopassword";
+            p.sex_type= 1;
+            var cmd = 2;
+            var appCode = 0xFF0; // account  is 0xff0
+
+            Network.sendReq(appCode,cmd,p);
+            //cc.director.loadScene("gameHall");
+        }else {
+            cc.director.loadScene("regist");
+        }
 
     },
 
