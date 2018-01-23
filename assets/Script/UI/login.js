@@ -26,14 +26,14 @@ cc.Class({
         if (userInfo) {
             cc.director.loadScene("gameHall");
         }else {
-            cc.director.loadScene("regist");
+            cc.director.loadScene("registPlayer");
         }
     },
     netStart:function(event) {
         this._super(event);
         // closeView('Loading');
-        var userInfo = cc.sys.localStorage.getItem('userInfo');
-
+        var tmp = cc.sys.localStorage.getItem('userInfo');
+        var userInfo = JSON.parse(tmp);
         if (userInfo) {
             cc.log (JSON.stringify(userInfo));
 
@@ -41,7 +41,7 @@ cc.Class({
             p.name = userInfo.name;
             p.uid = userInfo.uid;
             p.head_url = "default";
-            p.password = "nopassword";
+            p.password = "";
             p.sex_type= 1;
             var cmd = 2;
             var appCode = 0xFF0; // account  is 0xff0
@@ -49,7 +49,7 @@ cc.Class({
             Network.sendReq(appCode,cmd,p);
             //cc.director.loadScene("gameHall");
         }else {
-            cc.director.loadScene("regist");
+            cc.director.loadScene("registPlayer");
         }
 
     },
@@ -60,12 +60,15 @@ cc.Class({
         cc.log ("account rsp:", JSON.stringify(msg));
         var code = msg.code;
         var result = msg.result;
+        var cmd = code & 0x0000FFFF;
         if (result != 0)
         {
             // error
+            cc.log ("rsp error:", cmd,result);
+            cc.sys.localStorage.removeItem('userInfo');
             return;
         }
-        var cmd = code & 0x0000FFFF;
+     
         if (cmd == 1)
         {
             var userInfoJS = JSON.stringify(msg.body);
@@ -76,6 +79,13 @@ cc.Class({
             var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
 
             cc.log (JSON.stringify(userInfo));
+            cc.director.loadScene("Lobby");
+        }
+        else if (cmd == 2)
+        {
+            var userInfoJS = JSON.stringify(msg.body);
+            cc.sys.localStorage.setItem('userInfo',userInfoJS);
+            cc.log ("create account ok");
             cc.director.loadScene("Lobby");
         }
 
