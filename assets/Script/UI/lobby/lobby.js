@@ -84,6 +84,42 @@ cc.Class({
         cc.log ("on create_room",JSON.stringify(body));
         cc.sys.localStorage.setItem('room_id',body.room_id);
         cc.director.loadScene("chatRoom");
-    }
+    },
+    getAccountRspData:function(event) {
+        this._super(event);   
+        var msg = event.detail;
+        cc.log ("account rsp:", JSON.stringify(msg));
+        var code = msg.code;
+        var result = msg.result;
+        var cmd = code & 0x0000FFFF;
+        if (result != 0)
+        {
+            // error
+            cc.log ("rsp error:", cmd,result);
+            cc.sys.localStorage.removeItem('userInfo');
+            return;
+        }
+     
+        if (cmd == 1)
+        {
+            var userInfoJS = JSON.stringify(msg.body);
+
+            cc.sys.localStorage.setItem('userInfo',userInfoJS);
+            cc.log ("create account ok");
+
+            var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
+
+            cc.log (JSON.stringify(userInfo));
+            cc.director.loadScene("Lobby");
+        }
+        else if (cmd == 2)
+        {
+            var userInfoJS = JSON.stringify(msg.body);
+            cc.sys.localStorage.setItem('userInfo',userInfoJS);
+            cc.log ("create account ok");
+            cc.director.loadScene("Lobby");
+        }
+
+    },
     // update (dt) {},
 });
