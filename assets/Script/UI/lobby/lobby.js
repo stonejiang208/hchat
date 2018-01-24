@@ -42,6 +42,13 @@ cc.Class({
     onBtnEnterRoom:function(){
         var str = this.roomEditBox.string;
         cc.log ("room id = ",str);
+        var rid = parseInt (str);
+        var b = {};
+        b.app_code = 321;
+        b.room_id = rid;
+        var cmd = 2;  //  room
+        var appCode = 0xFF1; // account  is 0xff0
+        Network.sendReq(appCode,cmd,b);
 
         cc.log("onBtnEnterRoom");
     },
@@ -81,6 +88,15 @@ cc.Class({
             case 1:
             this.on_create_room (msg.body);
             break;
+            case 2:
+            this.on_enter_room (msg.body);
+            break;
+            case 3:
+            this.on_get_room_list(msg.body);
+            break;
+            default:
+            cc.log ("lobby msg not registed:", cmd);
+            break;
         }
     },
     on_create_room :function(body)
@@ -89,8 +105,19 @@ cc.Class({
         cc.sys.localStorage.setItem('room_id',body.room_id);
         cc.director.loadScene("chatRoom");
     },
+    on_enter_room:function(body)
+    {
+        cc.log ("on_enter_room",JSON.stringify(body));
+        cc.sys.localStorage.setItem('room_id',body.room_id);
+        cc.director.loadScene("chatRoom");
+    },
+    on_get_room_list:function(body)
+    {
+        cc.log ("on create_room",JSON.stringify(body));
+    },
+
     getAccountRspData:function(event) {
-        this._super(event);   
+        this._super(event);
         var msg = event.detail;
         cc.log ("account rsp:", JSON.stringify(msg));
         var code = msg.code;
@@ -103,7 +130,6 @@ cc.Class({
             cc.sys.localStorage.removeItem('userInfo');
             return;
         }
-     
         if (cmd == 1)
         {
             var userInfoJS = JSON.stringify(msg.body);

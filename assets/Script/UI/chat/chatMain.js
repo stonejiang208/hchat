@@ -40,19 +40,16 @@ cc.Class({
         var cmd = 1;  // get room list
         var appCode = 321; // account  is 0xff0
         Network.sendReq(appCode,cmd,b);
-       
-
-       // this.createChatMsg(str);
     },
     createChatMsg:function (uid,str) {
         var chatItem = this._chatPool.get();
+        var userInfo = GameData.getUserInfo (uid);
         this._chatMsgIndex ++ ;
         if (this._chatPool.size() <= 0) {
             chatItem = cc.instantiate(this.chatItemPre);
-            var userInfo= {userId:uid,userName:"最多6个字",userLevel:this._chatMsgIndex};
             var height = chatItem.getContentSize().height;
             chatItem.getComponent('chatItem').setPlayerInfo(userInfo);
-            chatItem.getComponent('chatItem').setChatMsg(str);
+            chatItem.getComponent('chatItem').setChatMsg(uid + " : " +str);
             chatItem.x = -300;
             chatItem.y =  height/2 - this._chatMsgIndex * height;
         }
