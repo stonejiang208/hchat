@@ -78,17 +78,38 @@ cc.Class({
         var appCode = (0x0FFFFFFF&code)>>16;
         var cmd = code & 0x0000FFFF;
         cc.log (mask,appCode,cmd);
-        if ( mask == 4)
+        if ( mask == 4) // ack
         {
             cc.log ("msg has been  to target");
         }
-        else if (mask == 2)
+        else if (mask == 5)
+        {
+            cc.log ("msg has been  to gate");
+        }
+        else if (mask == 2) // trs
         {
             var uid = msg.header.uid;
             var txt = msg.body.msg;
             cc.log (uid  + " say:" +txt);    
           this.createChatMsg (uid,txt);
         }
+        else if (mask == 3) // ntf 
+        {
+            switch (cmd)
+            {
+                case 0xFFF0:
+                case 0xFFF1:
+                case 0xFFF2:
+                cc.log (cmd, "----> " ,JSON.stringify(msg.body));
+                break;
+        
+            }
+    
+        }
 
-    }   
+    } ,
+    update (dt) 
+    {
+        
+    },
 });

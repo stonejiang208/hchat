@@ -12,6 +12,14 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     // onLoad () {},
+    onEnable() {
+        this._super();   
+        NetTarget.on('chat', this.on_msg.bind(this));
+    },
+    onDisable() {
+        this._super();   
+        NetTarget.off('chat', this.on_msg.bind(this));
+    },
 
     start () {
         var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
@@ -156,5 +164,40 @@ cc.Class({
         }
 
     },
+    on_msg:function(event){
+        var msg = event.detail;
+        cc.log (JSON.stringify(msg));
+        var code = msg.header.code;
+        var mask = code >> 28;
+        var appCode = (0x0FFFFFFF&code)>>16;
+        var cmd = code & 0x0000FFFF;
+        cc.log (mask,appCode,cmd);
+        if ( mask == 4) // ack
+        {
+            cc.log ("msg has been  to target");
+        }
+        else if (mask == 5)
+        {
+            cc.log ("msg has been  to gate");
+        }
+        else if (mask == 2) // trs
+        {
+            var uid = msg.header.uid;
+            var txt = msg.body.msg;
+            cc.log (uid  + " say:" +txt);
+        }
+        else if (mask == 3) // ntf 
+        {
+            switch (cmd)
+            {
+                case 0xFFF0:
+                case 0xFFF1:
+                case 0xFFF2:
+                cc.log (cmd, "----> " ,JSON.stringify(msg.body));
+                break;
+        
+            }
+        }
+    }   
     // update (dt) {},
 });
