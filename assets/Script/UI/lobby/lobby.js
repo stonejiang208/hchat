@@ -5,6 +5,7 @@ cc.Class({
 
     properties: {
         nameLB: cc.Label,   //用户名
+        roomEditBox:cc.EditBox  // 房间号
     },
 
 
@@ -39,6 +40,9 @@ cc.Class({
 
     },
     onBtnEnterRoom:function(){
+        var str = this.roomEditBox.string;
+        cc.log ("room id = ",str);
+
         cc.log("onBtnEnterRoom");
     },
     onBtnLeaveRoom:function(){
@@ -58,7 +62,7 @@ cc.Class({
     },
      /**
      * 获取服务端大厅系统的响应
-     */
+     */ 
     getLobbyRspData: function (event) {
         cc.log("getLobbyRspData");
         this._super(event);   
@@ -118,6 +122,11 @@ cc.Class({
             cc.sys.localStorage.setItem('userInfo',userInfoJS);
             cc.log ("create account ok");
             cc.director.loadScene("Lobby");
+        }
+        else if (cmd == 3)
+        {
+            var body = JSON.stringify(msg.body);
+            cc.log (body);
         }
 
     },
