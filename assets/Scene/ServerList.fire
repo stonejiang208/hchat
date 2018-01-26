@@ -758,21 +758,6 @@
     "_fitHeight": true
   },
   {
-    "__type__": "a8d1aWDpARHHIGqe3aZ42fH",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 2
-    },
-    "_enabled": true,
-    "scrollViewConent": {
-      "__id__": 12
-    },
-    "serverItem": {
-      "__uuid__": "d9c284b0-039e-4690-8663-408f49575dc0"
-    }
-  },
-  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
@@ -797,6 +782,17 @@
     "_isAbsVerticalCenter": true,
     "_originalWidth": 0,
     "_originalHeight": 1280
+  },
+  {
+    "__type__": "c098cQOx5NBN4Nao4ViZRcl",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "scrollViewConent": null,
+    "serverItem": null
   },
   {
     "__type__": "cc.Node",
