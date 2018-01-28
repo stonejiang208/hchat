@@ -31,7 +31,7 @@ let Network = cc.Class({
 
         this.socket.onmessage = (evt) => {
             var self = this;
-            cc.log (evt);
+            //cc.log (evt);
             var msg = JSON.parse (evt.data);
             var code = msg.header.code;
             var mask = code >> 28;

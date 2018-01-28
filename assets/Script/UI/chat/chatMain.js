@@ -11,6 +11,7 @@ cc.Class({
         chatItemPre:cc.Prefab,
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
+        playerNumLb :cc.Label// 房间玩家人数
     },
     onEnable() {
         this._super();   
@@ -25,10 +26,18 @@ cc.Class({
         this._chatMsgIndex = 0;
         var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
         this.roomIdLB.string = "房间编号: "+ room_id;
+        this.refreshUI();
     },
+    refreshUI : function () {
+      this.refreshRoomInfo();
+    },
+    refreshRoomInfo:function () {
+        this.playerNumLb.string = GameData.room.playerNum;
 
+    },
     backHallClick:function () {
-        cc.director.loadScene('gameHall');
+        // cc.director.loadScene('gameHall');
+        cc.director.loadScene('Lobby');
     },
 
     sendChatClick:function(eve){
@@ -97,17 +106,16 @@ cc.Class({
         {
             switch (cmd)
             {
-                case 0xFFF0:
-                case 0xFFF1:
-                case 0xFFF2:
+                case 0xFFF0: GameData.room.playerNum = msg.body.user_num;  createMoveMessage('玩家ID'); break;//playernum
+                case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
+                case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
                 break;
-        
             }
-    
+            this.refreshUI();
         }
-
     } ,
+
     update (dt) 
     {
         
