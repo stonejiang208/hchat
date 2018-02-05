@@ -115,10 +115,6 @@ let Network = cc.Class({
             this.socket = null;
         }
     },
-    //接受数据
-    appandeMsg(data) {
-        NetTarget.emit("net", data);
-    },
     /**
      * 模拟服务端数据
      */
@@ -131,24 +127,6 @@ let Network = cc.Class({
     },
     handleRsp:function(appCode,cmd,p0){
         cc.log ("handleRsp");
-    },
-   
-
-    getMsgCmd:function (codeApp,tag){
-        var map = this.msgMap;
-        var map2 = this.msgMap.get(codeApp);
-
-        map2.forEach(function(value, key, map) {
-            console.log("Key: %s, Value: %s", key, value);
-        });
-
-        var cmd = map2.get(tag);
-        cc.log (tag + "-->", cmd);
-        return cmd;
-    },
-    getMsgTag:function(codeApp,cmd){
-        var map = this.msgMap;
-        var map2 = this.msgMap.get(codeApp);
     }
 
 });

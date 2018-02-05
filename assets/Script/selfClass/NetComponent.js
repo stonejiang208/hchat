@@ -9,7 +9,6 @@ let NetworkComponent = cc.Class({
     },
 
     onEnable() {
-        NetTarget.on('net', this.getNetData.bind(this));
         NetTarget.on('netstart', this.netStart.bind(this));
         NetTarget.on('netclose', this.netClose.bind(this));
         NetTarget.on('rsp', this.getRspData.bind(this));
@@ -18,7 +17,6 @@ let NetworkComponent = cc.Class({
     },
 
     onDisable() {
-        NetTarget.off('net', this.getNetData.bind(this));
         NetTarget.off('netstart', this.netStart.bind(this));
         NetTarget.off('netclose', this.netClose.bind(this));
         NetTarget.off('rsp', this.getRspData.bind(this));
