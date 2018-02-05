@@ -28,10 +28,10 @@ cc.Class({
     },
 
     setPlayerInfo:function (playerData) {
-        this.playerNode = cc.find('head',this.node);
-        var playerItem = cc.instantiate(this.playerItem);
-        playerItem.getComponent('playerItem').setPlayerInfo(playerData);
-        this.playerNode.addChild(playerItem);
+      //  this.playerNode = cc.find('head',this.node);
+       // var playerItem = cc.instantiate(this.playerItem);
+      //  playerItem.getComponent('playerItem').setPlayerInfo(playerData);
+      //  this.playerNode.addChild(playerItem);
 
     },
 

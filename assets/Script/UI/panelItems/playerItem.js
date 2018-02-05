@@ -27,7 +27,7 @@ cc.Class({
     },
 
     setPlayerInfo : function (userInfo) {
-        this.userId = userInfo.userId;
+        this.userId = "userInfo.userId";
         this.userName.string = userInfo.userName;
         this.userLevel.string = 'Lv.'+userInfo.userLevel;
     }

@@ -297,12 +297,6 @@
     },
     "duration": 0.1,
     "zoomScale": 1.2,
-    "pressedSprite": {
-      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
-    },
-    "hoverSprite": {
-      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
-    },
     "clickEvents": [
       {
         "__id__": 8
@@ -326,6 +320,18 @@
     },
     "_N$normalSprite": {
       "__uuid__": "f2578053-a0c3-45a6-9c3f-590acf3827d5"
+    },
+    "_N$pressedSprite": {
+      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
+    },
+    "pressedSprite": {
+      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
+    },
+    "_N$hoverSprite": {
+      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
+    },
+    "hoverSprite": {
+      "__uuid__": "91e033dd-4a46-4a46-b7ed-a22ce2d6b131"
     },
     "_N$disabledSprite": {
       "__uuid__": "29158224-f8dd-4661-a796-1ffab537140e"
