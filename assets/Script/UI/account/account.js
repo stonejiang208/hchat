@@ -36,8 +36,8 @@ cc.Class({
 
     start () {
         var d = new Date();
-
-        this.editBoxOpenId.string = "gp"+d.getTime();
+        var now = d.getTime();
+        this.editBoxOpenId.string = "gp." + now.toString();
     },
 
     btnCreateAccount:function(){
