@@ -38,11 +38,8 @@ cc.Class({
             cc.log (JSON.stringify(userInfo));
 
             var p = {};
-            p.name = userInfo.name;
-            p.uid = userInfo.uid;
-            p.head_url = "default";
-            p.password = "";
-            p.sex_type= 1;
+            p["openid"] = userInfo.openid;
+            p["openid_type"]=userInfo.openid_type;
             var cmd = 2;
             var appCode = 0xFF0; // account  is 0xff0
 

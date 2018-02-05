@@ -16,8 +16,10 @@ var MsgType = {
 };
 
 var config = {
-    severIp:"ws://qa.tao-studio.net:6001",
-    //severIp:"qa.tao-studio.net:6001"
+    //severIp:"wss://xm-test.egret-labs.org:6008",
+    //severIp:"ws://10.10.10.103:6008",
+    //severIp:"ws://10.8.119.63:6008"
+    severIp:"ws://qa.tao-studio.net:6001"
 };
 
 

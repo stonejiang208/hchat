@@ -22,7 +22,7 @@ message Msg
     PT_TRS = 2;
     PT_NTF = 3;
     PT_ACK = 4;
-    PT_ECH = 5;
+    PT_GATE = 5;
   }
   uint32 code = 1;  // mask << 24 | msg_type << 18 | cmd
   bytes payload = 2;

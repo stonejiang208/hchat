@@ -1,3 +1,5 @@
+import { setInterval } from 'timers';
+
 /**
  * Created by jiangtao on 24/12/2017.
  */
@@ -44,11 +46,27 @@ cc.Class({
         var str = this.chatEditBox.string;
         cc.log('聊天内容:'+str);
 
-        var b = {};
-        b.msg = str;
-        var cmd = 1;  // get room list
-        var appCode = 321; // account  is 0xff0
-        Network.sendReq(appCode,cmd,b);
+
+       var j = 0;
+       setInterval(()=>{
+           j++;
+           if (j < 2000){
+                var b = {};
+                b.msg = str + ":" + j;
+                var cmd = 1;  // get room list
+                var appCode = 321; // account  is 0xff0
+                Network.sendReq(appCode,cmd,b);
+            }
+        },100)
+    /*   for (var i = 0; i < 200; i++)
+    {
+            var b = {};
+             b.msg = str + ":" + i;
+            var cmd = 1;  // get room list
+             var appCode = 321; // account  is 0xff0
+            Network.sendReq(appCode,cmd,b);
+         }
+*/
     },
     createChatMsg:function (uid,str) {
         var chatItem = this._chatPool.get();
