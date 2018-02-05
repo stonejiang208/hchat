@@ -50,14 +50,14 @@ cc.Class({
        var j = 0;
        setInterval(()=>{
            j++;
-           if (j < 2000){
+           if (j < 20000){
                 var b = {};
                 b.msg = str + ":" + j;
                 var cmd = 1;  // get room list
                 var appCode = 321; // account  is 0xff0
                 Network.sendReq(appCode,cmd,b);
             }
-        },100)
+        },500)
     /*   for (var i = 0; i < 200; i++)
     {
             var b = {};
