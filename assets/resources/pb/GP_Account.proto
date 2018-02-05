@@ -5,34 +5,36 @@ enum Msg_Code
 {
   START = 0;
   CREATE_ACCOUNT = 1;
-  GUEST_SIGN_IN = 2;
+  USER_SIGN_IN = 2;
 }
 message Create_Account
 {
   message Req
   {
-    string name = 1;
-    string head_url = 2;
-    string password = 3;
-    int32  sex_type = 4;
+    string openid = 1;
+    string openid_type = 2;
+    string info = 3;
   }
   message Rsp
   {
     uint64 uid = 1;
-    string name = 2;
+    string info = 2;
   }
 }
 
-message Guest_Sign_In
+message User_Sign_In
 {
   message Req
   {
+    string openid = 1;
+    string openid_type = 2;
+    int     auto_create =3;
+    string info = 4;
   }
   message Rsp
   {
     uint64 uid = 1;
-    string name = 2;
-    string head_url = 3;
+    string info = 2;
   }
 }
 
