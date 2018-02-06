@@ -46,27 +46,25 @@ cc.Class({
         var str = this.chatEditBox.string;
         cc.log('聊天内容:'+str);
 
-
+  /*   注释的代码是作压力测试时自动发送消息的示例。
        var j = 0;
        setInterval(()=>{
            j++;
-           if (j < 20000){
+           if (j < 2000){
                 var b = {};
                 b.msg = str + ":" + j;
                 var cmd = 1;  // get room list
                 var appCode = 321; // account  is 0xff0
                 Network.sendReq(appCode,cmd,b);
             }
-        },500)
-    /*   for (var i = 0; i < 200; i++)
-    {
-            var b = {};
-             b.msg = str + ":" + i;
-            var cmd = 1;  // get room list
-             var appCode = 321; // account  is 0xff0
-            Network.sendReq(appCode,cmd,b);
-         }
-*/
+        },500)*/
+
+         var b = {};
+         b.msg = str;
+         var cmd = 1;         // 321 appCode中，1表示发送文本消息
+         var appCode = 321;   // 321代表趣味聊天，用户自定义的应用代码
+
+         Network.sendReq(appCode,cmd,b);
     },
     createChatMsg:function (uid,str) {
         var chatItem = this._chatPool.get();
