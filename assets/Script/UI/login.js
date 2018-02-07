@@ -40,6 +40,7 @@ cc.Class({
             var p = {};
             p["openid"] = userInfo.openid;
             p["openid_type"]=userInfo.openid_type;
+            p["auto_create"]=1;
             var cmd = 2;
             var appCode = 0xFF0; // account  is 0xff0
 
