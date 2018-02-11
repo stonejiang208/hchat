@@ -55,6 +55,7 @@ let Network = cc.Class({
                     //NetTarget.emit("account.rsp",rsp);
                     NetDataGloble.emit('account.rsp', rsp);
                 }
+               
             }
             else if (appCode == 0xFF1) // Lobby
             {

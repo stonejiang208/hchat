@@ -18,7 +18,12 @@ cc.Class({
     start () {
         var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
         this.nameLB.string = "玩家名称: "+ userInfo.name;
-        this.onBtnRoomList()
+        if (GameData.lobbyRoomDetailList.length > 0){
+            this.initRoomList();
+        }else{
+            this.onBtnRoomList();
+        }
+        
     },
 
     onEnable() {
@@ -259,7 +264,7 @@ cc.Class({
     },
 
     initRoomList : function () {
-      if(GameData.lobbyRoomBaseList == null || Object.keys(GameData.lobbyRoomBaseList).length == 0) {
+      if(GameData.lobbyRoomDetailList == null || Object.keys(GameData.lobbyRoomDetailList).length == 0) {
             return;
       }
         var test = GameData.lobbyRoomDetailList;
