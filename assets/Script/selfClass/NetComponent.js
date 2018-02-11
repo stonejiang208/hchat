@@ -9,19 +9,24 @@ let NetworkComponent = cc.Class({
     },
 
     onEnable() {
+        /*
         NetTarget.on('netstart', this.netStart.bind(this));
         NetTarget.on('netclose', this.netClose.bind(this));
         NetTarget.on('rsp', this.getRspData.bind(this));
         NetTarget.on('account.rsp', this.getAccountRspData.bind(this));
         NetTarget.on('lobby.rsp', this.getLobbyRspData.bind(this));
+        */
+        
     },
 
     onDisable() {
+        /*
         NetTarget.off('netstart', this.netStart.bind(this));
         NetTarget.off('netclose', this.netClose.bind(this));
         NetTarget.off('rsp', this.getRspData.bind(this));
         NetTarget.off('account.rsp', this.getAccountRspData.bind(this));
         NetTarget.off('lobby.rsp', this.getLobbyRspData.bind(this));
+        */
     },
     /**
      * 获取服务端数据
@@ -47,7 +52,7 @@ let NetworkComponent = cc.Class({
      * 获取服务端大厅系统的响应
      */
     getLobbyRspData: function (event) {
-        cc.log("getLobbyRspData");
+        cc.log("getLobbyRspData111");
     },
 
     /**

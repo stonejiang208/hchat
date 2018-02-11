@@ -15,11 +15,26 @@ cc.Class({
        // openView('Loading');
     },
 
+    onEnable() {
+        this._super();
+        //NetTarget.on('chat', this.on_msg.bind(this));
+        NetDataGloble.on('netstart',this, this.netStart);
+        NetDataGloble.on('account.rsp',this, this.getAccountRspData);
+      
+    },
+    onDisable() {
+        this._super();   
+        // NetTarget.off('chat', this.on_msg.bind(this));
+        NetDataGloble.off('netstart', this.netStart);
+       NetDataGloble.off('account.rsp', this.getAccountRspData);
+    },
+
     start:function () {
         cc.log ("Loading: start()");
         GameData.init();
         Network.initNetwork();//连接服务器
     },
+
     login:function () {
         //cc.director.loadScene("gameHall");
         var userInfo = cc.sys.localStorage.getItem('userInfo');
@@ -54,7 +69,7 @@ cc.Class({
 
     getAccountRspData:function(event) {
         this._super(event);   
-        var msg = event.detail;
+        var msg = event;
         cc.log ("account rsp:", JSON.stringify(msg));
         GameData.playerInfo = msg.body;
         var code = msg.code;

@@ -9,6 +9,9 @@ GameData.init = function () {
     GameData.userInfo = [];
     GameData.game = {};
     GameData.room = {};
+
+    GameData.lobbyRoomBaseList = {}; // 房间列表简化信息
+    GameData.lobbyRoomDetailList = [];//房间列表详细信息
 };
 
 //注册事件

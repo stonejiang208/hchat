@@ -3,16 +3,21 @@ var pb = {}
 
 var WebSocket = WebSocket || window.WebSocket || window.MozWebSocket;
 window.NetTarget = null;
+//var NetDataGloble =require('NetData');
+//window.NetDataGloble = null;  //字符串以及其他正常发送 数字变量命名规则有符号整形n_XX  无符号u_xx 浮点数d_XX
 var login = require('login');
 let instance = null;
 
 let Network = cc.Class({
+    //extends: require('NetData'),
     properties: {
         data: 1000,
         isInit: false,
     },
 
     ctor() {
+        
+        //NetDataGloble = new NetDataGloble();
         NetTarget = new cc.EventTarget();
     },
     initNetwork() {
@@ -26,7 +31,7 @@ let Network = cc.Class({
         this.socket.onopen = (evt) => {
             cc.log('Network onopen...');
             this.isInit = true;
-            NetTarget.emit("netstart");
+            NetDataGloble.emit("netstart");
         }
 
         this.socket.onmessage = (evt) => {
@@ -47,7 +52,8 @@ let Network = cc.Class({
                     rsp.code = code;
                     rsp.result = msg.header.result;
                     rsp.body = msg.body;
-                    NetTarget.emit("account.rsp",rsp);
+                    //NetTarget.emit("account.rsp",rsp);
+                    NetDataGloble.emit('account.rsp', rsp);
                 }
             }
             else if (appCode == 0xFF1) // Lobby
@@ -59,7 +65,8 @@ let Network = cc.Class({
                     rsp.code = code;
                     rsp.result = msg.header.result;
                     rsp.body = msg.body;
-                    NetTarget.emit("lobby.rsp",rsp);
+                    //NetTarget.emit("lobby.rsp",rsp);
+                    NetDataGloble.emit('lobby.rsp', rsp);
                 }
             }
             else if (appCode < 0xFF0)

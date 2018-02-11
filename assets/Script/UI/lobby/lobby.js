@@ -1,32 +1,38 @@
-
-
 cc.Class({
     extends: require('NetComponent'),
-
+  // extends: require('NetData'),
     properties: {
         nameLB: cc.Label,   //用户名
         roomEditBox:cc.EditBox,  // 房间号
         roomlistLayer:cc.Node,
-        roomItem:cc.Prefab
+        roomItem:cc.Prefab,
+        roomTmpIndex:0,
     },
-
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
-    onEnable() {
-        this._super();
-        NetTarget.on('chat', this.on_msg.bind(this));
-    },
-    onDisable() {
-        this._super();   
-        NetTarget.off('chat', this.on_msg.bind(this));
+    onLoad () {
+       
     },
 
     start () {
         var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
         this.nameLB.string = "玩家名称: "+ userInfo.name;
+        this.onBtnRoomList()
     },
+
+    onEnable() {
+        this._super();
+        //NetTarget.on('chat', this.on_msg.bind(this));
+        NetDataGloble.on('lobby.rsp',this, this.getLobbyRspData);
+    },
+    onDisable() {
+        this._super();   
+       // NetTarget.off('chat', this.on_msg.bind(this));
+       NetDataGloble.off('lobby.rsp', this.getLobbyRspData)
+    },
+
+    
 
     onBtnRoomList:function(){
         cc.log("onBtnRoomList");
@@ -42,6 +48,11 @@ cc.Class({
         var b = {};
         b.app_code = 321;
         b.token = 12345678;
+        var info = {};
+        info["n_extra"] = 12234;
+        info["room_name"] = "同城1";
+        info["n_user_count"] = 10;
+        b.room_info = JSON.stringify(info);
         var cmd = 1;  // create room
         var appCode = 0xFF1; // lobby  is 0xff0
         Network.sendReq(appCode,cmd,b);
@@ -82,9 +93,9 @@ cc.Class({
      * 获取服务端大厅系统的响应
      */ 
     getLobbyRspData: function (event) {
-        cc.log("getLobbyRspData");
+        //cc.log("getLobbyRspData");
         this._super(event);   
-        var msg = event.detail;
+        var msg = event;
         cc.log ("lobby rsp:", JSON.stringify(msg));
         var code = msg.code;
         var result = msg.result;
@@ -94,10 +105,14 @@ cc.Class({
             return;
         }
         var cmd = code & 0x0000FFFF;
+
+        let test1 = this 
+        cc.log(test1)
         switch (cmd)
         {
             case 1:
             this.on_create_room (msg.body);
+            
             break;
             case 2:
             this.on_enter_room (msg.body);
@@ -105,6 +120,8 @@ cc.Class({
             case 3:
             this.on_get_room_list(msg.body);
             break;
+            case 6:
+            this.on_get_room_detail(msg.body);
             default:
             cc.log ("lobby msg not registed:", cmd);
             break;
@@ -125,13 +142,47 @@ cc.Class({
     on_get_room_list:function(body)
     {
         cc.log ("on create_room",JSON.stringify(body));
-        GameData.room = body.room_ids;
-        this.initRoomList();
+        if ( body.room_ids)
+        {   
+            this.roomTmpIndex = 0
+            GameData.lobbyRoomBaseList = body.room_ids;
+            GameData.lobbyRoomDetailList = [];
+           
+            this.schedule(function(){
+                if ( this.roomTmpIndex == GameData.lobbyRoomBaseList.length){
+                     //do something
+                }
+                this.on_req_room_detail_list()
+            },0.01,GameData.lobbyRoomBaseList.length,0)
+        }
+       
+    },
+    on_req_room_detail_list:function()
+    {   
+        if (GameData.lobbyRoomBaseList[this.roomTmpIndex])
+        {
+            var b = {};
+            b.app_code = 321;
+            b.room_id =parseInt(GameData.lobbyRoomBaseList[this.roomTmpIndex]);
+            var cmd = 6;  // create room
+            var appCode = 0xFF1; // lobby  is 0xff0
+            Network.sendReq(appCode,cmd,b);
+            this.roomTmpIndex = this.roomTmpIndex + 1;
+        }
+        
+    },
+
+    on_get_room_detail:function(body)
+    {
+        GameData.lobbyRoomDetailList.push(body)
+        if  (GameData.lobbyRoomDetailList.length >= GameData.lobbyRoomBaseList.length){
+            this.initRoomList();
+        }
     },
 
     getAccountRspData:function(event) {
         this._super(event);
-        var msg = event.detail;
+        var msg = event;
         cc.log ("account rsp:", JSON.stringify(msg));
         var code = msg.code;
         var result = msg.result;
@@ -169,6 +220,7 @@ cc.Class({
         }
 
     },
+
     on_msg:function(event){
         var msg = event.detail;
         cc.log (JSON.stringify(msg));
@@ -206,22 +258,40 @@ cc.Class({
     },
 
     initRoomList : function () {
-      if(GameData.room == null || Object.keys(GameData.room).length == 0) {
+      if(GameData.lobbyRoomBaseList == null || Object.keys(GameData.lobbyRoomBaseList).length == 0) {
             return;
       }
+        var test = GameData.lobbyRoomDetailList;
+
       var roomListContent = cc.find('view/content',this.roomlistLayer);
       //var height = cc.instantiate(this.roomItem).height;
-      for(let i = 0; i<GameData.room.length ; i++){
-          let roomItemNode = cc.instantiate(this.roomItem);
-          roomItemNode.name = GameData.room[i];
-          roomItemNode.getComponent('chatRoomItem').setRoomid(GameData.room[i]);
-          roomItemNode.getComponent('chatRoomItem').enterRoom(roomItemNode);
-          roomItemNode.y = -79 - roomItemNode.height * i;
-          roomItemNode.x = -318;
-          roomListContent.addChild(roomItemNode);
-          if(roomListContent.childrenCount > 2){
-              roomListContent.height = roomListContent.childrenCount * roomItemNode.height;
+      for(let i = 0; i<GameData.lobbyRoomDetailList.length ; i=i+2){
+          if(GameData.lobbyRoomDetailList[i]) 
+          {
+            let roomItemNode = cc.instantiate(this.roomItem);
+            //roomItemNode.name = GameData.lobbyRoomBaseList[i];
+            roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailList[i].info.n_user_count);
+            roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailList[i].info.room_name);
+            roomItemNode.getComponent('lobbyRoomItem').enterRoomL(roomItemNode);
+            roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailList[i].info["n.rid"]);
+            roomItemNode.y = -79 - roomItemNode.height * i;
+            //roomItemNode.x = -318;
+            roomListContent.addChild(roomItemNode);
+            if(roomListContent.childrenCount > 2){
+                roomListContent.height = roomListContent.childrenCount * roomItemNode.height;
+            }
+
+            if(GameData.lobbyRoomDetailList[i+1]) 
+            {
+              roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailList[i+1].n_user_count);
+              roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailList[i+1].info.room_name);
+              roomItemNode.getComponent('lobbyRoomItem').enterRoomR(roomItemNode);
+              roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailList[i].info["n.rid"]);
+            }
+            
           }
+
+         
       }
 
     },

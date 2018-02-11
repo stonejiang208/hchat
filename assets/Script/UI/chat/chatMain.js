@@ -1,4 +1,4 @@
-import { setInterval } from 'timers';
+//import { setInterval } from 'timers';
 
 /**
  * Created by jiangtao on 24/12/2017.
@@ -17,11 +17,13 @@ cc.Class({
     },
     onEnable() {
         this._super();   
-        NetTarget.on('chat', this.on_msg.bind(this));
+        //NetTarget.on('chat', this.on_msg.bind(this));
+        NetDataGloble.on('chat',this, this.on_msg);
     },
     onDisable() {
         this._super();   
-        NetTarget.off('chat', this.on_msg.bind(this));
+       // NetTarget.off('chat', this.on_msg.bind(this));
+        NetDataGloble.off('chat',this.on_msg);
     },
     onLoad:function() {
         this._chatPool = new cc.NodePool();
@@ -29,12 +31,20 @@ cc.Class({
         var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
         this.roomIdLB.string = "房间编号: "+ room_id;
         this.refreshUI();
+        cc.director.preloadScene("Lobby", function () {
+            cc.log("Next scene Lobby");
+        });
     },
     refreshUI : function () {
       this.refreshRoomInfo();
     },
     refreshRoomInfo:function () {
-        this.playerNumLb.string = GameData.room.playerNum;
+        if (GameData.room){
+            this.playerNumLb.string = GameData.room.playerNum;
+        }else{
+            this.playerNumLb.string = "GameData.room is null";
+        }
+        
 
     },
     backHallClick:function () {
@@ -122,7 +132,7 @@ cc.Class({
         {
             switch (cmd)
             {
-                case 0xFFF0: GameData.room.playerNum = msg.body.user_num;  createMoveMessage('玩家ID'); break;//playernum
+                case 0xFFF0: GameData.room.playerNum = msg.body.user_num || 0;  createMoveMessage('玩家ID'); break;//playernum
                 case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
                 case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
