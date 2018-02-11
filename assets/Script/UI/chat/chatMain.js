@@ -21,9 +21,10 @@ cc.Class({
         NetDataGloble.on('chat',this, this.on_msg);
     },
     onDisable() {
-        this._super();   
+           
        // NetTarget.off('chat', this.on_msg.bind(this));
         NetDataGloble.off('chat',this.on_msg);
+        this._super();
     },
     onLoad:function() {
         this._chatPool = new cc.NodePool();
@@ -106,7 +107,7 @@ cc.Class({
         }
     },
     on_msg:function(event){
-        var msg = event.detail;
+        var msg = event;
         cc.log (JSON.stringify(msg));
         var code = msg.header.code;
         var mask = code >> 28;

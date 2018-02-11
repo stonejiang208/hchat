@@ -23,10 +23,12 @@ cc.Class({
       
     },
     onDisable() {
-        this._super();   
+          
         // NetTarget.off('chat', this.on_msg.bind(this));
         NetDataGloble.off('netstart', this.netStart);
        NetDataGloble.off('account.rsp', this.getAccountRspData);
+       cc.log ("remove 111111111111111111111111111111111111111");
+       this._super(); 
     },
 
     start:function () {

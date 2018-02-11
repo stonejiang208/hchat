@@ -71,7 +71,7 @@ let Network = cc.Class({
             }
             else if (appCode < 0xFF0)
             {
-                NetTarget.emit("chat",msg);
+                NetDataGloble.emit("chat",msg);
             }
 
         }

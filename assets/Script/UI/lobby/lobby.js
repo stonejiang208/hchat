@@ -27,9 +27,10 @@ cc.Class({
         NetDataGloble.on('lobby.rsp',this, this.getLobbyRspData);
     },
     onDisable() {
-        this._super();   
+         
        // NetTarget.off('chat', this.on_msg.bind(this));
        NetDataGloble.off('lobby.rsp', this.getLobbyRspData)
+       this._super();  
     },
 
     
