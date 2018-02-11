@@ -272,7 +272,7 @@ cc.Class({
             //roomItemNode.name = GameData.lobbyRoomBaseList[i];
             roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailList[i].info.n_user_count);
             roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailList[i].info.room_name);
-            roomItemNode.getComponent('lobbyRoomItem').enterRoomL(roomItemNode);
+            //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
             roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailList[i].info["n.rid"]);
             roomItemNode.y = -79 - roomItemNode.height * i;
             //roomItemNode.x = -318;
@@ -285,7 +285,7 @@ cc.Class({
             {
               roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailList[i+1].n_user_count);
               roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailList[i+1].info.room_name);
-              roomItemNode.getComponent('lobbyRoomItem').enterRoomR(roomItemNode);
+              //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
               roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailList[i].info["n.rid"]);
             }
             

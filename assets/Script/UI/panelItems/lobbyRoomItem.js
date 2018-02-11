@@ -37,8 +37,7 @@ cc.Class({
     setRoomNameR:function(name){
         this.roomNameR.string = name;
     },
-    enterRoomL: function (eve) {
-        eve.on(cc.Node.EventType.TOUCH_START,function () {
+    enterRoomL: function () {
             var roomId = parseInt(this.roomNumL);
             var b = {};
             b.app_code = 321;
@@ -47,11 +46,9 @@ cc.Class({
             var appCode = 0xFF1; // account  is 0xff0
             Network.sendReq(appCode,cmd,b);
             cc.log("onBtnEnterRoom");
-        },this);
     },
 
-    enterRoomR: function (eve) {
-        eve.on(cc.Node.EventType.TOUCH_START,function () {
+    enterRoomR: function () {
             var roomId = parseInt(this.roomNumR);
             var b = {};
             b.app_code = 321;
@@ -60,7 +57,6 @@ cc.Class({
             var appCode = 0xFF1; // account  is 0xff0
             Network.sendReq(appCode,cmd,b);
             cc.log("onBtnEnterRoom");
-        },this);
     },
 
    
