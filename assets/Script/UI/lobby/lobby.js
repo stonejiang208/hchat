@@ -138,18 +138,23 @@ cc.Class({
     on_create_room :function(body)
     {
         cc.log ("on create_room",JSON.stringify(body));
-        cc.sys.localStorage.setItem('room_id',body.room_id);
+       // cc.sys.localStorage.setItem('room_id',body.u_rid);
+        GameData.setCurrentRoomId(GameData.chatAppCode,body.u_rid)
+        body.room_info.u_rid = body.u_rid;
+        body.info = body.room_info;
+        GameData.lobbyRoomDetailList.push(body)
         cc.director.loadScene("chatRoom");
     },
     on_enter_room:function(body)
     {
         cc.log ("on_enter_room",JSON.stringify(body));
-        cc.sys.localStorage.setItem('room_id',body.room_id);
+        //cc.sys.localStorage.setItem('room_id',body.room_id);
+        GameData.setCurrentRoomId(GameData.chatAppCode,body.u_rid)
         cc.director.loadScene("chatRoom");
     },
     on_get_room_list:function(body)
     {
-        cc.log ("on create_room",JSON.stringify(body));
+        cc.log ("on on_get_room_list",JSON.stringify(body));
         if ( body.room_ids)
         {   
             this.roomTmpIndex = 0
@@ -160,18 +165,18 @@ cc.Class({
                 if ( this.roomTmpIndex == GameData.lobbyRoomBaseList.length){
                      //do something
                 }
-                this.on_req_room_detail_list()
+                this.on_req_room_Info_detail()
             },0.01,GameData.lobbyRoomBaseList.length,0)
         }
        
     },
-    on_req_room_detail_list:function()
+    on_req_room_Info_detail:function()
     {   
         if (GameData.lobbyRoomBaseList[this.roomTmpIndex])
         {
             var b = {};
             b.app_code = 321;
-            b.room_id =parseInt(GameData.lobbyRoomBaseList[this.roomTmpIndex]);
+            b.u_rid =parseInt(GameData.lobbyRoomBaseList[this.roomTmpIndex]);
             var cmd = 6;  // create room
             var appCode = 0xFF1; // lobby  is 0xff0
             Network.sendReq(appCode,cmd,b);
@@ -255,7 +260,7 @@ cc.Class({
         {
             switch (cmd)
             {
-                case 0xFFF0:GameData.room.playerNum = msg.body.user_num; break;
+                case 0xFFF0:GameData.updateRoomInfoUserCount(msg.body); break;
                 case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
                 case 0xFFF2:  GameData.setRoomInfo(msg.body); break;//roominfo
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
@@ -281,8 +286,8 @@ cc.Class({
             roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailList[i].info.n_user_count);
             roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailList[i].info.room_name);
             //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
-            roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailList[i].info["n.rid"]);
-            roomItemNode.y = -79 - roomItemNode.height * i;
+            roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailList[i].info["u_rid"]);
+            roomItemNode.y = -79 - roomItemNode.height * (i/2);
             //roomItemNode.x = -318;
             roomListContent.addChild(roomItemNode);
             if(roomListContent.childrenCount > 2){
@@ -291,10 +296,10 @@ cc.Class({
 
             if(GameData.lobbyRoomDetailList[i+1]) 
             {
-              roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailList[i+1].n_user_count);
+              roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailList[i+1].info.n_user_count);
               roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailList[i+1].info.room_name);
               //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
-              roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailList[i].info["n.rid"]);
+              roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailList[i].info["u_rid"]);
             }
             
           }

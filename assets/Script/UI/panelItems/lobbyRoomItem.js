@@ -41,7 +41,7 @@ cc.Class({
             var roomId = parseInt(this.roomNumL);
             var b = {};
             b.app_code = 321;
-            b.room_id = roomId;
+            b.u_rid = roomId;
             var cmd = 2;  //  room
             var appCode = 0xFF1; // account  is 0xff0
             Network.sendReq(appCode,cmd,b);
@@ -52,7 +52,7 @@ cc.Class({
             var roomId = parseInt(this.roomNumR);
             var b = {};
             b.app_code = 321;
-            b.room_id = roomId;
+            b.u_rid = roomId;
             var cmd = 2;  //  room
             var appCode = 0xFF1; // account  is 0xff0
             Network.sendReq(appCode,cmd,b);

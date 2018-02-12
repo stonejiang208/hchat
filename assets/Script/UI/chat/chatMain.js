@@ -20,28 +20,50 @@ cc.Class({
         this._super();   
         //NetTarget.on('chat', this.on_msg.bind(this));
         NetDataGloble.on('chat',this, this.on_msg);
+        TopicGloble.on('chatMainUserCount',this, this.refreshRoomInfo);
     },
     onDisable() {
            
        // NetTarget.off('chat', this.on_msg.bind(this));
         NetDataGloble.off('chat',this.on_msg);
+        TopicGloble.off('chatMainUserCount',this, this.refreshRoomInfo);
         this._super();
     },
     onLoad:function() {
         this._chatPool = new cc.NodePool();
         this._chatMsgIndex = 0;
-        var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
-        this.roomIdLB.string = "房间编号: "+ room_id;
-        this.refreshUI();
-        cc.director.preloadScene("Lobby", function () {
-            cc.log("Next scene Lobby");
-        });
+        //var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
+        var room_id = GameData.getCurrentRoomId(GameData.chatAppCode);
+        if (room_id){
+            var roomInfo = GameData.getRoomInfo(room_id)
+            if(roomInfo){
+                this.roomIdLB.string = "房间编号: "+ room_id;
+                this.refreshUI(roomInfo);
+            }
+        }
+        
     },
-    refreshUI : function () {
-      this.refreshRoomInfo();
+
+    start () {
+       //通知服务器界面切换完毕
+        this.onSceneReady()
     },
-    refreshRoomInfo:function () {
-        this.playerNumLb.string = GameData.room.playerNum;
+    onSceneReady:function(){
+        var b = {};
+        b.body = {};
+        var cmd = 0xFFF3;  // create room
+        var appCode = 321; // lobby  is 0xff0
+        Network.sendNTF(appCode,cmd,b);
+    },
+    refreshUI : function (roomInfo) {
+        this.playerNumLb.string = roomInfo.info["u_rid"];
+    },
+    refreshRoomInfo:function (topic) {
+        var room_id = GameData.getCurrentRoomId(GameData.chatAppCode);
+        if (room_id == topic.room_id){
+            this.playerNumLb.string = topic.user_count;
+        }
+       
     },
     backHallClick:function () {
         // cc.director.loadScene('gameHall');
@@ -128,19 +150,16 @@ cc.Class({
         {
             switch (cmd)
             {
-                case 0xFFF0: GameData.room.playerNum = msg.body.user_num || 0;  createMoveMessage('玩家ID'); break;//playernum
+                case 0xFFF0: GameData.updateRoomInfoUserCount(msg.body);  createMoveMessage('玩家ID'); break;//playernum
                 case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
                 case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
                 break;
             }
-            this.refreshUI();
+            //this.refreshUI();
         }
     } ,
-    //#room_user_count 房间人数 room_id 房间号
-    updateRoomDetailInfo:function(room_user_count,room_id){  //更新房间信息 目前只有房间人数
-
-    },
+    
 
     update (dt) 
     {

@@ -1,7 +1,6 @@
 function NetData() {
     this.handlers = {};
     this.super = {};
-    this.MasterData = {};
   }
   NetData.prototype = {
         // 订阅事件
@@ -50,4 +49,4 @@ function NetData() {
   };
   
   var NetDataGloble = new NetData();
-  cc.log("111111111111111111111")
+

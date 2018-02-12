@@ -99,6 +99,18 @@ let Network = cc.Class({
         cc.log ("send msg :", str);
         self.sendRaw(str);
         },
+     // 发送请求到服务端
+     sendNTF:function(appCode,cmd,body){
+        var self = this;
+        var msg = {}
+        var header ={}
+        header["code"] = 3<<28 | appCode<<16|cmd;
+        msg["body"] = body;
+        msg["header"] = header;
+        var str = JSON.stringify(msg);
+        cc.log ("send ntf msg :", str);
+        self.sendRaw(str);
+        },
     // send pf
     sendRaw:function(msg) {
         if (!this.isInit) alert('Network is not inited...');
