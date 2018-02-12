@@ -14,6 +14,9 @@ cc.Class({
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
         playerNumLb :cc.Label,// 房间玩家人数
+
+        qipaoItem:cc.Prefab,//聊天气泡
+
         questionBoard:cc.Node,
         questionContent:cc.Label,
 
@@ -108,12 +111,11 @@ cc.Class({
         var userName = GameData.getUserName(uid)
         this._chatMsgIndex ++ ;
         if (this._chatPool.size() <= 0) {
-            chatItem = cc.instantiate(this.chatItemPre);
+            chatItem = cc.instantiate(this.qipaoItem);
             var height = chatItem.getContentSize().height;
-            chatItem.getComponent('chatItem').setPlayerInfo(userInfo);
-            chatItem.getComponent('chatItem').setChatMsg(userName + " : " +str);
+            chatItem.getComponent('qipaoItem').showMsg(userName + " : " +str);
             chatItem.x = -300;
-            chatItem.y =  height/2 - this._chatMsgIndex * height;
+            chatItem.y =  60/2 - this._chatMsgIndex * 80;
         }
         this.scrollViewConent.addChild(chatItem);
         var height = chatItem.getContentSize().height;
@@ -123,12 +125,12 @@ cc.Class({
         }
 
         //检测信息是否超过定义条数量
-        let max = 15;
+        let max = 5;
         let length = this.scrollViewConent.children.length;
         if (length > max) {
             let m = length - max;
             for (let i = 0; i < m; i++) {
-                this._chatPool.put(this.scrollViewConent.children[i]);
+                //this._chatPool.put(this.scrollViewConent.children[i]);
             }
         }
     },
