@@ -105,12 +105,13 @@ cc.Class({
     createChatMsg:function (uid,str) {
         var chatItem = this._chatPool.get();
         var userInfo = GameData.getUserInfo (uid);
+        var userName = GameData.getUserName(uid)
         this._chatMsgIndex ++ ;
         if (this._chatPool.size() <= 0) {
             chatItem = cc.instantiate(this.chatItemPre);
             var height = chatItem.getContentSize().height;
             chatItem.getComponent('chatItem').setPlayerInfo(userInfo);
-            chatItem.getComponent('chatItem').setChatMsg(uid + " : " +str);
+            chatItem.getComponent('chatItem').setChatMsg(userName + " : " +str);
             chatItem.x = -300;
             chatItem.y =  height/2 - this._chatMsgIndex * height;
         }
@@ -173,7 +174,7 @@ cc.Class({
             {
                 case 0xFFF0: GameData.updateRoomInfoUserCount(msg.body);  createMoveMessage('玩家ID'); break;//playernum
                 case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
-                case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
+                //case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
                 case      3: this.onGameNTF(msg.body);break; //开始答题
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
                 break;

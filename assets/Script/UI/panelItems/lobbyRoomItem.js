@@ -5,6 +5,7 @@ cc.Class({
         userCountR:cc.Label,
         roomNameL:cc.Label,
         roomNameR:cc.Label,
+        roomBtnR:cc.Button,
         roomNumL:0,
         roomNumR:0,
     },
@@ -36,6 +37,10 @@ cc.Class({
 
     setRoomNameR:function(name){
         this.roomNameR.string = name;
+    },
+
+    setRoomBtnRshow:function(){
+        this.roomBtnR.active = true;
     },
     enterRoomL: function () {
             var roomId = parseInt(this.roomNumL);

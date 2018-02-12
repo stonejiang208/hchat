@@ -429,7 +429,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [
       {
         "__id__": 20
@@ -778,6 +778,9 @@
     },
     "roomNameR": {
       "__id__": 18
+    },
+    "roomBtnR": {
+      "__id__": 21
     },
     "roomNumL": 0,
     "roomNumR": 0

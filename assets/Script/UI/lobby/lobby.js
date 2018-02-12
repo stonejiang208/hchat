@@ -18,7 +18,7 @@ cc.Class({
     start () {
         var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
         this.nameLB.string = "玩家名称: "+ userInfo.name;
-        if (GameData.lobbyRoomDetailList.length > 0){
+        if (Object.keys(GameData.lobbyRoomDetailMap).length > 0){
             this.initRoomList();
         }else{
             this.onBtnRoomList();
@@ -145,7 +145,7 @@ cc.Class({
         GameData.setCurrentRoomId(GameData.chatAppCode,body.u_rid)
         body.room_info.u_rid = body.u_rid;
         body.info = body.room_info;
-        GameData.lobbyRoomDetailList.push(body)
+        GameData.setRoomInfo(body.info.u_rid,body)
         cc.director.loadScene("chatRoom");
     },
     on_enter_room:function(body)
@@ -162,7 +162,7 @@ cc.Class({
         {   
             this.roomTmpIndex = 0
             GameData.lobbyRoomBaseList = body.room_ids;
-            GameData.lobbyRoomDetailList = [];
+            GameData.lobbyRoomDetailMap = {};
            
             this.schedule(function(){
                 if ( this.roomTmpIndex == GameData.lobbyRoomBaseList.length){
@@ -190,8 +190,9 @@ cc.Class({
 
     on_get_room_detail:function(body)
     {
-        GameData.lobbyRoomDetailList.push(body)
-        if  (GameData.lobbyRoomDetailList.length >= GameData.lobbyRoomBaseList.length){
+        GameData.setRoomInfo(body.info.u_rid,body)
+        var test = Object.keys(GameData.lobbyRoomDetailMap).length;
+        if  (Object.keys(GameData.lobbyRoomDetailMap).length  >= GameData.lobbyRoomBaseList.length){
             this.initRoomList();
         }
     },
@@ -274,41 +275,35 @@ cc.Class({
     },
 
     initRoomList : function () {
-      if(GameData.lobbyRoomDetailList == null || Object.keys(GameData.lobbyRoomDetailList).length == 0) {
-            return;
-      }
-        var test = GameData.lobbyRoomDetailList;
 
       var roomListContent = cc.find('view/content',this.roomlistLayer);
       //var height = cc.instantiate(this.roomItem).height;
-      for(let i = 0; i<GameData.lobbyRoomDetailList.length ; i=i+2){
-          if(GameData.lobbyRoomDetailList[i]) 
-          {
-            let roomItemNode = cc.instantiate(this.roomItem);
-            //roomItemNode.name = GameData.lobbyRoomBaseList[i];
-            roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailList[i].info.n_user_count);
-            roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailList[i].info.room_name);
-            //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
-            roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailList[i].info["u_rid"]);
-            roomItemNode.y = -79 - roomItemNode.height * (i/2);
-            //roomItemNode.x = -318;
-            roomListContent.addChild(roomItemNode);
-            if(roomListContent.childrenCount > 2){
-                roomListContent.height = roomListContent.childrenCount * roomItemNode.height;
-            }
+     
+          var index = 0;
+          let roomItemNode;
+          for(var roomId in GameData.lobbyRoomDetailMap){
+                if(index%2 == 0){
+                    roomItemNode = cc.instantiate(this.roomItem);
+                    roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailMap[roomId].info.room_name);
+                    //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
+                    roomItemNode.y = -79 - roomItemNode.height * (i/2);
+                    //roomItemNode.x = -318;
+                    roomListContent.addChild(roomItemNode);
+                    if(roomListContent.childrenCount > 2){
+                        roomListContent.height = roomListContent.childrenCount * roomItemNode.height;
+                    }
+                }else{
+                    roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailMap[roomId].info.room_name);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomBtnRshow();
+                    //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
+                }
 
-            if(GameData.lobbyRoomDetailList[i+1]) 
-            {
-              roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailList[i+1].info.n_user_count);
-              roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailList[i+1].info.room_name);
-              //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
-              roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailList[i].info["u_rid"]);
+                index = index + 1;
             }
-            
-          }
-
-         
-      }
 
     },
     openRoomList : function () {

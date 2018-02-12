@@ -25,8 +25,10 @@ cc.Class({
     onDisable() {
           
         // NetTarget.off('chat', this.on_msg.bind(this));
-        NetDataGloble.off('netstart', this.netStart);
-       NetDataGloble.off('account.rsp', this.getAccountRspData);
+       // NetDataGloble.off('netstart', this.netStart);
+       //NetDataGloble.off('account.rsp', this.getAccountRspData); 
+       //不能在这里移除观察者，因为如果是本地没有数据会切换到注册场景移除观察者没有办法登录了在切换到大厅
+       //之前移除本文件的观察者
        cc.log ("remove 111111111111111111111111111111111111111");
        this._super(); 
     },
@@ -101,6 +103,8 @@ cc.Class({
             var userInfoJS = JSON.stringify(msg.body);
             cc.sys.localStorage.setItem('userInfo',userInfoJS);
             cc.log ("create account ok");
+            NetDataGloble.off('netstart', this.netStart);
+            NetDataGloble.off('account.rsp', this.getAccountRspData);
             cc.director.loadScene("Lobby");
         }
 
