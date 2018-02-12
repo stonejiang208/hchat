@@ -23,7 +23,7 @@ function NetData() {
          var handlerArgs = Array.prototype.slice.call(arguments,1);
          for(var i = 0; i < self.handlers[eventType].length; i++) {
           // var test = self.handlers[eventType][i]._super()
-           self.handlers[eventType][i].apply(this.super[eventType][0],handlerArgs);
+           self.handlers[eventType][i].apply(this.super[eventType][i],handlerArgs);
            //self.handlers[eventType][i](handlerArgs);
          }
          return self;
@@ -31,16 +31,17 @@ function NetData() {
       // 删除订阅事件
       off: function(eventType, handler){
           var currentEvent = this.handlers[eventType];
+          var thisSuper = this.super[eventType];
           var len = 0;
           if (currentEvent) {
                len = currentEvent.length;
               for (var i = len - 1; i >= 0; i--){
                     if (currentEvent[i] === handler){
                       currentEvent.splice(i, 1);
+                      thisSuper.splice(i,1);
                     }
               }
           }
-          this.super[eventType] = [];
           return this;
       },
 

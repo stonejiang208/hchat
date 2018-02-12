@@ -13,7 +13,8 @@ cc.Class({
         chatItemPre:cc.Prefab,
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
-        playerNumLb :cc.Label// 房间玩家人数
+        playerNumLb :cc.Label,// 房间玩家人数
+        currentUserCount:0, //当前房间人数
     },
     onEnable() {
         this._super();   
@@ -40,13 +41,7 @@ cc.Class({
       this.refreshRoomInfo();
     },
     refreshRoomInfo:function () {
-        if (GameData.room){
-            this.playerNumLb.string = GameData.room.playerNum;
-        }else{
-            this.playerNumLb.string = "GameData.room is null";
-        }
-        
-
+        this.playerNumLb.string = GameData.room.playerNum;
     },
     backHallClick:function () {
         // cc.director.loadScene('gameHall');
@@ -142,6 +137,10 @@ cc.Class({
             this.refreshUI();
         }
     } ,
+    //#room_user_count 房间人数 room_id 房间号
+    updateRoomDetailInfo:function(room_user_count,room_id){  //更新房间信息 目前只有房间人数
+
+    },
 
     update (dt) 
     {

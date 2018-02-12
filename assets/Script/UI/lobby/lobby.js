@@ -30,11 +30,13 @@ cc.Class({
         this._super();
         //NetTarget.on('chat', this.on_msg.bind(this));
         NetDataGloble.on('lobby.rsp',this, this.getLobbyRspData);
+        NetDataGloble.on('chat',this, this.on_msg);
     },
     onDisable() {
          
        // NetTarget.off('chat', this.on_msg.bind(this));
        NetDataGloble.off('lobby.rsp', this.getLobbyRspData)
+       NetDataGloble.off('chat', this.on_msg)
        this._super();  
     },
 
@@ -228,7 +230,7 @@ cc.Class({
     },
 
     on_msg:function(event){
-        var msg = event.detail;
+        var msg = event;
         cc.log (JSON.stringify(msg));
         var code = msg.header.code;
         var mask = code >> 28;

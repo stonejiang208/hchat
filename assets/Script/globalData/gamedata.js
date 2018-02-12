@@ -35,4 +35,15 @@ GameData.getRoomInfo = function (roomId) {
     return GameData.room[roomId];
 }
 
+//updaTe roomInfo userCount 更新房间人数
+GameData.updateRoomInfoUserCount = function(roomId,userCount){
+    for(var i = 0;i< GameData.lobbyRoomDetailList.lenth;i++){
+        var tempInfo = GameData.lobbyRoomDetailList[i]
+        if (tempInfo.info["n.rid"] == roomId){
+            GameData.lobbyRoomDetailList[i].info.n_user_count = userCount;
+            break;
+        }
+    }
+}
+
 

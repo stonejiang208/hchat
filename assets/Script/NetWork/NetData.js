@@ -1,4 +1,4 @@
-
+/*
 
 function NetData() {
     this.handlers = {};
@@ -44,7 +44,7 @@ function NetData() {
   };
   
   var NetDataGloble = new NetData();
-  
+  */
   /*
   var callback = function(data){
       console.log(data);
