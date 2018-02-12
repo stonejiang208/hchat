@@ -28,8 +28,10 @@ GameData.getLobbyRspData = function () {
 };
 //set
 GameData.setUserInfo = function (userInfoList) {
-    for(var i = 0;i<userInfoList.length;i++){
-        
+    GameData.userInfo = [];
+    for(var i = 0;i<userInfoList.user_list.length;i++){
+        var userInfo = userInfoList.user_list[i]
+        GameData.userInfo[userInfo.u_uid] = userInfo;
     }
 };
 
