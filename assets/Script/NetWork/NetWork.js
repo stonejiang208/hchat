@@ -61,13 +61,21 @@ let Network = cc.Class({
             {
                 if (mask == 1)
                 {
-                    //create account
-                    var rsp = {};
-                    rsp.code = code;
-                    rsp.result = msg.header.result;
-                    rsp.body = msg.body;
-                    //NetTarget.emit("lobby.rsp",rsp);
-                    NetDataGloble.emit('lobby.rsp', rsp);
+                    var cmd = code & 0x0000FFFF;
+                    if (cmd == 7)
+                    {
+                        Network.callBack(code,msg.body)
+                    }
+                    else
+                    {
+                        var rsp = {};
+                        rsp.code = code;
+                        rsp.result = msg.header.result;
+                        rsp.body = msg.body;
+                        //NetTarget.emit("lobby.rsp",rsp);
+                        NetDataGloble.emit('lobby.rsp', rsp);
+                    }
+                    
                 }
             }
             else if (appCode < 0xFF0)
@@ -88,7 +96,7 @@ let Network = cc.Class({
         }
     },
     // 发送请求到服务端
-    sendReq:function(appCode,cmd,body){
+    sendReq:function(appCode,cmd,body,callback){
         var self = this;
         var msg = {}
         var header ={}
@@ -98,6 +106,9 @@ let Network = cc.Class({
         var str = JSON.stringify(msg);
         cc.log ("send msg :", str);
         self.sendRaw(str);
+        if(callback){
+            Network.callBack = callback;
+        }
         },
      // 发送请求到服务端
      sendNTF:function(appCode,cmd,body){
@@ -126,6 +137,14 @@ let Network = cc.Class({
             cc.log('Network send:' + tdata);
             this.socket.send(tdata);
         } else cc.log('Network WebSocket readState:' + this.socket.readyState);
+    },
+
+    //请求token
+    requestToken(callBack){
+        var b = {};
+        var cmd = 7;  // create room
+        var appCode = 0xFF1; // lobby  is 0xff0
+        this.sendReq(appCode,cmd,b,callBack);
     },
 
     //断开连接

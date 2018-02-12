@@ -52,18 +52,21 @@ cc.Class({
         this.openRoomList();
     },
     onBtnCreateRoom:function(){
-        cc.log("onBtnCreateRoom");
-        var b = {};
-        b.app_code = 321;
-        b.token = 12345678;
-        var info = {};
-        info["n_extra"] = 12234;
-        info["room_name"] = "同城1";
-        info["n_user_count"] = 10;
-        b.room_info = JSON.stringify(info);
-        var cmd = 1;  // create room
-        var appCode = 0xFF1; // lobby  is 0xff0
-        Network.sendReq(appCode,cmd,b);
+        Network.requestToken(function(code,body){
+            cc.log("onBtnCreateRoom");
+            var b = {};
+            b.app_code = 321;
+            b.token = body.u_token;
+            var info = {};
+            info["n_extra"] = 12234;
+            info["room_name"] = "同城1";
+            info["n_user_count"] = 10;
+            b.room_info = JSON.stringify(info);
+            var cmd = 1;  // create room
+            var appCode = 0xFF1; // lobby  is 0xff0
+            Network.sendReq(appCode,cmd,b);
+        })
+      
     },
     onBtnRoomInfo:function(){
         cc.log("onBtnRoomInfo");

@@ -14,7 +14,13 @@ cc.Class({
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
         playerNumLb :cc.Label,// 房间玩家人数
-        currentUserCount:0, //当前房间人数
+        questionBoard:cc.Node,
+        questionContent:cc.Label,
+
+        answer_0:cc.Label,
+        answer_1:cc.Label,
+        answer_2:cc.Label,
+        answer_3:cc.Label,
     },
     onEnable() {
         this._super();   
@@ -32,6 +38,7 @@ cc.Class({
     onLoad:function() {
         this._chatPool = new cc.NodePool();
         this._chatMsgIndex = 0;
+        this.questionBoard.active = false;
         //var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
         var room_id = GameData.getCurrentRoomId(GameData.chatAppCode);
         if (room_id){
@@ -55,6 +62,7 @@ cc.Class({
         var appCode = 321; // lobby  is 0xff0
         Network.sendNTF(appCode,cmd,b);
     },
+
     refreshUI : function (roomInfo) {
         this.playerNumLb.string = roomInfo.info["u_rid"];
     },
@@ -123,6 +131,19 @@ cc.Class({
             }
         }
     },
+
+    //开始答题
+    onBtnStartGame:function(){
+        Network.requestToken(function(code,body){
+            cc.log("onBtnCreateRoom");
+            var b = {};
+            b.token = body.u_token;
+            var cmd = 4;  // create room
+            var appCode = 321; // lobby  is 0xff0
+            Network.sendReq(appCode,cmd,b);
+        })
+      
+    },
     on_msg:function(event){
         var msg = event;
         cc.log (JSON.stringify(msg));
@@ -153,6 +174,7 @@ cc.Class({
                 case 0xFFF0: GameData.updateRoomInfoUserCount(msg.body);  createMoveMessage('玩家ID'); break;//playernum
                 case 0xFFF1: GameData.setUserInfo(msg.body); break;//刷新玩家列表
                 case 0xFFF2: GameData.setRoomInfo(msg.body); break;//roominfo
+                case      3: this.onGameNTF(msg.body);break; //开始答题
                 cc.log (cmd, "----> " ,JSON.stringify(msg.body));
                 break;
             }
@@ -160,6 +182,54 @@ cc.Class({
         }
     } ,
     
+    onGameNTF:function(body){
+        switch(body.type)
+        {
+            case 1: this.showTime(body.b);break;
+            case 2: this.showQuestion(body.b);break;
+            case 3: this.refreshRankList(body.b);break;
+            case 4: this.onGameEnd(body.b);break;
+        }
+    },
+
+    showTime:function(body){
+        createMoveMessage("count_down"+body.count_down)
+    },
+
+    showQuestion:function(body){
+        this.initQuestion(body)
+    },
+
+    initQuestion:function(body){
+        this.questionBoard.active = true;
+        this.questionContent.string = body.question;
+        this.answer_0.string = body.choise_a;
+        this.answer_1.string = body.choise_b;
+        this.answer_2.string = body.choise_c;
+        this.answer_3.string = body.choise_d;
+    },
+
+    //选项
+    onSelectAnsWer:function(event,tag)
+    {
+        var answer = parseInt(tag)
+        var b = {};
+        b.answer = answer -1;
+        var cmd = 2;         // 321 appCode中，1表示发送文本消息
+        var appCode = 321;   // 321代表趣味聊天，用户自定义的应用代码
+        Network.sendReq(appCode,cmd,b);
+
+    },
+   
+
+    refreshRankList:function()
+    {
+
+    },
+
+    onGameEnd:function(){
+        this.questionBoard.active = false;
+    },
 
     update (dt) 
     {
