@@ -162,7 +162,7 @@ cc.Class({
         }
         else if (mask == 2) // trs
         {
-            var uid = msg.header.uid;
+            var uid = msg.header.u_uid;
             var txt = msg.body.msg;
             cc.log (uid  + " say:" +txt);    
           this.createChatMsg (uid,txt);
