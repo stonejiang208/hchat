@@ -32,12 +32,14 @@ cc.Class({
     },
 
     setRoomNameL:function(name){
-        this.roomNameL.string = name;
+        var userRoomId = GameData.getUserRoomId(this.roomNumL);
+        this.roomNameL.string = name+userRoomId;
         
     },
 
     setRoomNameR:function(name){
-        this.roomNameR.string = name;
+        var userRoomId = GameData.getUserRoomId(this.roomNumR)
+        this.roomNameR.string = name+userRoomId;
     },
 
     setRoomBtnRshow:function(){

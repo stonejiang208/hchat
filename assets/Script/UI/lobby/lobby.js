@@ -61,7 +61,7 @@ cc.Class({
             b.token = body.u_token;
             var info = {};
             info["n_extra"] = 12234;
-            info["room_name"] = "同城1";
+            info["room_name"] = "房间";
             info["n_user_count"] = 10;
             b.room_info = JSON.stringify(info);
             var cmd = Define_Lobby.CREATE_ROOM;  // create room
@@ -303,10 +303,11 @@ cc.Class({
                 if(index%2 == 0){
                     
                     roomItemNode = cc.instantiate(this.roomItem);
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
                     roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailMap[roomId].info.room_name);
                     //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
+                    
                     roomItemNode.y = -79 - roomItemNode.height * (index/2);
                     //roomItemNode.x = -318;
                     roomListContent.addChild(roomItemNode);
@@ -315,14 +316,14 @@ cc.Class({
                     }
                 
                 }else{
-                    
+                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
                     roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailMap[roomId].info.room_name);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomBtnRshow();
                     var button2 =  roomItemNode.getChildByName("button2");
                     button2.active = true;
                     //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
+                    
                     
                     
                 }
