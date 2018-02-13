@@ -18,12 +18,20 @@ cc.Class({
         qipaoItem:cc.Prefab,//聊天气泡
 
         questionBoard:cc.Node,
-        questionContent:cc.Label,
+        questionContent:cc.Node,
+
+        maxWidth:0,
 
         answer_0:cc.Label,
         answer_1:cc.Label,
         answer_2:cc.Label,
         answer_3:cc.Label,
+
+        answer_btn_1:cc.Button,
+        answer_btn_2:cc.Button,
+        answer_btn_3:cc.Button,
+        answer_btn_4:cc.Button,
+
     },
     onEnable() {
         this._super();   
@@ -215,11 +223,26 @@ cc.Class({
 
     initQuestion:function(body){
         this.questionBoard.active = true;
-        this.questionContent.string = body.question;
+        //this.questionContent.string = "body.questionbody.questionbody.questionbody.questionbody.question";
+        var label =  this.questionContent.getChildByName("label");
+        label.getComponent(cc.Label).overflow = cc.Label.Overflow.NONE;
+        label.getComponent(cc.Label).string = body.question;
+        cc.log()
+        cc.log(label.width  + "----------" + this.maxWidth);
+         if(label.width >= this.maxWidth){
+             cc.log()
+             label.getComponent(cc.Label).overflow = cc.Label.Overflow.RESIZE_HEIGHT;
+             label.width = this.maxWidth;
+             cc.log("resize");
+         }
         this.answer_0.string = body.choise_a;
         this.answer_1.string = body.choise_b;
         this.answer_2.string = body.choise_c;
         this.answer_3.string = body.choise_d;
+        this.answer_btn_1.getComponent(cc.Button).interactable = true;
+        this.answer_btn_2.getComponent(cc.Button).interactable = true;
+        this.answer_btn_3.getComponent(cc.Button).interactable = true;
+        this.answer_btn_4.getComponent(cc.Button).interactable = true;
     },
 
     //选项
@@ -231,7 +254,10 @@ cc.Class({
         var cmd = 2;         // 321 appCode中，1表示发送文本消息
         var appCode = 321;   // 321代表趣味聊天，用户自定义的应用代码
         Network.sendReq(appCode,cmd,b);
-
+        this.answer_btn_1.getComponent(cc.Button).interactable = false;
+        this.answer_btn_2.getComponent(cc.Button).interactable = false;
+        this.answer_btn_3.getComponent(cc.Button).interactable = false;
+        this.answer_btn_4.getComponent(cc.Button).interactable = false;
     },
    
 
