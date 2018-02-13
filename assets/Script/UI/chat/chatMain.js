@@ -55,7 +55,8 @@ cc.Class({
         if (room_id){
             var roomInfo = GameData.getRoomInfo(room_id)
             if(roomInfo){
-                this.roomIdLB.string = "房间编号: "+ room_id;
+                var userRoomId = GameData.getUserRoomId(room_id)
+                this.roomIdLB.string = "房间编号: "+ userRoomId;
                 this.refreshUI(roomInfo);
             }
         }

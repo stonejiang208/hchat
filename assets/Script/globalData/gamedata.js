@@ -118,6 +118,10 @@ GameData.removeCurrentRoomId = function(appCode,roomId){
     GameData.currentRoomID[appCode] = null;
 },
 
+GameData.getUserRoomId = function(roomId){
+    return roomId & 0x0000FFFF;
+},
+
 //updaTe roomInfo userCount 更新房间人数
 GameData.updateRoomInfoUserCount = function(body){
     GameData.lobbyRoomDetailMap[body["u_rid"]].info.n_user_count =  body.n_user_num;
