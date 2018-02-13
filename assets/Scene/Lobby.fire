@@ -1417,6 +1417,7 @@
     },
     "roomItem": {
       "__uuid__": "1568395c-ec54-49df-bcba-9635f86105f5"
-    }
+    },
+    "roomTmpIndex": 0
   }
 ]

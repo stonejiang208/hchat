@@ -33,6 +33,7 @@ cc.Class({
 
     setRoomNameL:function(name){
         this.roomNameL.string = name;
+        
     },
 
     setRoomNameR:function(name){

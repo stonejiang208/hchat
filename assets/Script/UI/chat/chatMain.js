@@ -69,8 +69,8 @@ cc.Class({
     onSceneReady:function(){
         var b = {};
         b.body = {};
-        var cmd = 0xFFF3;  // create room
-        var appCode = 321; // lobby  is 0xff0
+        var cmd = Define_Cmd.SCENCE_READY;  
+        var appCode = GameData.chatAppCode; // lobby  is 0xff0
         Network.sendNTF(appCode,cmd,b);
     },
 
@@ -94,8 +94,8 @@ cc.Class({
         var b = {};
         b.app_code = GameData.chatAppCode;
         b.u_rid = GameData.getCurrentRoomId( GameData.chatAppCode);
-        var cmd = 4;
-        var appCode = 0xFF1;
+        var cmd = Define_Lobby.LEAVE_ROOM;
+        var appCode = Define_App_Code.MT_LOBBY;
         Network.sendReq(appCode,cmd,b);
     },
 
@@ -118,8 +118,8 @@ cc.Class({
 
          var b = {};
          b.msg = str;
-         var cmd = 1;         // 321 appCode中，1表示发送文本消息
-         var appCode = 321;   // 321代表趣味聊天，用户自定义的应用代码
+         var cmd = DefineChat_Cmd.TEXT_MSG;         // 321 appCode中，1表示发送文本消息
+         var appCode = GameData.chatAppCode;   // 321代表趣味聊天，用户自定义的应用代码
 
          Network.sendReq(appCode,cmd,b);
     },
@@ -159,8 +159,8 @@ cc.Class({
             cc.log("onBtnCreateRoom");
             var b = {};
             b.token = body.u_token;
-            var cmd = 4;  // create room
-            var appCode = 321; // lobby  is 0xff0
+            var cmd = DefineChat_Cmd.START_GAME;  // create room
+            var appCode = GameData.chatAppCode; // lobby  is 0xff0
             Network.sendReq(appCode,cmd,b);
         })
       
@@ -251,8 +251,8 @@ cc.Class({
         var answer = parseInt(tag)
         var b = {};
         b.answer = answer -1;
-        var cmd = 2;         // 321 appCode中，1表示发送文本消息
-        var appCode = 321;   // 321代表趣味聊天，用户自定义的应用代码
+        var cmd = DefineChat_Cmd.ANSWER;         // 321 appCode中，1表示发送文本消息
+        var appCode = GameData.chatAppCode;   // 321代表趣味聊天，用户自定义的应用代码
         Network.sendReq(appCode,cmd,b);
         this.answer_btn_1.getComponent(cc.Button).interactable = false;
         this.answer_btn_2.getComponent(cc.Button).interactable = false;

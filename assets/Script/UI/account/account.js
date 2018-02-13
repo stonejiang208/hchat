@@ -27,11 +27,11 @@ cc.Class({
         p.openid_type = "gp";
 
         var info = {};
-        info["d.value"] = 1234.5;
+        info["d_value"] = 1234.5;
         p.info = JSON.stringify(info);
 
-        var cmd = 1;
-        var appCode = 0xFF0; // account  is 0xff0
+        var cmd = Define_Account.CREATE_ACCOUNT;
+        var appCode = Define_App_Code.MT_ACCOUNT; // account  is 0xff0
         
         Network.sendReq(appCode,cmd,p);
 

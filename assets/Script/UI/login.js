@@ -29,7 +29,6 @@ cc.Class({
        //NetDataGloble.off('account.rsp', this.getAccountRspData); 
        //不能在这里移除观察者，因为如果是本地没有数据会切换到注册场景移除观察者没有办法登录了在切换到大厅
        //之前移除本文件的观察者
-       cc.log ("remove 111111111111111111111111111111111111111");
        this._super(); 
     },
 
@@ -44,6 +43,7 @@ cc.Class({
         var userInfo = cc.sys.localStorage.getItem('userInfo');
         if (userInfo) {
             cc.director.loadScene("gameHall");
+            GameData.setSelfInfo(userInfo);
         }else {
             cc.director.loadScene("registPlayer");
         }
@@ -60,8 +60,8 @@ cc.Class({
             p["openid"] = userInfo.openid;
             p["openid_type"]=userInfo.openid_type;
             p["auto_create"]=1;
-            var cmd = 2;
-            var appCode = 0xFF0; // account  is 0xff0
+            var cmd = Define_Account.USER_SIGN_IN;
+            var appCode = Define_App_Code.MT_ACCOUNT; // account  is 0xff0
 
             Network.sendReq(appCode,cmd,p);
             //cc.director.loadScene("gameHall");
@@ -93,7 +93,7 @@ cc.Class({
 
             cc.sys.localStorage.setItem('userInfo',userInfoJS);
             cc.log ("create account ok");
-
+            GameData.setSelfInfo(userInfoJS);
             var userInfo = JSON.parse(cc.sys.localStorage.getItem('userInfo'));
             cc.log (JSON.stringify(userInfo));
             cc.director.loadScene("Lobby");
@@ -102,6 +102,7 @@ cc.Class({
         {
             var userInfoJS = JSON.stringify(msg.body);
             cc.sys.localStorage.setItem('userInfo',userInfoJS);
+            GameData.setSelfInfo(userInfoJS);
             cc.log ("create account ok");
             NetDataGloble.off('netstart', this.netStart);
             NetDataGloble.off('account.rsp', this.getAccountRspData);

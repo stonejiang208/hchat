@@ -26,6 +26,45 @@ GameData.getLobbyRspData = function () {
     this._super();
     cc.log('111');
 };
+
+//操作自己的信息begin
+
+GameData.setSelfInfo = function(mySelf){
+    var userInfo = JSON.parse(mySelf);
+    userInfo.info = JSON.parse(userInfo.info);
+    GameData.selfInfo = userInfo;
+};
+
+//获取自己的uid
+GameData.getSelfUid= function(){
+    return GameData.selfInfo.info.u_uid;
+}
+
+//获取自己的名字
+GameData.getSelfName = function(){
+    return GameData.selfInfo.info.name;
+}
+
+//获取自己登陆城市 
+GameData.getSelfCity = function(){
+    var str_city = GameData.selfInfo.info.last_location;
+    str_city = JSON.parse(str_city);
+    if(str_city[2]){
+        return str_city[2];
+    }
+    if(str_city[1]){
+        return str_city[1];
+    }
+    if(str_city[0]){
+        return str_city[0];
+    }
+    return "未知";
+}
+
+
+
+//操作自己的信息end
+
 //set
 GameData.setUserInfo = function (userInfoList) {
     GameData.userInfo = [];
