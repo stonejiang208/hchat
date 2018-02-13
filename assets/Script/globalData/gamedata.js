@@ -59,6 +59,10 @@ GameData.getRoomInfo = function (roomId) {
     return GameData.lobbyRoomDetailMap[roomId];
 },
 
+GameData.removeRoomInfo = function(roomId){
+    GameData.lobbyRoomDetailMap[roomId] = {};
+},
+
 //
 GameData.setCurrentRoomId = function(appCode,roomId){
     if(!(GameData.currentRoomID[appCode])){
@@ -70,6 +74,10 @@ GameData.setCurrentRoomId = function(appCode,roomId){
 GameData.getCurrentRoomId = function(appCode){
     return GameData.currentRoomID[appCode];
 }
+
+GameData.removeCurrentRoomId = function(appCode,roomId){
+    GameData.currentRoomID[appCode] = [];
+},
 
 //updaTe roomInfo userCount 更新房间人数
 GameData.updateRoomInfoUserCount = function(body){

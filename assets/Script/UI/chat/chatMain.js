@@ -78,7 +78,17 @@ cc.Class({
     },
     backHallClick:function () {
         // cc.director.loadScene('gameHall');
+        this.reqLeaveRoom();
         cc.director.loadScene('Lobby');
+    },
+
+    reqLeaveRoom:function(){
+        var b = {};
+        b.app_code = GameData.chatAppCode;
+        b.u_rid = GameData.getCurrentRoomId( GameData.chatAppCode);
+        var cmd = 4;
+        var appCode = 0xFF1;
+        Network.sendReq(appCode,cmd,b);
     },
 
     sendChatClick:function(eve){

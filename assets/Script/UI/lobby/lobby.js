@@ -131,6 +131,9 @@ cc.Class({
             case 3:
             this.on_get_room_list(msg.body);
             break;
+            case 4:
+            this.on_leave_room(msg.body);
+            break;
             case 6:
             this.on_get_room_detail(msg.body);
             default:
@@ -154,6 +157,14 @@ cc.Class({
         //cc.sys.localStorage.setItem('room_id',body.room_id);
         GameData.setCurrentRoomId(GameData.chatAppCode,body.u_rid)
         cc.director.loadScene("chatRoom");
+    },
+
+    on_leave_room:function(body)
+    {
+        cc.log ("on_leave_room",JSON.stringify(body));
+        //cc.sys.localStorage.setItem('room_id',body.room_id);
+        GameData.removeCurrentRoomId(body.app_code,body.u_rid);
+        GameData.removeRoomInfo(body.u_rid);
     },
     on_get_room_list:function(body)
     {
