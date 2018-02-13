@@ -43,7 +43,7 @@ cc.Class({
            
        // NetTarget.off('chat', this.on_msg.bind(this));
         NetDataGloble.off('chat',this.on_msg);
-        TopicGloble.off('chatMainUserCount',this, this.refreshRoomInfo);
+        TopicGloble.off('chatMainUserCount',this.refreshRoomInfo);
         this._super();
     },
     onLoad:function() {
@@ -75,7 +75,7 @@ cc.Class({
     },
 
     refreshUI : function (roomInfo) {
-        this.playerNumLb.string = roomInfo.info["u_rid"];
+        this.playerNumLb.string = roomInfo.info["n_user_num"];
     },
     refreshRoomInfo:function (topic) {
         var room_id = GameData.getCurrentRoomId(GameData.chatAppCode);

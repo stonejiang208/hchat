@@ -167,7 +167,6 @@ cc.Class({
         cc.log ("on_leave_room",JSON.stringify(body));
         //cc.sys.localStorage.setItem('room_id',body.room_id);
         GameData.removeCurrentRoomId(body.app_code,body.u_rid);
-        GameData.removeRoomInfo(body.u_rid);
     },
     on_get_room_list:function(body)
     {
@@ -320,7 +319,7 @@ cc.Class({
                     roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailMap[roomId].info.room_name);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomBtnRshow();
-                    var button2 = roomItemNode.getChildByName("button2");
+                    var button2 =  troomItemNode.getChildByName("button2");
                     button2.active = true;
                     //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
                     roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
