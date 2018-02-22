@@ -295,43 +295,28 @@ cc.Class({
 
       var roomListContent = cc.find('view/content',this.roomlistLayer);
       //var height = cc.instantiate(this.roomItem).height;
-     
+        /*
           var index = 0;
           let roomItemNode;
-          for(var roomId in GameData.lobbyRoomDetailMap){
-             
-                if(index%2 == 0){
-                    
-                    roomItemNode = cc.instantiate(this.roomItem);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
-                    roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailMap[roomId].info.room_name);
-                    //roomItemNode.getComponent('button1').enterRoomL(roomItemNode);
-                    
-                    roomItemNode.y = -79 - roomItemNode.height * (index/2);
-                    //roomItemNode.x = -318;
-                    roomListContent.addChild(roomItemNode);
-                    if(roomListContent.childrenCount > 2){
-                        roomListContent.height = roomListContent.childrenCount * roomItemNode.height;
-                    }
-                
-                }else{
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNumR(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
-                    roomItemNode.getComponent('lobbyRoomItem').setUserCountR(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomNameR(GameData.lobbyRoomDetailMap[roomId].info.room_name);
-                    roomItemNode.getComponent('lobbyRoomItem').setRoomBtnRshow();
-                    var button2 =  roomItemNode.getChildByName("button2");
-                    button2.active = true;
-                    //roomItemNode.getComponent('button2').enterRoomR(roomItemNode);
-                    
-                    
-                    
-                }
-
-                index = index + 1;
-               
+          for(var i=0;i<10;i++){
+            roomItemNode = cc.instantiate(this.roomItem);
+            roomListContent.addChild(roomItemNode);
+            if(roomListContent.childrenCount > 2){
+                roomListContent.height = Math.floor(roomListContent.childrenCount/2) * roomItemNode.height;
             }
-
+          }
+          */
+          for(var roomId in GameData.lobbyRoomDetailMap){
+                let roomItemNode = cc.instantiate(this.roomItem);
+                roomListContent.addChild(roomItemNode);
+                roomItemNode.getComponent('lobbyRoomItem').setRoomNumL(GameData.lobbyRoomDetailMap[roomId].info["u_rid"]);
+                roomItemNode.getComponent('lobbyRoomItem').setUserCountL(GameData.lobbyRoomDetailMap[roomId].info.n_user_count);
+                roomItemNode.getComponent('lobbyRoomItem').setRoomNameL(GameData.lobbyRoomDetailMap[roomId].info.room_name);
+                if(roomListContent.childrenCount > 2){
+                    roomListContent.height = Math.floor(roomListContent.childrenCount/2) * roomItemNode.height;
+                }
+              
+            }
     },
     openRoomList : function () {
         this.roomlistLayer.active = true;

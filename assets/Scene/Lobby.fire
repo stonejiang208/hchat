@@ -68,17 +68,17 @@
         "__id__": 13
       },
       {
-        "__id__": 25
+        "__id__": 26
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 37
+        "__id__": 38
       },
       {
-        "__id__": 38
+        "__id__": 39
       }
     ],
     "_prefab": null,
@@ -519,7 +519,7 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 24
+        "__id__": 25
       },
       {
         "__id__": 18
@@ -581,10 +581,10 @@
         "__id__": 17
       },
       {
-        "__id__": 22
+        "__id__": 23
       },
       {
-        "__id__": 23
+        "__id__": 24
       }
     ],
     "_prefab": null,
@@ -756,7 +756,11 @@
     "_children": [],
     "_tag": -1,
     "_active": true,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 22
+      }
+    ],
     "_prefab": null,
     "_id": "38wa4fb8FOiZBhfNX+WR+c",
     "_opacity": 255,
@@ -865,6 +869,37 @@
     "_N$inverted": false
   },
   {
+    "__type__": "cc.Layout",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 19
+    },
+    "_enabled": true,
+    "_layoutSize": {
+      "__type__": "cc.Size",
+      "width": 300,
+      "height": 200
+    },
+    "_resize": 1,
+    "_N$layoutType": 3,
+    "_N$padding": 0,
+    "_N$cellSize": {
+      "__type__": "cc.Size",
+      "width": 40,
+      "height": 40
+    },
+    "_N$startAxis": 0,
+    "_N$paddingLeft": 10,
+    "_N$paddingRight": 10,
+    "_N$paddingTop": 5,
+    "_N$paddingBottom": 5,
+    "_N$spacingX": 5,
+    "_N$spacingY": 5,
+    "_N$verticalDirection": 1,
+    "_N$horizontalDirection": 0
+  },
+  {
     "__type__": "cc.Widget",
     "_name": "",
     "_objFlags": 0,
@@ -951,20 +986,20 @@
     },
     "_children": [
       {
-        "__id__": 26
+        "__id__": 27
       },
       {
-        "__id__": 32
+        "__id__": 33
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 36
+        "__id__": 37
       },
       {
-        "__id__": 30
+        "__id__": 31
       }
     ],
     "_prefab": null,
@@ -1009,24 +1044,24 @@
     "_name": "scrollBar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 25
+      "__id__": 26
     },
     "_children": [
       {
-        "__id__": 27
+        "__id__": 28
       }
     ],
     "_tag": -1,
     "_active": false,
     "_components": [
       {
-        "__id__": 29
-      },
-      {
-        "__id__": 34
+        "__id__": 30
       },
       {
         "__id__": 35
+      },
+      {
+        "__id__": 36
       }
     ],
     "_prefab": null,
@@ -1071,14 +1106,14 @@
     "_name": "bar",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 26
+      "__id__": 27
     },
     "_children": [],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 28
+        "__id__": 29
       }
     ],
     "_prefab": null,
@@ -1123,7 +1158,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 27
+      "__id__": 28
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -1149,18 +1184,18 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 27
     },
     "_enabled": true,
     "_scrollView": {
-      "__id__": 30
+      "__id__": 31
     },
     "_touching": false,
     "_opacity": 255,
     "enableAutoHide": true,
     "autoHideTime": 1,
     "_N$handle": {
-      "__id__": 28
+      "__id__": 29
     },
     "_N$direction": 1
   },
@@ -1169,11 +1204,11 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "content": {
-      "__id__": 31
+      "__id__": 32
     },
     "horizontal": true,
     "vertical": true,
@@ -1185,7 +1220,7 @@
     "cancelInnerEvents": true,
     "_N$horizontalScrollBar": null,
     "_N$verticalScrollBar": {
-      "__id__": 29
+      "__id__": 30
     }
   },
   {
@@ -1193,7 +1228,7 @@
     "_name": "content",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 32
+      "__id__": 33
     },
     "_children": [],
     "_tag": -1,
@@ -1241,18 +1276,18 @@
     "_name": "view",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 25
+      "__id__": 26
     },
     "_children": [
       {
-        "__id__": 31
+        "__id__": 32
       }
     ],
     "_tag": -1,
     "_active": true,
     "_components": [
       {
-        "__id__": 33
+        "__id__": 34
       }
     ],
     "_prefab": null,
@@ -1297,7 +1332,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 32
+      "__id__": 33
     },
     "_enabled": true,
     "_type": 0,
@@ -1311,7 +1346,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 27
     },
     "_enabled": true,
     "isAlignOnce": true,
@@ -1337,7 +1372,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 27
     },
     "_enabled": true,
     "_spriteFrame": {
@@ -1363,7 +1398,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 25
+      "__id__": 26
     },
     "_enabled": true,
     "_spriteFrame": {
