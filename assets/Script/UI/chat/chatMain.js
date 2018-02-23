@@ -125,20 +125,20 @@ cc.Class({
          Network.sendReq(appCode,cmd,b);
     },
     createChatMsg:function (uid,str) {
-        var chatItem = this._chatPool.get();
+        //var chatItem = this._chatPool.get();
         var userInfo = GameData.getUserInfo (uid);
         var userName = GameData.getUserName(uid)
         this._chatMsgIndex ++ ;
-        if (this._chatPool.size() <= 0) {
-            chatItem = cc.instantiate(this.qipaoItem);
+        //if (this._chatPool.size() <= 0) {
+            var chatItem = cc.instantiate(this.qipaoItem);
             var height = chatItem.getContentSize().height;
             chatItem.getComponent('qipaoItem').showMsg(userName + " : " +str);
-            chatItem.x = -300;
-            chatItem.y =  60/2 - this._chatMsgIndex * 80;
-        }
+            //chatItem.x = -300;
+            //chatItem.y =  60/2 - this._chatMsgIndex * 80;
+        //}
         this.scrollViewConent.addChild(chatItem);
-        var height = chatItem.getContentSize().height;
-        this.scrollViewConent.height = this.scrollViewConent.children.length * height;
+        var height = chatItem.height;
+        this.scrollViewConent.height = this.scrollViewConent.children.length + height;
         if (this.scrollViewConent.height > this.scrollViewConent.parent.height) {
             this.chatScrollView.scrollToBottom(0.1);
         }
