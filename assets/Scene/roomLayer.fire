@@ -3002,7 +3002,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "chatMain",
     "handler": "onSelectAnsWer",
     "customEventData": "1"
@@ -3230,7 +3232,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "chatMain",
     "handler": "onSelectAnsWer",
     "customEventData": "2"
@@ -3458,7 +3462,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "chatMain",
     "handler": "onSelectAnsWer",
     "customEventData": "3"
@@ -3686,7 +3692,9 @@
   },
   {
     "__type__": "cc.ClickEvent",
-    "target": null,
+    "target": {
+      "__id__": 2
+    },
     "component": "chatMain",
     "handler": "onSelectAnsWer",
     "customEventData": "4"
