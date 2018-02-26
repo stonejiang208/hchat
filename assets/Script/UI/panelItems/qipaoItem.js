@@ -12,19 +12,21 @@ cc.Class({
     },
     
     showMsg: function (str) {
-        /*
+       /* 
        var label =  this.box.getChildByName("label");
        label.getComponent(cc.Label).overflow = cc.Label.Overflow.NONE;
-       label.getComponent(cc.Label).string = str;
+       //label.getComponent(cc.Label).string = str;
+	   label.getComponent(cc.Label).string = "helloworld";
        cc.log()
-       cc.log(label.getContentSize().width  + "----------" + this.maxWidth);
-        if(label.getContentSize().width >= this.maxWidth){
+       cc.log(label.width  + "----------" + this.maxWidth);
+        if(label.width >= this.maxWidth){
             cc.log()
             label.getComponent(cc.Label).overflow = cc.Label.Overflow.RESIZE_HEIGHT;
             label.width = this.maxWidth;
             cc.log("resize");
         }
         */
+       
         
         var label =  this.box.getChildByName("label");
         label.getComponent(cc.Label).overflow = cc.Label.Overflow.NONE;
@@ -38,7 +40,7 @@ cc.Class({
              label.width = this.maxWidth;
              cc.log("resize");
          }
-         
+        
     },
 
     // called every frame

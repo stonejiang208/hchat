@@ -152,14 +152,14 @@ cc.Class({
         body.room_info.u_rid = body.u_rid;
         body.info = body.room_info;
         GameData.setRoomInfo(body.info.u_rid,body)
-        cc.director.loadScene("chatRoom");
+        cc.director.loadScene("roomLayer");
     },
     on_enter_room:function(body)
     {
         cc.log ("on_enter_room",JSON.stringify(body));
         //cc.sys.localStorage.setItem('room_id',body.room_id);
         GameData.setCurrentRoomId(GameData.chatAppCode,body.u_rid)
-        cc.director.loadScene("chatRoom");
+        cc.director.loadScene("roomLayer");
     },
 
     on_leave_room:function(body)

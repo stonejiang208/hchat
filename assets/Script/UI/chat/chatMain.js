@@ -10,7 +10,6 @@ cc.Class({
     properties: {
         scrollViewConent:cc.Node,
         chatEditBox:cc.EditBox,
-        chatItemPre:cc.Prefab,
         chatScrollView:cc.ScrollView,
         roomIdLB: cc.Label,   //房间号
         playerNumLb :cc.Label,// 房间玩家人数
@@ -19,6 +18,12 @@ cc.Class({
 
         questionBoard:cc.Node,
         questionContent:cc.Node,
+
+        rank_list_scrollview:cc.ScrollView,
+
+        test_page_view:cc.PageView,
+
+        demo_page:cc.Prefab,//测试分三个界面的预制体
 
         maxWidth:0,
 
@@ -49,7 +54,8 @@ cc.Class({
     onLoad:function() {
         this._chatPool = new cc.NodePool();
         this._chatMsgIndex = 0;
-        this.questionBoard.active = false;
+       // this.questionBoard.active = false;
+       // this.rank_list_scrollview.node.active = false;
         //var room_id = JSON.parse(cc.sys.localStorage.getItem('room_id'));
         var room_id = GameData.getCurrentRoomId(GameData.chatAppCode);
         if (room_id){
@@ -65,6 +71,7 @@ cc.Class({
 
     start () {
        //通知服务器界面切换完毕
+       this.test_page_view.scrollToPage(1,0.01)
         this.onSceneReady()
     },
     onSceneReady:function(){
@@ -262,9 +269,9 @@ cc.Class({
     },
    
 
-    refreshRankList:function()
+    refreshRankList:function(b)
     {
-
+        cc.log(b)
     },
 
     onGameEnd:function(){
@@ -274,5 +281,27 @@ cc.Class({
     update (dt) 
     {
         
+        
     },
+
+
+    //滚动视图相关操作，每当页面滚动到中间的时候 如果没有处于答题中尝试去删除答题的界面，当答题开始的时候 添加答题界面
+
+    page_view_call_back:function(event,args1,args2){
+        var test = event;
+        var test1 = args1;
+        var test2 = args2;
+
+        var pageIndex = this.test_page_view.getCurrentPageIndex()
+        if (pageIndex == 1){
+            //this.test_page_view.removePageAtIndex(pageIndex+1);
+            cc.log("remove 答题界面")
+        }else if(pageIndex == 0){
+           // var pageItem = cc.instantiate(this.demo_page);
+           // this.test_page_view.addPage(pageItem)
+        }
+       
+    },
+
+
 });
