@@ -19,7 +19,8 @@ cc.Class({
         questionBoard:cc.Node,
         questionContent:cc.Node,
 
-        rank_list_scrollview:cc.ScrollView,
+        rank_list_scrollview:cc.Node,
+        rankItem:cc.Prefab,
 
         test_page_view:cc.PageView,
 
@@ -216,8 +217,8 @@ cc.Class({
         {
             case 1: this.showTime(body.b);break;
             case 2: this.showQuestion(body.b);break;
-            case 3: this.refreshRankList(body.b);break;
-            case 4: this.onGameEnd(body.b);break;
+            case 3: this.refreshCurrentRankList(body.b);break;
+            case 4: this.onGameResult(body.b);break;
         }
     },
 
@@ -269,13 +270,31 @@ cc.Class({
     },
    
 
-    refreshRankList:function(b)
+    refreshCurrentRankList:function(b)
     {
         cc.log(b)
+        //var rankListContent = cc.find('view/content',this.rank_list_scrollview);
+        this.rank_list_scrollview.removeAllChildren();
+        var list = b.rank_list
+        for(var i = 0;i<list.length;i++){
+        //for(var i = 0;i<100;i++){
+            var tempdata = b[i];
+            let rankItem = cc.instantiate(this.rankItem);
+            this.rank_list_scrollview.addChild(rankItem);
+        }
     },
 
-    onGameEnd:function(){
+    onGameResult:function(b){
         this.questionBoard.active = false;
+        cc.log(b)
+        //var rankListContent = cc.find('view/content',this.rank_list_scrollview);
+        this.rank_list_scrollview.removeAllChildren();
+        var list = b.rank_list
+        for(var i = 0;i<list.length;i++){
+            var tempdata = b[i];
+            let rankItem = cc.instantiate(this.rankItem);
+            this.rank_list_scrollview.addChild(rankItem);
+        }
     },
 
     update (dt) 

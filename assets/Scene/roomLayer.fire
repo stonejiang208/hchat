@@ -2184,7 +2184,7 @@
     "_contentSize": {
       "__type__": "cc.Size",
       "width": 640,
-      "height": 10
+      "height": 400
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -2239,8 +2239,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 240,
-      "height": 250
+      "width": 640,
+      "height": 400
     },
     "_rotationX": 0,
     "_rotationY": 0,
@@ -2283,7 +2283,7 @@
     "_layoutSize": {
       "__type__": "cc.Size",
       "width": 640,
-      "height": 10
+      "height": 400
     },
     "_resize": 1,
     "_N$layoutType": 3,
@@ -3981,7 +3981,10 @@
       "__id__": 61
     },
     "rank_list_scrollview": {
-      "__id__": 52
+      "__id__": 53
+    },
+    "rankItem": {
+      "__uuid__": "125c0c4e-38f8-48b3-88ce-b03670a7b21c"
     },
     "test_page_view": {
       "__id__": 102
